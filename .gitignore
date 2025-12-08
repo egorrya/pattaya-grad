@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Prisma client artifacts
+app/generated-prisma-client
+prisma/app/generated-prisma-client
+
+# editor directories
+.idea/
+.vscode/
