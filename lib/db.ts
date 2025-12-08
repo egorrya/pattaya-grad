@@ -1,5 +1,5 @@
 import { withAccelerate } from '@prisma/extension-accelerate';
-import { PrismaClient } from '../app/generated-prisma-client';
+import { PrismaClient } from '../app/generated-prisma-client/index.js';
 
 const accelerateUrl =
 	process.env.PRISMA_DATABASE_URL ?? process.env.DATABASE_URL;
