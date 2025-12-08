@@ -1,5 +1,5 @@
 import { prisma } from './db';
-import type { LandingContent } from '../app/generated-prisma-client';
+import type { LandingContent } from '../generated-prisma-client';
 import {
   defaultLandingContent,
   LandingContentPayload,

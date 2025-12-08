@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated-prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Channel {
+  whatsapp
+  telegram
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  channel   Channel
+  contact   String
+  createdAt DateTime @default(now())
+}
+
+model LandingContent {
+  id                    String   @id
+  headerPhrase          String
+  heroImage             String?
+  heroHeading           String
+  heroDescription       String
+  heroSupport           String
+  buttonLabel           String
+  contact               String
+  videoUrl              String
+  nextScreenTitle       String
+  nextScreenDescription String
+  nextScreenQuestion    String
+  telegramEnabled       Boolean  @default(true)
+  whatsappEnabled       Boolean  @default(true)
+  customScript          String?
+  notificationEmail     String   @default("pc-move@gmail.com")
+  logoPath              String   @default("/assets/images/logo.webp")
+  notificationFrom      String   @default("pc-move@gmail.com")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
