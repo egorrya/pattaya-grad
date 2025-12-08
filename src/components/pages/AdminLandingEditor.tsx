@@ -65,7 +65,11 @@ export default function AdminLandingEditor() {
         });
         const payload = (await response.json()) as LandingApiResponse;
 
-        if (!response.ok || !payload.ok) {
+        if (!response.ok) {
+          throw new Error("Не удалось загрузить настройки лендинга");
+        }
+
+        if (!payload.ok) {
           throw new Error(payload.error ?? "Не удалось загрузить настройки лендинга");
         }
 
@@ -116,7 +120,11 @@ export default function AdminLandingEditor() {
       });
       const result = (await response.json()) as LandingApiResponse;
 
-      if (!response.ok || !result.ok) {
+      if (!response.ok) {
+        throw new Error("Не удалось сохранить настройки");
+      }
+
+      if (!result.ok) {
         throw new Error(result.error ?? "Не удалось сохранить настройки");
       }
 

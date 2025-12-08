@@ -9,6 +9,8 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	iconBgColor?: string;
 	iconColor?: string;
 	icon?: ReactNode;
+	variant?: 'default' | 'outline' | 'ghost';
+	size?: 'icon' | 'default';
 };
 
 const defaultIcon = (
@@ -72,16 +74,23 @@ export function Button({
 }
 
 type ButtonVariantsOptions = {
-	variant?: 'default' | 'outline';
+	variant?: 'default' | 'outline' | 'ghost';
+	size?: 'icon' | 'default';
 };
 
 export function buttonVariants(options: ButtonVariantsOptions = {}) {
 	const baseClasses =
 		'inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2';
 	const variant = options.variant ?? 'default';
-	const variantClasses =
-		variant === 'outline'
-			? 'border border-slate-200 bg-white text-slate-900 shadow-sm hover:bg-slate-50'
-			: 'bg-slate-900 text-white shadow hover:bg-slate-800';
+	let variantClasses = '';
+
+	if (variant === 'outline') {
+		variantClasses =
+			'border border-slate-200 bg-white text-slate-900 shadow-sm hover:bg-slate-50';
+	} else if (variant === 'ghost') {
+		variantClasses = 'bg-transparent text-slate-900 hover:bg-slate-50';
+	} else {
+		variantClasses = 'bg-slate-900 text-white shadow hover:bg-slate-800';
+	}
 	return `${baseClasses} ${variantClasses}`;
 }

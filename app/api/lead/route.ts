@@ -39,6 +39,13 @@ const parsePositiveInteger = (value: string | null, fallback: number, max?: numb
 	return Math.floor(parsed);
 };
 
+const parseChannelParam = (value: string | null): Channel | undefined => {
+	if (value === 'whatsapp' || value === 'telegram') {
+		return value;
+	}
+	return undefined;
+};
+
 const sendNotificationEmail = async ({
 	channel,
 	contact,
@@ -133,9 +140,9 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
 	const url = new URL(request.url);
 	const rawChannel = url.searchParams.get('channel');
-	const channel = rawChannel === null ? undefined : rawChannel;
+	const channel = parseChannelParam(rawChannel);
 
-	if (channel && channel !== 'whatsapp' && channel !== 'telegram') {
+	if (rawChannel !== null && channel === undefined) {
 		return badRequest("Channel query should be 'whatsapp' or 'telegram'");
 	}
 
