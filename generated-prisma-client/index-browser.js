@@ -143,9 +143,9 @@ exports.Prisma.LandingContentScalarFieldEnum = {
   telegramEnabled: 'telegramEnabled',
   whatsappEnabled: 'whatsappEnabled',
   customScript: 'customScript',
-  notificationEmail: 'notificationEmail',
+  telegramBotToken: 'telegramBotToken',
+  telegramChatIds: 'telegramChatIds',
   logoPath: 'logoPath',
-  notificationFrom: 'notificationFrom',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

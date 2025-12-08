@@ -50,16 +50,6 @@ const requireBoolean = (value: unknown, field: string) => {
   return value;
 };
 
-const requireEmail = (value: unknown, field: string) => {
-  const trimmed = requireNonEmptyString(value, field);
-  const normalized = trimmed.toLowerCase();
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(normalized)) {
-    throw new Error(`Поле ${field} должно быть корректным email`);
-  }
-  return trimmed;
-};
-
 export const buildLandingContentPayload = (payload: unknown): LandingContentPayload => {
   if (!payload || typeof payload !== 'object') {
     throw new Error('Данные запроса должны быть объектом');
@@ -85,9 +75,9 @@ export const buildLandingContentPayload = (payload: unknown): LandingContentPayl
     telegramEnabled: requireBoolean(fields.telegramEnabled, 'telegramEnabled'),
     whatsappEnabled: requireBoolean(fields.whatsappEnabled, 'whatsappEnabled'),
     customScript: normalizeOptionalString(fields.customScript),
-    notificationEmail: requireEmail(fields.notificationEmail, 'notificationEmail'),
+    telegramBotToken: normalizeOptionalString(fields.telegramBotToken),
+    telegramChatIds: normalizeOptionalString(fields.telegramChatIds),
     logoPath: requireNonEmptyString(fields.logoPath, 'logoPath'),
-    notificationFrom: requireNonEmptyString(fields.notificationFrom, 'notificationFrom'),
   };
 };
 

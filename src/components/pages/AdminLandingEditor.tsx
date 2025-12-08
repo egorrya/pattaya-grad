@@ -15,7 +15,8 @@ type LandingFormState = Omit<LandingContentPayload, "heroImage"> & {
   heroImage: string;
   customScript: string;
   logoPath: string;
-  notificationFrom: string;
+  telegramBotToken: string;
+  telegramChatIds: string;
 };
 
 const normalizeToFormState = (payload: LandingContentPayload): LandingFormState => ({
@@ -23,20 +24,23 @@ const normalizeToFormState = (payload: LandingContentPayload): LandingFormState 
   heroImage: payload.heroImage ?? "",
   customScript: payload.customScript ?? "",
   logoPath: payload.logoPath ?? "",
-  notificationFrom: payload.notificationFrom ?? "",
+  telegramBotToken: payload.telegramBotToken ?? "",
+  telegramChatIds: payload.telegramChatIds ?? "",
 });
 
 const buildRequestPayload = (state: LandingFormState): LandingContentPayload => {
   const optimizedHeroImage = state.heroImage.trim();
   const optimizedScript = state.customScript.trim();
   const optimizedLogoPath = state.logoPath.trim();
-  const optimizedNotificationFrom = state.notificationFrom.trim();
+  const optimizedBotToken = (state.telegramBotToken ?? "").trim();
+  const optimizedChatIds = (state.telegramChatIds ?? "").trim();
   return {
     ...state,
     heroImage: optimizedHeroImage === "" ? null : optimizedHeroImage,
     customScript: optimizedScript === "" ? null : optimizedScript,
+    telegramBotToken: optimizedBotToken === "" ? null : optimizedBotToken,
+    telegramChatIds: optimizedChatIds === "" ? null : optimizedChatIds,
     logoPath: optimizedLogoPath,
-    notificationFrom: optimizedNotificationFrom,
   };
 };
 
@@ -181,24 +185,27 @@ export default function AdminLandingEditor() {
         </div>
 
         <div className="space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+            Telegram-уведомления
+          </p>
           <label className="text-xs font-semibold text-slate-700">
-            Email для уведомлений
+            Bot Token
             <Input
-              name="notificationEmail"
-              value={formState.notificationEmail}
+              name="telegramBotToken"
+              value={formState.telegramBotToken}
               disabled={isLoading}
-              onChange={(event) => handleChange("notificationEmail", event.target.value)}
+              onChange={(event) => handleChange("telegramBotToken", event.target.value)}
             />
           </label>
-        </div>
-        <div className="space-y-4">
           <label className="text-xs font-semibold text-slate-700">
-            Email отправителя
-            <Input
-              name="notificationFrom"
-              value={formState.notificationFrom}
+            Chat IDs (через запятую или с новой строки)
+            <Textarea
+              name="telegramChatIds"
+              value={formState.telegramChatIds}
               disabled={isLoading}
-              onChange={(event) => handleChange("notificationFrom", event.target.value)}
+              onChange={(event) => handleChange("telegramChatIds", event.target.value)}
+              rows={3}
+              className="text-sm text-slate-900"
             />
           </label>
         </div>

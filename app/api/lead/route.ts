@@ -1,19 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../lib/db';
 import { getLandingContent } from '../../../lib/landing';
-import { Resend } from 'resend';
 
 type Channel = 'whatsapp' | 'telegram';
 
 const MIN_CONTACT_LENGTH = 3;
 const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 100;
-
-const resendClient =
-	process.env.RESEND_API_KEY && process.env.RESEND_API_KEY.length > 0
-		? new Resend(process.env.RESEND_API_KEY)
-		: null;
-const defaultNotificationFrom = process.env.NOTIFICATION_FROM ?? 'pc-move@gmail.com';
 
 const badRequest = (message: string) =>
 	NextResponse.json({ ok: false, error: message }, { status: 400 });
@@ -46,43 +39,66 @@ const parseChannelParam = (value: string | null): Channel | undefined => {
 	return undefined;
 };
 
-const sendNotificationEmail = async ({
+const formatChannelLabel = (channel: Channel) =>
+	channel === 'telegram' ? 'Telegram' : 'WhatsApp';
+
+const parseTelegramChatIds = (raw: string | null | undefined): string[] => {
+	if (!raw) {
+		return [];
+	}
+
+	return raw
+		.split(/[\s,;]+/)
+		.map((value) => value.trim())
+		.filter((value) => value.length > 0);
+};
+
+const sendTelegramNotification = async ({
 	channel,
 	contact,
-	landingEmail,
-	notificationFrom,
+	botToken,
+	chatIds,
 }: {
 	channel: Channel;
 	contact: string;
-	landingEmail?: string | null;
-	notificationFrom?: string;
+	botToken: string;
+	chatIds: string[];
 }) => {
-	if (!resendClient) {
-		console.warn('Resend API key is not configured; notification skipped.');
+	if (!botToken || chatIds.length === 0) {
 		return;
 	}
 
-	if (!landingEmail) {
-		console.warn('Notification email is empty; skipping send.');
-		return;
-	}
+	const sendUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+	const message = [
+		'Новая заявка с лендинга',
+		`Канал: ${formatChannelLabel(channel)}`,
+		`Контакт: ${contact}`,
+	].join('\n');
 
-	const fromAddress = notificationFrom ?? defaultNotificationFrom;
+	for (const chatId of chatIds) {
+		try {
+			const response = await fetch(sendUrl, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: new URLSearchParams({
+					chat_id: chatId,
+					text: message,
+				}),
+			});
 
-	try {
-		console.info('Sending lead notification', { channel, to: landingEmail });
-		await resendClient.emails.send({
-			from: fromAddress,
-			to: landingEmail,
-			subject: 'Новая заявка с лендинга',
-			html: `
-				<p>Новая заявка через <strong>${channel}</strong>.</p>
-				<p>Контакт: ${contact}</p>
-			`,
-		});
-		console.info('Notification email sent', { to: landingEmail });
-	} catch (error) {
-		console.error('Failed to send notification email', error);
+			if (!response.ok) {
+				const details = await response.text().catch(() => null);
+				console.error('Failed to send Telegram notification', {
+					chatId,
+					status: response.status,
+					details,
+				});
+			}
+		} catch (error) {
+			console.error('Failed to send Telegram notification', { chatId, error });
+		}
 	}
 };
 
@@ -123,11 +139,13 @@ export async function POST(request: NextRequest) {
 		});
 
 		const landing = await getLandingContent();
-		await sendNotificationEmail({
+		const botToken = landing.telegramBotToken?.trim();
+		const chatIds = parseTelegramChatIds(landing.telegramChatIds);
+		await sendTelegramNotification({
 			channel,
 			contact: normalizedContact,
-			landingEmail: landing.notificationEmail,
-			notificationFrom: landing.notificationFrom,
+			botToken: botToken ?? '',
+			chatIds,
 		});
 
 		return NextResponse.json({ ok: true });

@@ -13,9 +13,9 @@ export type LandingContentPayload = {
   telegramEnabled: boolean;
   whatsappEnabled: boolean;
   customScript?: string | null;
-  notificationEmail: string;
+  telegramBotToken?: string | null;
+  telegramChatIds?: string | null;
   logoPath: string;
-  notificationFrom: string;
 };
 
 export const defaultLandingContent: LandingContentPayload = {
@@ -37,7 +37,7 @@ export const defaultLandingContent: LandingContentPayload = {
   telegramEnabled: true,
   whatsappEnabled: true,
   customScript: null,
-  notificationEmail: 'pc-move@gmail.com',
+  telegramBotToken: null,
+  telegramChatIds: null,
   logoPath: '/assets/images/logo.webp',
-  notificationFrom: 'pc-move@gmail.com',
 };

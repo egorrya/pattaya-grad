@@ -1978,9 +1978,9 @@ export namespace Prisma {
     telegramEnabled: boolean | null
     whatsappEnabled: boolean | null
     customScript: string | null
-    notificationEmail: string | null
+    telegramBotToken: string | null
+    telegramChatIds: string | null
     logoPath: string | null
-    notificationFrom: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2001,9 +2001,9 @@ export namespace Prisma {
     telegramEnabled: boolean | null
     whatsappEnabled: boolean | null
     customScript: string | null
-    notificationEmail: string | null
+    telegramBotToken: string | null
+    telegramChatIds: string | null
     logoPath: string | null
-    notificationFrom: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2024,9 +2024,9 @@ export namespace Prisma {
     telegramEnabled: number
     whatsappEnabled: number
     customScript: number
-    notificationEmail: number
+    telegramBotToken: number
+    telegramChatIds: number
     logoPath: number
-    notificationFrom: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2049,9 +2049,9 @@ export namespace Prisma {
     telegramEnabled?: true
     whatsappEnabled?: true
     customScript?: true
-    notificationEmail?: true
+    telegramBotToken?: true
+    telegramChatIds?: true
     logoPath?: true
-    notificationFrom?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2072,9 +2072,9 @@ export namespace Prisma {
     telegramEnabled?: true
     whatsappEnabled?: true
     customScript?: true
-    notificationEmail?: true
+    telegramBotToken?: true
+    telegramChatIds?: true
     logoPath?: true
-    notificationFrom?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2095,9 +2095,9 @@ export namespace Prisma {
     telegramEnabled?: true
     whatsappEnabled?: true
     customScript?: true
-    notificationEmail?: true
+    telegramBotToken?: true
+    telegramChatIds?: true
     logoPath?: true
-    notificationFrom?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2191,9 +2191,9 @@ export namespace Prisma {
     telegramEnabled: boolean
     whatsappEnabled: boolean
     customScript: string | null
-    notificationEmail: string
+    telegramBotToken: string | null
+    telegramChatIds: string | null
     logoPath: string
-    notificationFrom: string
     createdAt: Date
     updatedAt: Date
     _count: LandingContentCountAggregateOutputType | null
@@ -2231,9 +2231,9 @@ export namespace Prisma {
     telegramEnabled?: boolean
     whatsappEnabled?: boolean
     customScript?: boolean
-    notificationEmail?: boolean
+    telegramBotToken?: boolean
+    telegramChatIds?: boolean
     logoPath?: boolean
-    notificationFrom?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["landingContent"]>
@@ -2254,9 +2254,9 @@ export namespace Prisma {
     telegramEnabled?: boolean
     whatsappEnabled?: boolean
     customScript?: boolean
-    notificationEmail?: boolean
+    telegramBotToken?: boolean
+    telegramChatIds?: boolean
     logoPath?: boolean
-    notificationFrom?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["landingContent"]>
@@ -2277,9 +2277,9 @@ export namespace Prisma {
     telegramEnabled?: boolean
     whatsappEnabled?: boolean
     customScript?: boolean
-    notificationEmail?: boolean
+    telegramBotToken?: boolean
+    telegramChatIds?: boolean
     logoPath?: boolean
-    notificationFrom?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["landingContent"]>
@@ -2300,14 +2300,14 @@ export namespace Prisma {
     telegramEnabled?: boolean
     whatsappEnabled?: boolean
     customScript?: boolean
-    notificationEmail?: boolean
+    telegramBotToken?: boolean
+    telegramChatIds?: boolean
     logoPath?: boolean
-    notificationFrom?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LandingContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "headerPhrase" | "heroImage" | "heroHeading" | "heroDescription" | "heroSupport" | "buttonLabel" | "contact" | "videoUrl" | "nextScreenTitle" | "nextScreenDescription" | "nextScreenQuestion" | "telegramEnabled" | "whatsappEnabled" | "customScript" | "notificationEmail" | "logoPath" | "notificationFrom" | "createdAt" | "updatedAt", ExtArgs["result"]["landingContent"]>
+  export type LandingContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "headerPhrase" | "heroImage" | "heroHeading" | "heroDescription" | "heroSupport" | "buttonLabel" | "contact" | "videoUrl" | "nextScreenTitle" | "nextScreenDescription" | "nextScreenQuestion" | "telegramEnabled" | "whatsappEnabled" | "customScript" | "telegramBotToken" | "telegramChatIds" | "logoPath" | "createdAt" | "updatedAt", ExtArgs["result"]["landingContent"]>
 
   export type $LandingContentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "LandingContent"
@@ -2328,9 +2328,9 @@ export namespace Prisma {
       telegramEnabled: boolean
       whatsappEnabled: boolean
       customScript: string | null
-      notificationEmail: string
+      telegramBotToken: string | null
+      telegramChatIds: string | null
       logoPath: string
-      notificationFrom: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["landingContent"]>
@@ -2771,9 +2771,9 @@ export namespace Prisma {
     readonly telegramEnabled: FieldRef<"LandingContent", 'Boolean'>
     readonly whatsappEnabled: FieldRef<"LandingContent", 'Boolean'>
     readonly customScript: FieldRef<"LandingContent", 'String'>
-    readonly notificationEmail: FieldRef<"LandingContent", 'String'>
+    readonly telegramBotToken: FieldRef<"LandingContent", 'String'>
+    readonly telegramChatIds: FieldRef<"LandingContent", 'String'>
     readonly logoPath: FieldRef<"LandingContent", 'String'>
-    readonly notificationFrom: FieldRef<"LandingContent", 'String'>
     readonly createdAt: FieldRef<"LandingContent", 'DateTime'>
     readonly updatedAt: FieldRef<"LandingContent", 'DateTime'>
   }
@@ -3182,9 +3182,9 @@ export namespace Prisma {
     telegramEnabled: 'telegramEnabled',
     whatsappEnabled: 'whatsappEnabled',
     customScript: 'customScript',
-    notificationEmail: 'notificationEmail',
+    telegramBotToken: 'telegramBotToken',
+    telegramChatIds: 'telegramChatIds',
     logoPath: 'logoPath',
-    notificationFrom: 'notificationFrom',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -3353,9 +3353,9 @@ export namespace Prisma {
     telegramEnabled?: BoolFilter<"LandingContent"> | boolean
     whatsappEnabled?: BoolFilter<"LandingContent"> | boolean
     customScript?: StringNullableFilter<"LandingContent"> | string | null
-    notificationEmail?: StringFilter<"LandingContent"> | string
+    telegramBotToken?: StringNullableFilter<"LandingContent"> | string | null
+    telegramChatIds?: StringNullableFilter<"LandingContent"> | string | null
     logoPath?: StringFilter<"LandingContent"> | string
-    notificationFrom?: StringFilter<"LandingContent"> | string
     createdAt?: DateTimeFilter<"LandingContent"> | Date | string
     updatedAt?: DateTimeFilter<"LandingContent"> | Date | string
   }
@@ -3376,9 +3376,9 @@ export namespace Prisma {
     telegramEnabled?: SortOrder
     whatsappEnabled?: SortOrder
     customScript?: SortOrderInput | SortOrder
-    notificationEmail?: SortOrder
+    telegramBotToken?: SortOrderInput | SortOrder
+    telegramChatIds?: SortOrderInput | SortOrder
     logoPath?: SortOrder
-    notificationFrom?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -3402,9 +3402,9 @@ export namespace Prisma {
     telegramEnabled?: BoolFilter<"LandingContent"> | boolean
     whatsappEnabled?: BoolFilter<"LandingContent"> | boolean
     customScript?: StringNullableFilter<"LandingContent"> | string | null
-    notificationEmail?: StringFilter<"LandingContent"> | string
+    telegramBotToken?: StringNullableFilter<"LandingContent"> | string | null
+    telegramChatIds?: StringNullableFilter<"LandingContent"> | string | null
     logoPath?: StringFilter<"LandingContent"> | string
-    notificationFrom?: StringFilter<"LandingContent"> | string
     createdAt?: DateTimeFilter<"LandingContent"> | Date | string
     updatedAt?: DateTimeFilter<"LandingContent"> | Date | string
   }, "id">
@@ -3425,9 +3425,9 @@ export namespace Prisma {
     telegramEnabled?: SortOrder
     whatsappEnabled?: SortOrder
     customScript?: SortOrderInput | SortOrder
-    notificationEmail?: SortOrder
+    telegramBotToken?: SortOrderInput | SortOrder
+    telegramChatIds?: SortOrderInput | SortOrder
     logoPath?: SortOrder
-    notificationFrom?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: LandingContentCountOrderByAggregateInput
@@ -3454,9 +3454,9 @@ export namespace Prisma {
     telegramEnabled?: BoolWithAggregatesFilter<"LandingContent"> | boolean
     whatsappEnabled?: BoolWithAggregatesFilter<"LandingContent"> | boolean
     customScript?: StringNullableWithAggregatesFilter<"LandingContent"> | string | null
-    notificationEmail?: StringWithAggregatesFilter<"LandingContent"> | string
+    telegramBotToken?: StringNullableWithAggregatesFilter<"LandingContent"> | string | null
+    telegramChatIds?: StringNullableWithAggregatesFilter<"LandingContent"> | string | null
     logoPath?: StringWithAggregatesFilter<"LandingContent"> | string
-    notificationFrom?: StringWithAggregatesFilter<"LandingContent"> | string
     createdAt?: DateTimeWithAggregatesFilter<"LandingContent"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"LandingContent"> | Date | string
   }
@@ -3526,9 +3526,9 @@ export namespace Prisma {
     telegramEnabled?: boolean
     whatsappEnabled?: boolean
     customScript?: string | null
-    notificationEmail?: string
+    telegramBotToken?: string | null
+    telegramChatIds?: string | null
     logoPath?: string
-    notificationFrom?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -3549,9 +3549,9 @@ export namespace Prisma {
     telegramEnabled?: boolean
     whatsappEnabled?: boolean
     customScript?: string | null
-    notificationEmail?: string
+    telegramBotToken?: string | null
+    telegramChatIds?: string | null
     logoPath?: string
-    notificationFrom?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -3572,9 +3572,9 @@ export namespace Prisma {
     telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
     whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
     customScript?: NullableStringFieldUpdateOperationsInput | string | null
-    notificationEmail?: StringFieldUpdateOperationsInput | string
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
     logoPath?: StringFieldUpdateOperationsInput | string
-    notificationFrom?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3595,9 +3595,9 @@ export namespace Prisma {
     telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
     whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
     customScript?: NullableStringFieldUpdateOperationsInput | string | null
-    notificationEmail?: StringFieldUpdateOperationsInput | string
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
     logoPath?: StringFieldUpdateOperationsInput | string
-    notificationFrom?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3618,9 +3618,9 @@ export namespace Prisma {
     telegramEnabled?: boolean
     whatsappEnabled?: boolean
     customScript?: string | null
-    notificationEmail?: string
+    telegramBotToken?: string | null
+    telegramChatIds?: string | null
     logoPath?: string
-    notificationFrom?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -3641,9 +3641,9 @@ export namespace Prisma {
     telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
     whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
     customScript?: NullableStringFieldUpdateOperationsInput | string | null
-    notificationEmail?: StringFieldUpdateOperationsInput | string
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
     logoPath?: StringFieldUpdateOperationsInput | string
-    notificationFrom?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3664,9 +3664,9 @@ export namespace Prisma {
     telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
     whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
     customScript?: NullableStringFieldUpdateOperationsInput | string | null
-    notificationEmail?: StringFieldUpdateOperationsInput | string
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
     logoPath?: StringFieldUpdateOperationsInput | string
-    notificationFrom?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3808,9 +3808,9 @@ export namespace Prisma {
     telegramEnabled?: SortOrder
     whatsappEnabled?: SortOrder
     customScript?: SortOrder
-    notificationEmail?: SortOrder
+    telegramBotToken?: SortOrder
+    telegramChatIds?: SortOrder
     logoPath?: SortOrder
-    notificationFrom?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -3831,9 +3831,9 @@ export namespace Prisma {
     telegramEnabled?: SortOrder
     whatsappEnabled?: SortOrder
     customScript?: SortOrder
-    notificationEmail?: SortOrder
+    telegramBotToken?: SortOrder
+    telegramChatIds?: SortOrder
     logoPath?: SortOrder
-    notificationFrom?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -3854,9 +3854,9 @@ export namespace Prisma {
     telegramEnabled?: SortOrder
     whatsappEnabled?: SortOrder
     customScript?: SortOrder
-    notificationEmail?: SortOrder
+    telegramBotToken?: SortOrder
+    telegramChatIds?: SortOrder
     logoPath?: SortOrder
-    notificationFrom?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
