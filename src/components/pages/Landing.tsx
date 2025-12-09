@@ -23,7 +23,7 @@ import {
 	privacyPolicyParagraphs,
 	privacyPolicyVersion,
 } from '@/data/privacyPolicy';
-import { FormEvent, ReactNode, useState } from 'react';
+import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react';
 
 const hexToRgb = (hex: string): [number, number, number] | null => {
 	const normalized = hex.replace(/^#/, '');
@@ -167,8 +167,9 @@ type LandingProps = {
 			? nextScreen.options.map((option) => option.label).join(', ')
 			: 'WhatsApp, Telegram';
 	const customScriptContent = customScript?.trim();
-		const handleOptionSelect = (channel: Channel) => {
-			setSelectedChannel(channel);
+	const scriptContainerRef = useRef<HTMLDivElement | null>(null);
+	const handleOptionSelect = (channel: Channel) => {
+		setSelectedChannel(channel);
 			setSubmissionStatus('idle');
 			setSubmissionMessage(null);
 			setContactInput('');
@@ -219,10 +220,10 @@ type LandingProps = {
 			setContactInput('');
 		};
 
-		const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-			event.preventDefault();
-			if (!selectedChannel) {
-				return;
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		if (!selectedChannel) {
+			return;
 			}
 
 			const normalizedContact = contactInput.trim();
@@ -271,6 +272,34 @@ type LandingProps = {
 			setIsSubmittingContact(false);
 		}
 	};
+
+	useEffect(() => {
+		const container = scriptContainerRef.current;
+		if (!container) {
+			return;
+		}
+
+		if (!customScriptContent) {
+			container.innerHTML = '';
+			return;
+		}
+
+		// Inject the HTML provided by the backend and re-create script tags
+		container.innerHTML = customScriptContent;
+		const scriptNodes = Array.from(container.querySelectorAll('script'));
+		scriptNodes.forEach((oldScript) => {
+			const newScript = document.createElement('script');
+			Array.from(oldScript.attributes).forEach((attr) => {
+				newScript.setAttribute(attr.name, attr.value);
+			});
+			newScript.text = oldScript.text;
+			oldScript.replaceWith(newScript);
+		});
+
+		return () => {
+			container.innerHTML = '';
+		};
+	}, [customScriptContent]);
 
 	return (
 		<div className='min-h-screen bg-[#faf7f1] text-slate-900'>
@@ -519,9 +548,7 @@ type LandingProps = {
 					</footer>
 				</main>
 				{customScriptContent ? (
-					<script
-						dangerouslySetInnerHTML={{ __html: customScriptContent }}
-					/>
+					<div ref={scriptContainerRef} aria-hidden />
 				) : null}
 			</div>
 		);
