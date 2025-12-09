@@ -19,6 +19,14 @@ export const normalizeToLandingFormState = (payload: LandingContentPayload): Lan
 
 export const defaultLandingFormState = normalizeToLandingFormState(defaultLandingContent);
 
+const ensureAssetPath = (value: string) => {
+  if (value.startsWith('/') || /^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  return `/${value}`;
+};
+
 export const buildLandingFormPayload = (state: LandingFormState): LandingContentPayload => {
   const optimizedHeroImage = state.heroImage.trim();
   const optimizedScript = state.customScript.trim();
@@ -28,10 +36,10 @@ export const buildLandingFormPayload = (state: LandingFormState): LandingContent
 
   return {
     ...state,
-    heroImage: optimizedHeroImage === '' ? null : optimizedHeroImage,
+    heroImage: optimizedHeroImage === '' ? null : ensureAssetPath(optimizedHeroImage),
     customScript: optimizedScript === '' ? null : optimizedScript,
     telegramBotToken: optimizedBotToken === '' ? null : optimizedBotToken,
     telegramChatIds: optimizedChatIds === '' ? null : optimizedChatIds,
-    logoPath: optimizedLogoPath,
+    logoPath: optimizedLogoPath === '' ? '' : ensureAssetPath(optimizedLogoPath),
   };
 };
