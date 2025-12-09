@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getLandingContent, updateLandingContent, buildLandingContentPayload } from '../../../../lib/landing';
-import { requireAdminAccess } from '../../../../lib/adminGuard';
+import { revalidatePath } from 'next/cache';
+import { getLandingContent, updateLandingContent, buildLandingContentPayload } from '@lib/landing';
+import { requireAdminAccess } from '@lib/adminGuard';
 
 const badRequest = (message: string) =>
   NextResponse.json({ ok: false, error: message }, { status: 400 });
@@ -48,6 +49,7 @@ export async function PATCH(request: NextRequest) {
 
   try {
     const updated = await updateLandingContent(payload);
+    revalidatePath('/');
     return NextResponse.json({ ok: true, data: updated });
   } catch (error) {
     console.error('Failed to update landing content', error);

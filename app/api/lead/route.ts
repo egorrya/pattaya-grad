@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '../../../lib/db';
-import { getLandingContent } from '../../../lib/landing';
+import { prisma } from '@lib/db';
+import { getLandingContent } from '@lib/landing';
 
 type Channel = 'whatsapp' | 'telegram';
 

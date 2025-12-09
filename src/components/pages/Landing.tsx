@@ -85,6 +85,45 @@ const lightenColor = (hex: string, amount = 0.9) => {
 
 type Channel = 'whatsapp' | 'telegram';
 
+const formatWhatsAppNumber = (rawValue: string) => {
+	const digitsOnly = rawValue.replace(/\D/g, '');
+	if (digitsOnly.length === 0) {
+		return '';
+	}
+
+	let normalized = digitsOnly;
+	if (normalized[0] === '8') {
+		normalized = `7${normalized.slice(1)}`;
+	} else if (normalized[0] !== '7') {
+		normalized = `7${normalized}`;
+	}
+
+	const rest = normalized.slice(1, 11);
+	const areaCode = rest.slice(0, 3);
+	const prefix = rest.slice(3, 6);
+	const mid = rest.slice(6, 8);
+	const tail = rest.slice(8, 10);
+
+	let formatted = '+7';
+	if (areaCode.length > 0) {
+		formatted += ` (${areaCode}`;
+		if (areaCode.length === 3) {
+			formatted += ')';
+		}
+	}
+	if (prefix.length > 0) {
+		formatted += ` ${prefix}`;
+	}
+	if (mid.length > 0) {
+		formatted += `-${mid}`;
+	}
+	if (tail.length > 0) {
+		formatted += `-${tail}`;
+	}
+
+	return formatted;
+};
+
 type OptionItem = {
 	label: string;
 	icon: ReactNode;
@@ -150,26 +189,26 @@ type LandingProps = {
 			videoUrl ?? 'https://www.youtube.com/embed/GBiYp3E1_ws?autoplay=1&rel=0';
 		const resolvedLogoPath = logoPath ?? '/assets/images/logo.webp';
 		const heroSupportText = heroSupport.trim();
-	const whatsappNumber = contact.replace(/\D/g, '');
-	const channelLabelMap: Record<Channel, string> = {
-		whatsapp: 'WhatsApp',
-		telegram: 'Telegram',
-	};
-	const currentChannelLabel = selectedChannel
-		? channelLabelMap[selectedChannel]
-		: null;
-	const contactPlaceholder =
-		selectedChannel === 'whatsapp'
-			? 'Например, +7 911 123 45 67'
-			: 'Например, +7 911 123 45 67 или @nikname';
-	const channelHint =
-		nextScreen?.options && nextScreen.options.length > 0
-			? nextScreen.options.map((option) => option.label).join(', ')
-			: 'WhatsApp, Telegram';
-	const customScriptContent = customScript?.trim();
-	const scriptContainerRef = useRef<HTMLDivElement | null>(null);
-	const handleOptionSelect = (channel: Channel) => {
-		setSelectedChannel(channel);
+		const whatsappNumber = contact.replace(/\D/g, '');
+		const channelLabelMap: Record<Channel, string> = {
+			whatsapp: 'WhatsApp',
+			telegram: 'Telegram',
+		};
+		const currentChannelLabel = selectedChannel
+			? channelLabelMap[selectedChannel]
+			: null;
+		const contactPlaceholder =
+			selectedChannel === 'whatsapp'
+				? 'Например, +7 911 123 45 67'
+				: 'Например, +7 911 123 45 67 или @nikname';
+		const channelHint =
+			nextScreen?.options && nextScreen.options.length > 0
+				? nextScreen.options.map((option) => option.label).join(', ')
+				: 'WhatsApp, Telegram';
+		const customScriptContent = customScript?.trim();
+		const scriptContainerRef = useRef<HTMLDivElement | null>(null);
+		const handleOptionSelect = (channel: Channel) => {
+			setSelectedChannel(channel);
 			setSubmissionStatus('idle');
 			setSubmissionMessage(null);
 			setContactInput('');
@@ -220,10 +259,62 @@ type LandingProps = {
 			setContactInput('');
 		};
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		if (!selectedChannel) {
-			return;
+		const handleContactInputChange = (value: string) => {
+			setSubmissionStatus('idle');
+			setSubmissionMessage(null);
+			if (selectedChannel === 'whatsapp') {
+				const digitsOnly = value.replace(/\D/g, '');
+				if (digitsOnly.length === 0) {
+					setContactInput('');
+					return;
+				}
+				setContactInput(formatWhatsAppNumber(digitsOnly));
+				return;
+			}
+
+			if (selectedChannel === 'telegram') {
+				const digitsOnly = value.replace(/\D/g, '');
+				const numericInputPattern = /^[\d\s()+-]*$/;
+				if (digitsOnly.length > 0 && numericInputPattern.test(value)) {
+					setContactInput(formatWhatsAppNumber(digitsOnly));
+					return;
+				}
+				const sanitized = value.replace(/[^A-Za-z0-9@]/g, '');
+				setContactInput(sanitized);
+				return;
+			}
+
+			setContactInput(value);
+		};
+
+		useEffect(() => {
+			if (selectedChannel === 'whatsapp') {
+				setContactInput((value) => {
+					const digitsOnly = value.replace(/\D/g, '');
+					if (digitsOnly.length === 0) {
+						return '';
+					}
+					return formatWhatsAppNumber(digitsOnly);
+				});
+				return;
+			}
+
+			if (selectedChannel === 'telegram') {
+				setContactInput((value) => {
+					const digitsOnly = value.replace(/\D/g, '');
+					const numericInputPattern = /^[\d\s()+-]*$/;
+					if (digitsOnly.length > 0 && numericInputPattern.test(value)) {
+						return formatWhatsAppNumber(digitsOnly);
+					}
+					return value.replace(/[^A-Za-z0-9@]/g, '');
+				});
+			}
+		}, [selectedChannel]);
+
+		const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault();
+			if (!selectedChannel) {
+				return;
 			}
 
 			const normalizedContact = contactInput.trim();
@@ -238,39 +329,39 @@ type LandingProps = {
 			}
 
 			setIsSubmittingContact(true);
-		setSubmissionStatus('idle');
-		setSubmissionMessage(null);
+			setSubmissionStatus('idle');
+			setSubmissionMessage(null);
 
-		try {
-			const response = await fetch('/api/lead', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					channel: selectedChannel,
-					contact: normalizedContact,
-				}),
-			});
+			try {
+				const response = await fetch('/api/lead', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						channel: selectedChannel,
+						contact: normalizedContact,
+					}),
+				});
 
-			const responseBody = await response.json().catch(() => null);
+				const responseBody = await response.json().catch(() => null);
 
-			if (!response.ok || responseBody?.ok !== true) {
-				const errorText =
-					responseBody?.error ?? 'Не удалось отправить заявку. Повторите позже.';
+				if (!response.ok || responseBody?.ok !== true) {
+					const errorText =
+						responseBody?.error ?? 'Не удалось отправить заявку. Повторите позже.';
+					setSubmissionStatus('error');
+					setSubmissionMessage(errorText);
+					return;
+				}
+
+				setSubmissionStatus('success');
+				setSubmissionMessage('Готово! Скоро менеджер напишет вам.');
+				setContactInput('');
+			} catch (error) {
+				console.error('Lead submit error', error);
 				setSubmissionStatus('error');
-				setSubmissionMessage(errorText);
-				return;
+				setSubmissionMessage('Сбой отправки. Попробуйте снова.');
+			} finally {
+				setIsSubmittingContact(false);
 			}
-
-			setSubmissionStatus('success');
-			setSubmissionMessage('Готово! Скоро менеджер напишет вам.');
-			setContactInput('');
-		} catch (error) {
-			console.error('Lead submit error', error);
-			setSubmissionStatus('error');
-			setSubmissionMessage('Сбой отправки. Попробуйте снова.');
-		} finally {
-			setIsSubmittingContact(false);
-		}
 	};
 
 	useEffect(() => {
@@ -470,7 +561,9 @@ type LandingProps = {
 												id='contact-input'
 												type='text'
 												value={contactInput}
-												onChange={(event) => setContactInput(event.target.value)}
+												onChange={(event) =>
+													handleContactInputChange(event.target.value)
+												}
 												placeholder={contactPlaceholder}
 												className='w-full rounded-full border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200'
 											/>
