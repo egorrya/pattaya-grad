@@ -173,6 +173,7 @@ type LandingProps = {
 			Channel | null
 		>(null);
 		const [contactInput, setContactInput] = useState('');
+		const [botField, setBotField] = useState('');
 		const [isSubmittingContact, setIsSubmittingContact] = useState(false);
 		const [submissionStatus, setSubmissionStatus] = useState<
 			'idle' | 'success' | 'error'
@@ -212,6 +213,7 @@ type LandingProps = {
 			setSubmissionStatus('idle');
 			setSubmissionMessage(null);
 			setContactInput('');
+			setBotField('');
 		};
 
 		const validateContactInput = (
@@ -257,6 +259,7 @@ type LandingProps = {
 			setSubmissionStatus('idle');
 			setSubmissionMessage(null);
 			setContactInput('');
+			setBotField('');
 		};
 
 		const handleContactInputChange = (value: string) => {
@@ -317,6 +320,12 @@ type LandingProps = {
 				return;
 			}
 
+			if (botField.trim().length > 0) {
+				setSubmissionStatus('error');
+				setSubmissionMessage('Не удалось отправить заявку.');
+				return;
+			}
+
 			const normalizedContact = contactInput.trim();
 			const validationError = validateContactInput(
 				selectedChannel,
@@ -338,9 +347,10 @@ type LandingProps = {
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({
 						channel: selectedChannel,
-						contact: normalizedContact,
-					}),
-				});
+				contact: normalizedContact,
+				honeypot: botField,
+			}),
+		});
 
 				const responseBody = await response.json().catch(() => null);
 
@@ -352,16 +362,17 @@ type LandingProps = {
 					return;
 				}
 
-				setSubmissionStatus('success');
-				setSubmissionMessage('Готово! Скоро менеджер напишет вам.');
-				setContactInput('');
+			setSubmissionStatus('success');
+			setSubmissionMessage('Готово! Скоро менеджер напишет вам.');
+			setContactInput('');
+			setBotField('');
 			} catch (error) {
 				console.error('Lead submit error', error);
 				setSubmissionStatus('error');
 				setSubmissionMessage('Сбой отправки. Попробуйте снова.');
 			} finally {
-				setIsSubmittingContact(false);
-			}
+			setIsSubmittingContact(false);
+		}
 	};
 
 	useEffect(() => {
@@ -546,10 +557,20 @@ type LandingProps = {
 										</div>
 									)}
 								{selectedChannel && (
-									<form
-										onSubmit={handleSubmit}
-										className='space-y-3 pt-3'
-									>
+								<form
+									onSubmit={handleSubmit}
+									className='space-y-3 pt-3'
+								>
+									<input
+										type='text'
+										name='favorite-city'
+										autoComplete='off'
+										value={botField}
+										onChange={(event) => setBotField(event.target.value)}
+										tabIndex={-1}
+										className='pointer-events-none absolute left-[-9999px] h-px w-px overflow-hidden'
+										aria-hidden='true'
+									/>
 										<div className='flex flex-col gap-2'>
 											<label
 												htmlFor='contact-input'

@@ -149,10 +149,15 @@ export async function POST(request: NextRequest) {
 		return badRequest('Request body must be an object');
 	}
 
-	const { channel, contact } = payload as {
+	const { channel, contact, honeypot } = payload as {
 		channel?: Channel;
 		contact?: unknown;
+		honeypot?: unknown;
 	};
+
+	if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
+		return badRequest('Invalid request');
+	}
 
 	if (channel !== 'whatsapp' && channel !== 'telegram') {
 		return badRequest("Channel must be either 'whatsapp' or 'telegram'");
