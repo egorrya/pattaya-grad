@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@lib/db';
 import { getLandingContent } from '@lib/landing';
 import { getLandingPageByUrlPath } from '@lib/landingPages';
+import type { Prisma } from '../../../generated-prisma-client';
 
 type Channel = 'whatsapp' | 'telegram';
+type LeadWithLandingName = Prisma.LeadGetPayload<{
+	include: { landingPage: { select: { name: true } } };
+}>;
 
 const MIN_CONTACT_LENGTH = 3;
 const DEFAULT_LIMIT = 50;
@@ -237,24 +241,26 @@ export async function GET(request: NextRequest) {
 	try {
 		const where = channel ? { channel } : undefined;
 
-		const [leads, total, landingContent] = await Promise.all([
-			prisma.lead.findMany({
-				where,
-				skip,
-				take: limit,
-				orderBy: { createdAt: 'desc' },
-				include: {
-					landingPage: {
-						select: { name: true },
-					},
+		const leadsPromise = prisma.lead.findMany({
+			where,
+			skip,
+			take: limit,
+			orderBy: { createdAt: 'desc' },
+			include: {
+				landingPage: {
+					select: { name: true },
 				},
-			}),
-			prisma.lead.count({ where }),
-			getLandingContent(),
-		]);
+			},
+		});
+		const totalPromise = prisma.lead.count({ where });
+		const landingContentPromise = getLandingContent();
+
+		const leads = await leadsPromise;
+		const [total, landingContent] = await Promise.all([totalPromise, landingContentPromise]);
 
 		const defaultLandingName = landingContent.defaultLandingName ?? DEFAULT_MAIN_LANDING_NAME;
-		const formattedLeads = leads.map((lead) => ({
+		const typedLeads = leads as LeadWithLandingName[];
+		const formattedLeads = typedLeads.map((lead) => ({
 			id: lead.id,
 			channel: lead.channel,
 			contact: lead.contact,

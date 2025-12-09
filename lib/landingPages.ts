@@ -31,7 +31,7 @@ const normalizeLandingUrlPath = (value: unknown): string => {
   return trimmed;
 };
 
-export type LandingPagePayload = LandingContentPayload & {
+export type LandingPagePayload = Omit<LandingContentPayload, 'defaultLandingName'> & {
   urlPath: string;
   name: string;
 };

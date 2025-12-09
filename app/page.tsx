@@ -46,18 +46,24 @@ export default async function HomePage() {
 	const nextScreen = await buildNextScreen(landing);
 
 	return (
-		<Landing
-			headerPhrase={landing.headerPhrase}
-			heroImage={landing.heroImage ?? undefined}
-			heroHeading={landing.heroHeading}
-			heroDescription={landing.heroDescription}
-			heroSupport={landing.heroSupport}
-			buttonLabel={landing.buttonLabel}
-			contact={landing.contact}
-			videoUrl={landing.videoUrl}
-			nextScreen={nextScreen}
-			customScript={landing.customScript ?? undefined}
-			logoPath={landing.logoPath}
-		/>
+		<>
+			<head>
+				<link rel='preload' href='/assets/images/image.webp' as='image' />
+				<link rel='preload' href='/assets/images/logo.webp' as='image' />
+			</head>
+			<Landing
+				headerPhrase={landing.headerPhrase}
+				heroImage={landing.heroImage ?? undefined}
+				heroHeading={landing.heroHeading}
+				heroDescription={landing.heroDescription}
+				heroSupport={landing.heroSupport}
+				buttonLabel={landing.buttonLabel}
+				contact={landing.contact}
+				videoUrl={landing.videoUrl}
+				nextScreen={nextScreen}
+				customScript={landing.customScript ?? undefined}
+				logoPath={landing.logoPath}
+			/>
+		</>
 	);
 }

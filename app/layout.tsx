@@ -13,10 +13,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='ru'>
-			<head>
-				<link rel='preload' href='/assets/images/image.webp' as='image' />
-				<link rel='preload' href='/assets/images/logo.webp' as='image' />
-			</head>
+			<head />
 			<body suppressHydrationWarning className='antialiased font-sans'>
 				{children}
 			</body>

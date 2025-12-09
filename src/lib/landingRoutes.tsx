@@ -4,7 +4,9 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getLandingPageByUrlPath } from '@lib/landingPages';
 
-export type LandingPageRouteData = Awaited<ReturnType<typeof getLandingPageByUrlPath>>;
+export type LandingPageRouteData = NonNullable<
+  Awaited<ReturnType<typeof getLandingPageByUrlPath>>
+>;
 
 export async function loadLanding(slug: string): Promise<LandingPageRouteData> {
   const landing = await getLandingPageByUrlPath(slug);
