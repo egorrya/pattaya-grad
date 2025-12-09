@@ -124,6 +124,8 @@ exports.Prisma.LeadScalarFieldEnum = {
   id: 'id',
   channel: 'channel',
   contact: 'contact',
+  ipAddress: 'ipAddress',
+  country: 'country',
   createdAt: 'createdAt'
 };
 

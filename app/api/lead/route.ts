@@ -53,14 +53,46 @@ const parseTelegramChatIds = (raw: string | null | undefined): string[] => {
 		.filter((value) => value.length > 0);
 };
 
+const extractClientIp = (request: NextRequest) => {
+	const forwarded = request.headers.get('x-forwarded-for');
+	if (forwarded) {
+		return forwarded.split(',')[0].trim();
+	}
+
+	const realIp = request.headers.get('x-real-ip');
+	if (realIp) {
+		return realIp.trim();
+	}
+
+	return null;
+};
+
+const extractClientCountry = (request: NextRequest) => {
+	const geoCountry = (request as NextRequest & { geo?: { country?: string } }).geo?.country;
+	if (geoCountry) {
+		return geoCountry;
+	}
+
+	const countryHeader = request.headers.get('x-vercel-ip-country');
+	const normalizedCountry = countryHeader?.trim();
+	if (!normalizedCountry) {
+		return null;
+	}
+	return normalizedCountry.toUpperCase();
+};
+
 const sendTelegramNotification = async ({
 	channel,
 	contact,
+	ipAddress,
+	country,
 	botToken,
 	chatIds,
 }: {
 	channel: Channel;
 	contact: string;
+	ipAddress: string | null;
+	country: string | null;
 	botToken: string;
 	chatIds: string[];
 }) => {
@@ -73,6 +105,8 @@ const sendTelegramNotification = async ({
 		'Новая заявка с лендинга',
 		`Канал: ${formatChannelLabel(channel)}`,
 		`Контакт: ${contact}`,
+		`IP: ${ipAddress ?? 'не определено'}`,
+		`Страна: ${country ?? 'не определена'}`,
 	].join('\n');
 
 	for (const chatId of chatIds) {
@@ -131,10 +165,15 @@ export async function POST(request: NextRequest) {
 	const normalizedContact = contact.trim();
 
 	try {
+		const ipAddress = extractClientIp(request);
+		const country = extractClientCountry(request);
+
 		await prisma.lead.create({
 			data: {
 				contact: normalizedContact,
 				channel,
+				ipAddress,
+				country,
 			},
 		});
 
@@ -144,6 +183,8 @@ export async function POST(request: NextRequest) {
 		await sendTelegramNotification({
 			channel,
 			contact: normalizedContact,
+			ipAddress,
+			country,
 			botToken: botToken ?? '',
 			chatIds,
 		});

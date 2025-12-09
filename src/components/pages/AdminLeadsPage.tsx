@@ -29,6 +29,8 @@ type Lead = {
   channel: Channel
   contact: string
   createdAt: string
+  ipAddress: string | null
+  country: string | null
 }
 
 type LeadsResponse =
@@ -203,6 +205,8 @@ export default function AdminLeadsPage() {
               <TableRow>
                 <TableHead>Тип связи</TableHead>
                 <TableHead>Дата</TableHead>
+                <TableHead>IP</TableHead>
+                <TableHead>Страна</TableHead>
                 <TableHead>Контакт</TableHead>
                 <TableHead>Ссылка</TableHead>
               </TableRow>
@@ -211,7 +215,7 @@ export default function AdminLeadsPage() {
               {isLoading ? (
                 <TableRow>
                   <TableCell
-                    colSpan={4}
+                    colSpan={6}
                     className="py-6 text-center text-sm text-slate-500"
                   >
                     Загрузка заявок...
@@ -220,7 +224,7 @@ export default function AdminLeadsPage() {
               ) : error ? (
                 <TableRow>
                   <TableCell
-                    colSpan={4}
+                    colSpan={6}
                     className="py-6 text-center text-sm text-rose-500"
                   >
                     {error}
@@ -229,7 +233,7 @@ export default function AdminLeadsPage() {
               ) : leads.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={4}
+                    colSpan={6}
                     className="py-6 text-center text-sm text-slate-500"
                   >
                     Заявок пока нет
@@ -250,6 +254,8 @@ export default function AdminLeadsPage() {
                           timeStyle: "short",
                         })}
                       </TableCell>
+                      <TableCell>{lead.ipAddress ?? "—"}</TableCell>
+                      <TableCell>{lead.country ?? "—"}</TableCell>
                       <TableCell>{lead.contact}</TableCell>
                       <TableCell>
                         {link ? (

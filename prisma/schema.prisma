@@ -16,6 +16,8 @@ model Lead {
   id        String   @id @default(cuid())
   channel   Channel
   contact   String
+  ipAddress String?
+  country   String?
   createdAt DateTime @default(now())
 }
 
