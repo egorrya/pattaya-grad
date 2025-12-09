@@ -1,10 +1,10 @@
 import { Landing, NextScreenData } from '@/components/pages/Landing';
 import { MessageCircle, Send } from 'lucide-react';
 import { Metadata } from 'next';
-import { getLandingContentCached } from '../lib/landing';
+import { getLandingContent } from '../lib/landing';
 
 async function buildNextScreen(
-	landing: Awaited<ReturnType<typeof getLandingContentCached>>,
+	landing: Awaited<ReturnType<typeof getLandingContent>>,
 ) {
 	const options: NextScreenData['options'] = [];
 	if (landing.telegramEnabled) {
@@ -49,7 +49,7 @@ async function buildNextScreen(
 }
 
 async function loadLandingData() {
-	return getLandingContentCached();
+	return getLandingContent();
 }
 
 export async function generateMetadata(): Promise<Metadata> {
