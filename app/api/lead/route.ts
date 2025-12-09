@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@lib/db';
 import { getLandingContent } from '@lib/landing';
 import { getLandingPageByUrlPath } from '@lib/landingPages';
-import type { Prisma } from '../../../generated-prisma-client';
+import type {
+	LandingContent,
+	LandingPage,
+	Prisma,
+} from '../../../generated-prisma-client';
 
 type Channel = 'whatsapp' | 'telegram';
 type LeadWithLandingName = Prisma.LeadGetPayload<{
@@ -94,6 +98,7 @@ const sendTelegramNotification = async ({
 	country,
 	botToken,
 	chatIds,
+	landingName,
 }: {
 	channel: Channel;
 	contact: string;
@@ -101,6 +106,7 @@ const sendTelegramNotification = async ({
 	country: string | null;
 	botToken: string;
 	chatIds: string[];
+	landingName: string;
 }) => {
 	if (!botToken || chatIds.length === 0) {
 		return;
@@ -109,6 +115,8 @@ const sendTelegramNotification = async ({
 	const sendUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 	const message = [
 		'Новая заявка с лендинга',
+		'',
+		`✨ ${landingName} ✨`,
 		`Канал: ${formatChannelLabel(channel)}`,
 		`Контакт: ${contact}`,
 		`IP: ${ipAddress ?? 'не определено'}`,
@@ -208,6 +216,11 @@ export async function POST(request: NextRequest) {
 			country,
 			botToken: botToken ?? '',
 			chatIds,
+			landingName:
+				typeof landingSlug === 'string'
+					? (landing as LandingPage).name
+					: (landing as LandingContent).defaultLandingName ??
+					  DEFAULT_MAIN_LANDING_NAME,
 		});
 
 		return NextResponse.json({ ok: true });
