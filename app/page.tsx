@@ -3,6 +3,8 @@ import { MessageCircle, Send } from 'lucide-react';
 import { Metadata } from 'next';
 import { getLandingContent } from '../lib/landing';
 
+export const revalidate = 0;
+
 async function buildNextScreen(
 	landing: Awaited<ReturnType<typeof getLandingContent>>,
 ) {
