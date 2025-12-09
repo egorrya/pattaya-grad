@@ -12,17 +12,46 @@ enum Channel {
   telegram
 }
 
+model LandingPage {
+  id                    String   @id @default(cuid())
+  urlPath               String   @unique
+  name                  String
+  headerPhrase          String
+  heroImage             String?
+  heroHeading           String
+  heroDescription       String
+  heroSupport           String
+  buttonLabel           String
+  contact               String
+  videoUrl              String
+  nextScreenTitle       String
+  nextScreenDescription String
+  nextScreenQuestion    String
+  telegramEnabled       Boolean  @default(true)
+  whatsappEnabled       Boolean  @default(true)
+  customScript          String?
+  telegramBotToken      String?
+  telegramChatIds       String?
+  logoPath              String   @default("/assets/images/logo.webp")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  leads                 Lead[]
+}
+
 model Lead {
-  id        String   @id @default(cuid())
-  channel   Channel
-  contact   String
-  ipAddress String?
-  country   String?
-  createdAt DateTime @default(now())
+  id            String       @id @default(cuid())
+  channel       Channel
+  contact       String
+  ipAddress     String?
+  country       String?
+  landingPageId String?
+  landingPage   LandingPage? @relation(fields: [landingPageId], references: [id])
+  createdAt     DateTime     @default(now())
 }
 
 model LandingContent {
   id                    String   @id
+  defaultLandingName    String   @default("Главная страница")
   headerPhrase          String
   heroImage             String?
   heroHeading           String

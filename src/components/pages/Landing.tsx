@@ -153,6 +153,7 @@ type LandingProps = {
 	videoUrl?: string;
 	customScript?: string;
 	logoPath?: string;
+	landingSlug?: string;
 };
 
 	export function Landing({
@@ -167,6 +168,7 @@ type LandingProps = {
 		videoUrl,
 		customScript,
 		logoPath,
+		landingSlug,
 	}: LandingProps) {
 		const [shownNext, setShownNext] = useState(false);
 		const [selectedChannel, setSelectedChannel] = useState<
@@ -202,10 +204,6 @@ type LandingProps = {
 			selectedChannel === 'whatsapp'
 				? 'Например, +7 911 123 45 67'
 				: 'Например, +7 911 123 45 67 или @nikname';
-		const channelHint =
-			nextScreen?.options && nextScreen.options.length > 0
-				? nextScreen.options.map((option) => option.label).join(', ')
-				: 'WhatsApp, Telegram';
 		const customScriptContent = customScript?.trim();
 		const scriptContainerRef = useRef<HTMLDivElement | null>(null);
 		const handleOptionSelect = (channel: Channel) => {
@@ -347,10 +345,11 @@ type LandingProps = {
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({
 						channel: selectedChannel,
-				contact: normalizedContact,
-				honeypot: botField,
-			}),
-		});
+						contact: normalizedContact,
+						honeypot: botField,
+						landingSlug,
+					}),
+				});
 
 				const responseBody = await response.json().catch(() => null);
 
@@ -449,10 +448,7 @@ type LandingProps = {
 									</div>
 									<AlertDialogContent className='max-w-3xl'>
 										<AlertDialogHeader>
-											<AlertDialogTitle>Видео о PATTAYA GRAD</AlertDialogTitle>
-											<AlertDialogDescription>
-												Смотрите короткий обзор в формате YouTube.
-											</AlertDialogDescription>
+											<AlertDialogTitle>Смотрите видео обзор</AlertDialogTitle>
 										</AlertDialogHeader>
 										<div className='relative aspect-video w-full overflow-hidden rounded-xl bg-black'>
 							{videoOpen && (
@@ -657,7 +653,7 @@ type LandingProps = {
 						{contact}
 					</a>
 					<span className='text-sm text-slate-500 -mt-0.5 block'>
-						({channelHint}) Паттайя Град
+						WhatsApp · Telegram
 					</span>
 					</footer>
 				</main>

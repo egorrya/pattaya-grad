@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@lib/db';
 import { getLandingContent } from '@lib/landing';
+import { getLandingPageByUrlPath } from '@lib/landingPages';
 
 type Channel = 'whatsapp' | 'telegram';
 
 const MIN_CONTACT_LENGTH = 3;
 const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 100;
+const DEFAULT_MAIN_LANDING_NAME = 'Главная страница';
 
 const badRequest = (message: string) =>
 	NextResponse.json({ ok: false, error: message }, { status: 400 });
@@ -149,10 +151,11 @@ export async function POST(request: NextRequest) {
 		return badRequest('Request body must be an object');
 	}
 
-	const { channel, contact, honeypot } = payload as {
+	const { channel, contact, honeypot, landingSlug } = payload as {
 		channel?: Channel;
 		contact?: unknown;
 		honeypot?: unknown;
+		landingSlug?: unknown;
 	};
 
 	if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
@@ -173,16 +176,25 @@ export async function POST(request: NextRequest) {
 		const ipAddress = extractClientIp(request);
 		const country = extractClientCountry(request);
 
+		const landing =
+			typeof landingSlug === 'string'
+				? await getLandingPageByUrlPath(landingSlug)
+				: await getLandingContent();
+
+		if (!landing) {
+			return badRequest('Лендинг не найден');
+		}
+
 		await prisma.lead.create({
 			data: {
 				contact: normalizedContact,
 				channel,
 				ipAddress,
 				country,
+				landingPageId: typeof landingSlug === 'string' ? landing.id : null,
 			},
 		});
 
-		const landing = await getLandingContent();
 		const botToken = landing.telegramBotToken?.trim();
 		const chatIds = parseTelegramChatIds(landing.telegramChatIds);
 		await sendTelegramNotification({
@@ -225,19 +237,36 @@ export async function GET(request: NextRequest) {
 	try {
 		const where = channel ? { channel } : undefined;
 
-		const [leads, total] = await Promise.all([
+		const [leads, total, landingContent] = await Promise.all([
 			prisma.lead.findMany({
 				where,
 				skip,
 				take: limit,
 				orderBy: { createdAt: 'desc' },
+				include: {
+					landingPage: {
+						select: { name: true },
+					},
+				},
 			}),
 			prisma.lead.count({ where }),
+			getLandingContent(),
 		]);
+
+		const defaultLandingName = landingContent.defaultLandingName ?? DEFAULT_MAIN_LANDING_NAME;
+		const formattedLeads = leads.map((lead) => ({
+			id: lead.id,
+			channel: lead.channel,
+			contact: lead.contact,
+			createdAt: lead.createdAt,
+			ipAddress: lead.ipAddress,
+			country: lead.country,
+			landingName: lead.landingPage?.name ?? defaultLandingName,
+		}));
 
 		return NextResponse.json({
 			ok: true,
-			data: leads,
+			data: formattedLeads,
 			meta: {
 				limit,
 				page,

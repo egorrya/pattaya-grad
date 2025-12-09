@@ -1,4 +1,5 @@
 export type LandingContentPayload = {
+  defaultLandingName: string;
   headerPhrase: string;
   heroImage?: string | null;
   heroHeading: string;
@@ -19,6 +20,7 @@ export type LandingContentPayload = {
 };
 
 export const defaultLandingContent: LandingContentPayload = {
+  defaultLandingName: 'Главная страница',
   headerPhrase: '15 лет опыта. Более 2000 завершенных сделок',
   heroImage: '/assets/images/image.webp',
   heroHeading: '📘 Отправим каталог недвижимости Паттайи и поможем с выбором.',

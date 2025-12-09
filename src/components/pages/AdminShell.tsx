@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/sidebar"
 
 const NAV_ITEMS = [
-  { label: "На лендинг", href: "/" },
+  { label: "На главную", href: "/" },
   { label: "Заявки", href: "/admin/leads" },
-  { label: "Редактирование", href: "/admin/edit" },
+  { label: "Настройки главной", href: "/admin/edit" },
+  { label: "Лендинги", href: "/admin/landings" },
 ] as const
 
 export function AdminShell({

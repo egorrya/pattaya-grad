@@ -93,17 +93,44 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.LandingPageScalarFieldEnum = {
+  id: 'id',
+  urlPath: 'urlPath',
+  name: 'name',
+  headerPhrase: 'headerPhrase',
+  heroImage: 'heroImage',
+  heroHeading: 'heroHeading',
+  heroDescription: 'heroDescription',
+  heroSupport: 'heroSupport',
+  buttonLabel: 'buttonLabel',
+  contact: 'contact',
+  videoUrl: 'videoUrl',
+  nextScreenTitle: 'nextScreenTitle',
+  nextScreenDescription: 'nextScreenDescription',
+  nextScreenQuestion: 'nextScreenQuestion',
+  telegramEnabled: 'telegramEnabled',
+  whatsappEnabled: 'whatsappEnabled',
+  customScript: 'customScript',
+  telegramBotToken: 'telegramBotToken',
+  telegramChatIds: 'telegramChatIds',
+  logoPath: 'logoPath',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.LeadScalarFieldEnum = {
   id: 'id',
   channel: 'channel',
   contact: 'contact',
   ipAddress: 'ipAddress',
   country: 'country',
+  landingPageId: 'landingPageId',
   createdAt: 'createdAt'
 };
 
 exports.Prisma.LandingContentScalarFieldEnum = {
   id: 'id',
+  defaultLandingName: 'defaultLandingName',
   headerPhrase: 'headerPhrase',
   heroImage: 'heroImage',
   heroHeading: 'heroHeading',
@@ -145,6 +172,7 @@ exports.Channel = exports.$Enums.Channel = {
 };
 
 exports.Prisma.ModelName = {
+  LandingPage: 'LandingPage',
   Lead: 'Lead',
   LandingContent: 'LandingContent'
 };
@@ -156,10 +184,10 @@ const config = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated-prisma-client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Channel {\n  whatsapp\n  telegram\n}\n\nmodel Lead {\n  id        String   @id @default(cuid())\n  channel   Channel\n  contact   String\n  ipAddress String?\n  country   String?\n  createdAt DateTime @default(now())\n}\n\nmodel LandingContent {\n  id                    String   @id\n  headerPhrase          String\n  heroImage             String?\n  heroHeading           String\n  heroDescription       String\n  heroSupport           String\n  buttonLabel           String\n  contact               String\n  videoUrl              String\n  nextScreenTitle       String\n  nextScreenDescription String\n  nextScreenQuestion    String\n  telegramEnabled       Boolean  @default(true)\n  whatsappEnabled       Boolean  @default(true)\n  customScript          String?\n  telegramBotToken      String?\n  telegramChatIds       String?\n  logoPath              String   @default(\"/assets/images/logo.webp\")\n  createdAt             DateTime @default(now())\n  updatedAt             DateTime @updatedAt\n}\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated-prisma-client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Channel {\n  whatsapp\n  telegram\n}\n\nmodel LandingPage {\n  id                    String   @id @default(cuid())\n  urlPath               String   @unique\n  name                  String\n  headerPhrase          String\n  heroImage             String?\n  heroHeading           String\n  heroDescription       String\n  heroSupport           String\n  buttonLabel           String\n  contact               String\n  videoUrl              String\n  nextScreenTitle       String\n  nextScreenDescription String\n  nextScreenQuestion    String\n  telegramEnabled       Boolean  @default(true)\n  whatsappEnabled       Boolean  @default(true)\n  customScript          String?\n  telegramBotToken      String?\n  telegramChatIds       String?\n  logoPath              String   @default(\"/assets/images/logo.webp\")\n  createdAt             DateTime @default(now())\n  updatedAt             DateTime @updatedAt\n  leads                 Lead[]\n}\n\nmodel Lead {\n  id            String       @id @default(cuid())\n  channel       Channel\n  contact       String\n  ipAddress     String?\n  country       String?\n  landingPageId String?\n  landingPage   LandingPage? @relation(fields: [landingPageId], references: [id])\n  createdAt     DateTime     @default(now())\n}\n\nmodel LandingContent {\n  id                    String   @id\n  defaultLandingName    String   @default(\"Главная страница\")\n  headerPhrase          String\n  heroImage             String?\n  heroHeading           String\n  heroDescription       String\n  heroSupport           String\n  buttonLabel           String\n  contact               String\n  videoUrl              String\n  nextScreenTitle       String\n  nextScreenDescription String\n  nextScreenQuestion    String\n  telegramEnabled       Boolean  @default(true)\n  whatsappEnabled       Boolean  @default(true)\n  customScript          String?\n  telegramBotToken      String?\n  telegramChatIds       String?\n  logoPath              String   @default(\"/assets/images/logo.webp\")\n  createdAt             DateTime @default(now())\n  updatedAt             DateTime @updatedAt\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Lead\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"channel\",\"kind\":\"enum\",\"type\":\"Channel\"},{\"name\":\"contact\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"LandingContent\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"headerPhrase\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroImage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroHeading\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroSupport\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"buttonLabel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contact\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"videoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenQuestion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"whatsappEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"customScript\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramBotToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramChatIds\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"logoPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"LandingPage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"urlPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"headerPhrase\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroImage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroHeading\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroSupport\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"buttonLabel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contact\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"videoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenQuestion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"whatsappEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"customScript\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramBotToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramChatIds\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"logoPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"leads\",\"kind\":\"object\",\"type\":\"Lead\",\"relationName\":\"LandingPageToLead\"}],\"dbName\":null},\"Lead\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"channel\",\"kind\":\"enum\",\"type\":\"Channel\"},{\"name\":\"contact\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"landingPageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"landingPage\",\"kind\":\"object\",\"type\":\"LandingPage\",\"relationName\":\"LandingPageToLead\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"LandingContent\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"defaultLandingName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"headerPhrase\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroImage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroHeading\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"heroSupport\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"buttonLabel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contact\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"videoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nextScreenQuestion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"whatsappEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"customScript\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramBotToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telegramChatIds\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"logoPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
       getRuntime: async () => require('./query_compiler_bg.js'),

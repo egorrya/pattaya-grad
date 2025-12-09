@@ -120,17 +120,44 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.LandingPageScalarFieldEnum = {
+  id: 'id',
+  urlPath: 'urlPath',
+  name: 'name',
+  headerPhrase: 'headerPhrase',
+  heroImage: 'heroImage',
+  heroHeading: 'heroHeading',
+  heroDescription: 'heroDescription',
+  heroSupport: 'heroSupport',
+  buttonLabel: 'buttonLabel',
+  contact: 'contact',
+  videoUrl: 'videoUrl',
+  nextScreenTitle: 'nextScreenTitle',
+  nextScreenDescription: 'nextScreenDescription',
+  nextScreenQuestion: 'nextScreenQuestion',
+  telegramEnabled: 'telegramEnabled',
+  whatsappEnabled: 'whatsappEnabled',
+  customScript: 'customScript',
+  telegramBotToken: 'telegramBotToken',
+  telegramChatIds: 'telegramChatIds',
+  logoPath: 'logoPath',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.LeadScalarFieldEnum = {
   id: 'id',
   channel: 'channel',
   contact: 'contact',
   ipAddress: 'ipAddress',
   country: 'country',
+  landingPageId: 'landingPageId',
   createdAt: 'createdAt'
 };
 
 exports.Prisma.LandingContentScalarFieldEnum = {
   id: 'id',
+  defaultLandingName: 'defaultLandingName',
   headerPhrase: 'headerPhrase',
   heroImage: 'heroImage',
   heroHeading: 'heroHeading',
@@ -172,6 +199,7 @@ exports.Channel = exports.$Enums.Channel = {
 };
 
 exports.Prisma.ModelName = {
+  LandingPage: 'LandingPage',
   Lead: 'Lead',
   LandingContent: 'LandingContent'
 };

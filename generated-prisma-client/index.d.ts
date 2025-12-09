@@ -14,6 +14,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model LandingPage
+ * 
+ */
+export type LandingPage = $Result.DefaultSelection<Prisma.$LandingPagePayload>
+/**
  * Model Lead
  * 
  */
@@ -48,8 +53,8 @@ export const Channel: typeof $Enums.Channel
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Leads
- * const leads = await prisma.lead.findMany()
+ * // Fetch zero or more LandingPages
+ * const landingPages = await prisma.landingPage.findMany()
  * ```
  *
  *
@@ -69,8 +74,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Leads
-   * const leads = await prisma.lead.findMany()
+   * // Fetch zero or more LandingPages
+   * const landingPages = await prisma.landingPage.findMany()
    * ```
    *
    *
@@ -159,6 +164,16 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.landingPage`: Exposes CRUD operations for the **LandingPage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LandingPages
+    * const landingPages = await prisma.landingPage.findMany()
+    * ```
+    */
+  get landingPage(): Prisma.LandingPageDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.lead`: Exposes CRUD operations for the **Lead** model.
     * Example usage:
     * ```ts
@@ -611,6 +626,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    LandingPage: 'LandingPage',
     Lead: 'Lead',
     LandingContent: 'LandingContent'
   };
@@ -628,10 +644,84 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "lead" | "landingContent"
+      modelProps: "landingPage" | "lead" | "landingContent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      LandingPage: {
+        payload: Prisma.$LandingPagePayload<ExtArgs>
+        fields: Prisma.LandingPageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LandingPageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LandingPageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>
+          }
+          findFirst: {
+            args: Prisma.LandingPageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LandingPageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>
+          }
+          findMany: {
+            args: Prisma.LandingPageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>[]
+          }
+          create: {
+            args: Prisma.LandingPageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>
+          }
+          createMany: {
+            args: Prisma.LandingPageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LandingPageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>[]
+          }
+          delete: {
+            args: Prisma.LandingPageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>
+          }
+          update: {
+            args: Prisma.LandingPageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>
+          }
+          deleteMany: {
+            args: Prisma.LandingPageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LandingPageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LandingPageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>[]
+          }
+          upsert: {
+            args: Prisma.LandingPageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LandingPagePayload>
+          }
+          aggregate: {
+            args: Prisma.LandingPageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLandingPage>
+          }
+          groupBy: {
+            args: Prisma.LandingPageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LandingPageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LandingPageCountArgs<ExtArgs>
+            result: $Utils.Optional<LandingPageCountAggregateOutputType> | number
+          }
+        }
+      }
       Lead: {
         payload: Prisma.$LeadPayload<ExtArgs>
         fields: Prisma.LeadFieldRefs
@@ -888,6 +978,7 @@ export namespace Prisma {
     comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
+    landingPage?: LandingPageOmit
     lead?: LeadOmit
     landingContent?: LandingContentOmit
   }
@@ -965,10 +1056,1331 @@ export namespace Prisma {
    */
 
 
+  /**
+   * Count Type LandingPageCountOutputType
+   */
+
+  export type LandingPageCountOutputType = {
+    leads: number
+  }
+
+  export type LandingPageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    leads?: boolean | LandingPageCountOutputTypeCountLeadsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LandingPageCountOutputType without action
+   */
+  export type LandingPageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPageCountOutputType
+     */
+    select?: LandingPageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LandingPageCountOutputType without action
+   */
+  export type LandingPageCountOutputTypeCountLeadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadWhereInput
+  }
+
 
   /**
    * Models
    */
+
+  /**
+   * Model LandingPage
+   */
+
+  export type AggregateLandingPage = {
+    _count: LandingPageCountAggregateOutputType | null
+    _min: LandingPageMinAggregateOutputType | null
+    _max: LandingPageMaxAggregateOutputType | null
+  }
+
+  export type LandingPageMinAggregateOutputType = {
+    id: string | null
+    urlPath: string | null
+    name: string | null
+    headerPhrase: string | null
+    heroImage: string | null
+    heroHeading: string | null
+    heroDescription: string | null
+    heroSupport: string | null
+    buttonLabel: string | null
+    contact: string | null
+    videoUrl: string | null
+    nextScreenTitle: string | null
+    nextScreenDescription: string | null
+    nextScreenQuestion: string | null
+    telegramEnabled: boolean | null
+    whatsappEnabled: boolean | null
+    customScript: string | null
+    telegramBotToken: string | null
+    telegramChatIds: string | null
+    logoPath: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LandingPageMaxAggregateOutputType = {
+    id: string | null
+    urlPath: string | null
+    name: string | null
+    headerPhrase: string | null
+    heroImage: string | null
+    heroHeading: string | null
+    heroDescription: string | null
+    heroSupport: string | null
+    buttonLabel: string | null
+    contact: string | null
+    videoUrl: string | null
+    nextScreenTitle: string | null
+    nextScreenDescription: string | null
+    nextScreenQuestion: string | null
+    telegramEnabled: boolean | null
+    whatsappEnabled: boolean | null
+    customScript: string | null
+    telegramBotToken: string | null
+    telegramChatIds: string | null
+    logoPath: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LandingPageCountAggregateOutputType = {
+    id: number
+    urlPath: number
+    name: number
+    headerPhrase: number
+    heroImage: number
+    heroHeading: number
+    heroDescription: number
+    heroSupport: number
+    buttonLabel: number
+    contact: number
+    videoUrl: number
+    nextScreenTitle: number
+    nextScreenDescription: number
+    nextScreenQuestion: number
+    telegramEnabled: number
+    whatsappEnabled: number
+    customScript: number
+    telegramBotToken: number
+    telegramChatIds: number
+    logoPath: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LandingPageMinAggregateInputType = {
+    id?: true
+    urlPath?: true
+    name?: true
+    headerPhrase?: true
+    heroImage?: true
+    heroHeading?: true
+    heroDescription?: true
+    heroSupport?: true
+    buttonLabel?: true
+    contact?: true
+    videoUrl?: true
+    nextScreenTitle?: true
+    nextScreenDescription?: true
+    nextScreenQuestion?: true
+    telegramEnabled?: true
+    whatsappEnabled?: true
+    customScript?: true
+    telegramBotToken?: true
+    telegramChatIds?: true
+    logoPath?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LandingPageMaxAggregateInputType = {
+    id?: true
+    urlPath?: true
+    name?: true
+    headerPhrase?: true
+    heroImage?: true
+    heroHeading?: true
+    heroDescription?: true
+    heroSupport?: true
+    buttonLabel?: true
+    contact?: true
+    videoUrl?: true
+    nextScreenTitle?: true
+    nextScreenDescription?: true
+    nextScreenQuestion?: true
+    telegramEnabled?: true
+    whatsappEnabled?: true
+    customScript?: true
+    telegramBotToken?: true
+    telegramChatIds?: true
+    logoPath?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LandingPageCountAggregateInputType = {
+    id?: true
+    urlPath?: true
+    name?: true
+    headerPhrase?: true
+    heroImage?: true
+    heroHeading?: true
+    heroDescription?: true
+    heroSupport?: true
+    buttonLabel?: true
+    contact?: true
+    videoUrl?: true
+    nextScreenTitle?: true
+    nextScreenDescription?: true
+    nextScreenQuestion?: true
+    telegramEnabled?: true
+    whatsappEnabled?: true
+    customScript?: true
+    telegramBotToken?: true
+    telegramChatIds?: true
+    logoPath?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LandingPageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LandingPage to aggregate.
+     */
+    where?: LandingPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LandingPages to fetch.
+     */
+    orderBy?: LandingPageOrderByWithRelationInput | LandingPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LandingPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LandingPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LandingPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LandingPages
+    **/
+    _count?: true | LandingPageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LandingPageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LandingPageMaxAggregateInputType
+  }
+
+  export type GetLandingPageAggregateType<T extends LandingPageAggregateArgs> = {
+        [P in keyof T & keyof AggregateLandingPage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLandingPage[P]>
+      : GetScalarType<T[P], AggregateLandingPage[P]>
+  }
+
+
+
+
+  export type LandingPageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LandingPageWhereInput
+    orderBy?: LandingPageOrderByWithAggregationInput | LandingPageOrderByWithAggregationInput[]
+    by: LandingPageScalarFieldEnum[] | LandingPageScalarFieldEnum
+    having?: LandingPageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LandingPageCountAggregateInputType | true
+    _min?: LandingPageMinAggregateInputType
+    _max?: LandingPageMaxAggregateInputType
+  }
+
+  export type LandingPageGroupByOutputType = {
+    id: string
+    urlPath: string
+    name: string
+    headerPhrase: string
+    heroImage: string | null
+    heroHeading: string
+    heroDescription: string
+    heroSupport: string
+    buttonLabel: string
+    contact: string
+    videoUrl: string
+    nextScreenTitle: string
+    nextScreenDescription: string
+    nextScreenQuestion: string
+    telegramEnabled: boolean
+    whatsappEnabled: boolean
+    customScript: string | null
+    telegramBotToken: string | null
+    telegramChatIds: string | null
+    logoPath: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LandingPageCountAggregateOutputType | null
+    _min: LandingPageMinAggregateOutputType | null
+    _max: LandingPageMaxAggregateOutputType | null
+  }
+
+  type GetLandingPageGroupByPayload<T extends LandingPageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LandingPageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LandingPageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LandingPageGroupByOutputType[P]>
+            : GetScalarType<T[P], LandingPageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LandingPageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    urlPath?: boolean
+    name?: boolean
+    headerPhrase?: boolean
+    heroImage?: boolean
+    heroHeading?: boolean
+    heroDescription?: boolean
+    heroSupport?: boolean
+    buttonLabel?: boolean
+    contact?: boolean
+    videoUrl?: boolean
+    nextScreenTitle?: boolean
+    nextScreenDescription?: boolean
+    nextScreenQuestion?: boolean
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: boolean
+    telegramBotToken?: boolean
+    telegramChatIds?: boolean
+    logoPath?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    leads?: boolean | LandingPage$leadsArgs<ExtArgs>
+    _count?: boolean | LandingPageCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["landingPage"]>
+
+  export type LandingPageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    urlPath?: boolean
+    name?: boolean
+    headerPhrase?: boolean
+    heroImage?: boolean
+    heroHeading?: boolean
+    heroDescription?: boolean
+    heroSupport?: boolean
+    buttonLabel?: boolean
+    contact?: boolean
+    videoUrl?: boolean
+    nextScreenTitle?: boolean
+    nextScreenDescription?: boolean
+    nextScreenQuestion?: boolean
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: boolean
+    telegramBotToken?: boolean
+    telegramChatIds?: boolean
+    logoPath?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["landingPage"]>
+
+  export type LandingPageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    urlPath?: boolean
+    name?: boolean
+    headerPhrase?: boolean
+    heroImage?: boolean
+    heroHeading?: boolean
+    heroDescription?: boolean
+    heroSupport?: boolean
+    buttonLabel?: boolean
+    contact?: boolean
+    videoUrl?: boolean
+    nextScreenTitle?: boolean
+    nextScreenDescription?: boolean
+    nextScreenQuestion?: boolean
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: boolean
+    telegramBotToken?: boolean
+    telegramChatIds?: boolean
+    logoPath?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["landingPage"]>
+
+  export type LandingPageSelectScalar = {
+    id?: boolean
+    urlPath?: boolean
+    name?: boolean
+    headerPhrase?: boolean
+    heroImage?: boolean
+    heroHeading?: boolean
+    heroDescription?: boolean
+    heroSupport?: boolean
+    buttonLabel?: boolean
+    contact?: boolean
+    videoUrl?: boolean
+    nextScreenTitle?: boolean
+    nextScreenDescription?: boolean
+    nextScreenQuestion?: boolean
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: boolean
+    telegramBotToken?: boolean
+    telegramChatIds?: boolean
+    logoPath?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LandingPageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "urlPath" | "name" | "headerPhrase" | "heroImage" | "heroHeading" | "heroDescription" | "heroSupport" | "buttonLabel" | "contact" | "videoUrl" | "nextScreenTitle" | "nextScreenDescription" | "nextScreenQuestion" | "telegramEnabled" | "whatsappEnabled" | "customScript" | "telegramBotToken" | "telegramChatIds" | "logoPath" | "createdAt" | "updatedAt", ExtArgs["result"]["landingPage"]>
+  export type LandingPageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    leads?: boolean | LandingPage$leadsArgs<ExtArgs>
+    _count?: boolean | LandingPageCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LandingPageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LandingPageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $LandingPagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LandingPage"
+    objects: {
+      leads: Prisma.$LeadPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      urlPath: string
+      name: string
+      headerPhrase: string
+      heroImage: string | null
+      heroHeading: string
+      heroDescription: string
+      heroSupport: string
+      buttonLabel: string
+      contact: string
+      videoUrl: string
+      nextScreenTitle: string
+      nextScreenDescription: string
+      nextScreenQuestion: string
+      telegramEnabled: boolean
+      whatsappEnabled: boolean
+      customScript: string | null
+      telegramBotToken: string | null
+      telegramChatIds: string | null
+      logoPath: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["landingPage"]>
+    composites: {}
+  }
+
+  type LandingPageGetPayload<S extends boolean | null | undefined | LandingPageDefaultArgs> = $Result.GetResult<Prisma.$LandingPagePayload, S>
+
+  type LandingPageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LandingPageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LandingPageCountAggregateInputType | true
+    }
+
+  export interface LandingPageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LandingPage'], meta: { name: 'LandingPage' } }
+    /**
+     * Find zero or one LandingPage that matches the filter.
+     * @param {LandingPageFindUniqueArgs} args - Arguments to find a LandingPage
+     * @example
+     * // Get one LandingPage
+     * const landingPage = await prisma.landingPage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LandingPageFindUniqueArgs>(args: SelectSubset<T, LandingPageFindUniqueArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LandingPage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LandingPageFindUniqueOrThrowArgs} args - Arguments to find a LandingPage
+     * @example
+     * // Get one LandingPage
+     * const landingPage = await prisma.landingPage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LandingPageFindUniqueOrThrowArgs>(args: SelectSubset<T, LandingPageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LandingPage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandingPageFindFirstArgs} args - Arguments to find a LandingPage
+     * @example
+     * // Get one LandingPage
+     * const landingPage = await prisma.landingPage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LandingPageFindFirstArgs>(args?: SelectSubset<T, LandingPageFindFirstArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LandingPage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandingPageFindFirstOrThrowArgs} args - Arguments to find a LandingPage
+     * @example
+     * // Get one LandingPage
+     * const landingPage = await prisma.landingPage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LandingPageFindFirstOrThrowArgs>(args?: SelectSubset<T, LandingPageFindFirstOrThrowArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LandingPages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandingPageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LandingPages
+     * const landingPages = await prisma.landingPage.findMany()
+     * 
+     * // Get first 10 LandingPages
+     * const landingPages = await prisma.landingPage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const landingPageWithIdOnly = await prisma.landingPage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LandingPageFindManyArgs>(args?: SelectSubset<T, LandingPageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LandingPage.
+     * @param {LandingPageCreateArgs} args - Arguments to create a LandingPage.
+     * @example
+     * // Create one LandingPage
+     * const LandingPage = await prisma.landingPage.create({
+     *   data: {
+     *     // ... data to create a LandingPage
+     *   }
+     * })
+     * 
+     */
+    create<T extends LandingPageCreateArgs>(args: SelectSubset<T, LandingPageCreateArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LandingPages.
+     * @param {LandingPageCreateManyArgs} args - Arguments to create many LandingPages.
+     * @example
+     * // Create many LandingPages
+     * const landingPage = await prisma.landingPage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LandingPageCreateManyArgs>(args?: SelectSubset<T, LandingPageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LandingPages and returns the data saved in the database.
+     * @param {LandingPageCreateManyAndReturnArgs} args - Arguments to create many LandingPages.
+     * @example
+     * // Create many LandingPages
+     * const landingPage = await prisma.landingPage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LandingPages and only return the `id`
+     * const landingPageWithIdOnly = await prisma.landingPage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LandingPageCreateManyAndReturnArgs>(args?: SelectSubset<T, LandingPageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LandingPage.
+     * @param {LandingPageDeleteArgs} args - Arguments to delete one LandingPage.
+     * @example
+     * // Delete one LandingPage
+     * const LandingPage = await prisma.landingPage.delete({
+     *   where: {
+     *     // ... filter to delete one LandingPage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LandingPageDeleteArgs>(args: SelectSubset<T, LandingPageDeleteArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LandingPage.
+     * @param {LandingPageUpdateArgs} args - Arguments to update one LandingPage.
+     * @example
+     * // Update one LandingPage
+     * const landingPage = await prisma.landingPage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LandingPageUpdateArgs>(args: SelectSubset<T, LandingPageUpdateArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LandingPages.
+     * @param {LandingPageDeleteManyArgs} args - Arguments to filter LandingPages to delete.
+     * @example
+     * // Delete a few LandingPages
+     * const { count } = await prisma.landingPage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LandingPageDeleteManyArgs>(args?: SelectSubset<T, LandingPageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LandingPages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandingPageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LandingPages
+     * const landingPage = await prisma.landingPage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LandingPageUpdateManyArgs>(args: SelectSubset<T, LandingPageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LandingPages and returns the data updated in the database.
+     * @param {LandingPageUpdateManyAndReturnArgs} args - Arguments to update many LandingPages.
+     * @example
+     * // Update many LandingPages
+     * const landingPage = await prisma.landingPage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LandingPages and only return the `id`
+     * const landingPageWithIdOnly = await prisma.landingPage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LandingPageUpdateManyAndReturnArgs>(args: SelectSubset<T, LandingPageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LandingPage.
+     * @param {LandingPageUpsertArgs} args - Arguments to update or create a LandingPage.
+     * @example
+     * // Update or create a LandingPage
+     * const landingPage = await prisma.landingPage.upsert({
+     *   create: {
+     *     // ... data to create a LandingPage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LandingPage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LandingPageUpsertArgs>(args: SelectSubset<T, LandingPageUpsertArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LandingPages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandingPageCountArgs} args - Arguments to filter LandingPages to count.
+     * @example
+     * // Count the number of LandingPages
+     * const count = await prisma.landingPage.count({
+     *   where: {
+     *     // ... the filter for the LandingPages we want to count
+     *   }
+     * })
+    **/
+    count<T extends LandingPageCountArgs>(
+      args?: Subset<T, LandingPageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LandingPageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LandingPage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandingPageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LandingPageAggregateArgs>(args: Subset<T, LandingPageAggregateArgs>): Prisma.PrismaPromise<GetLandingPageAggregateType<T>>
+
+    /**
+     * Group by LandingPage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LandingPageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LandingPageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LandingPageGroupByArgs['orderBy'] }
+        : { orderBy?: LandingPageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LandingPageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLandingPageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LandingPage model
+   */
+  readonly fields: LandingPageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LandingPage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LandingPageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    leads<T extends LandingPage$leadsArgs<ExtArgs> = {}>(args?: Subset<T, LandingPage$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LandingPage model
+   */
+  interface LandingPageFieldRefs {
+    readonly id: FieldRef<"LandingPage", 'String'>
+    readonly urlPath: FieldRef<"LandingPage", 'String'>
+    readonly name: FieldRef<"LandingPage", 'String'>
+    readonly headerPhrase: FieldRef<"LandingPage", 'String'>
+    readonly heroImage: FieldRef<"LandingPage", 'String'>
+    readonly heroHeading: FieldRef<"LandingPage", 'String'>
+    readonly heroDescription: FieldRef<"LandingPage", 'String'>
+    readonly heroSupport: FieldRef<"LandingPage", 'String'>
+    readonly buttonLabel: FieldRef<"LandingPage", 'String'>
+    readonly contact: FieldRef<"LandingPage", 'String'>
+    readonly videoUrl: FieldRef<"LandingPage", 'String'>
+    readonly nextScreenTitle: FieldRef<"LandingPage", 'String'>
+    readonly nextScreenDescription: FieldRef<"LandingPage", 'String'>
+    readonly nextScreenQuestion: FieldRef<"LandingPage", 'String'>
+    readonly telegramEnabled: FieldRef<"LandingPage", 'Boolean'>
+    readonly whatsappEnabled: FieldRef<"LandingPage", 'Boolean'>
+    readonly customScript: FieldRef<"LandingPage", 'String'>
+    readonly telegramBotToken: FieldRef<"LandingPage", 'String'>
+    readonly telegramChatIds: FieldRef<"LandingPage", 'String'>
+    readonly logoPath: FieldRef<"LandingPage", 'String'>
+    readonly createdAt: FieldRef<"LandingPage", 'DateTime'>
+    readonly updatedAt: FieldRef<"LandingPage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LandingPage findUnique
+   */
+  export type LandingPageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * Filter, which LandingPage to fetch.
+     */
+    where: LandingPageWhereUniqueInput
+  }
+
+  /**
+   * LandingPage findUniqueOrThrow
+   */
+  export type LandingPageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * Filter, which LandingPage to fetch.
+     */
+    where: LandingPageWhereUniqueInput
+  }
+
+  /**
+   * LandingPage findFirst
+   */
+  export type LandingPageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * Filter, which LandingPage to fetch.
+     */
+    where?: LandingPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LandingPages to fetch.
+     */
+    orderBy?: LandingPageOrderByWithRelationInput | LandingPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LandingPages.
+     */
+    cursor?: LandingPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LandingPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LandingPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LandingPages.
+     */
+    distinct?: LandingPageScalarFieldEnum | LandingPageScalarFieldEnum[]
+  }
+
+  /**
+   * LandingPage findFirstOrThrow
+   */
+  export type LandingPageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * Filter, which LandingPage to fetch.
+     */
+    where?: LandingPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LandingPages to fetch.
+     */
+    orderBy?: LandingPageOrderByWithRelationInput | LandingPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LandingPages.
+     */
+    cursor?: LandingPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LandingPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LandingPages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LandingPages.
+     */
+    distinct?: LandingPageScalarFieldEnum | LandingPageScalarFieldEnum[]
+  }
+
+  /**
+   * LandingPage findMany
+   */
+  export type LandingPageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * Filter, which LandingPages to fetch.
+     */
+    where?: LandingPageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LandingPages to fetch.
+     */
+    orderBy?: LandingPageOrderByWithRelationInput | LandingPageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LandingPages.
+     */
+    cursor?: LandingPageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LandingPages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LandingPages.
+     */
+    skip?: number
+    distinct?: LandingPageScalarFieldEnum | LandingPageScalarFieldEnum[]
+  }
+
+  /**
+   * LandingPage create
+   */
+  export type LandingPageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LandingPage.
+     */
+    data: XOR<LandingPageCreateInput, LandingPageUncheckedCreateInput>
+  }
+
+  /**
+   * LandingPage createMany
+   */
+  export type LandingPageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LandingPages.
+     */
+    data: LandingPageCreateManyInput | LandingPageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LandingPage createManyAndReturn
+   */
+  export type LandingPageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * The data used to create many LandingPages.
+     */
+    data: LandingPageCreateManyInput | LandingPageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LandingPage update
+   */
+  export type LandingPageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LandingPage.
+     */
+    data: XOR<LandingPageUpdateInput, LandingPageUncheckedUpdateInput>
+    /**
+     * Choose, which LandingPage to update.
+     */
+    where: LandingPageWhereUniqueInput
+  }
+
+  /**
+   * LandingPage updateMany
+   */
+  export type LandingPageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LandingPages.
+     */
+    data: XOR<LandingPageUpdateManyMutationInput, LandingPageUncheckedUpdateManyInput>
+    /**
+     * Filter which LandingPages to update
+     */
+    where?: LandingPageWhereInput
+    /**
+     * Limit how many LandingPages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LandingPage updateManyAndReturn
+   */
+  export type LandingPageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * The data used to update LandingPages.
+     */
+    data: XOR<LandingPageUpdateManyMutationInput, LandingPageUncheckedUpdateManyInput>
+    /**
+     * Filter which LandingPages to update
+     */
+    where?: LandingPageWhereInput
+    /**
+     * Limit how many LandingPages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LandingPage upsert
+   */
+  export type LandingPageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LandingPage to update in case it exists.
+     */
+    where: LandingPageWhereUniqueInput
+    /**
+     * In case the LandingPage found by the `where` argument doesn't exist, create a new LandingPage with this data.
+     */
+    create: XOR<LandingPageCreateInput, LandingPageUncheckedCreateInput>
+    /**
+     * In case the LandingPage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LandingPageUpdateInput, LandingPageUncheckedUpdateInput>
+  }
+
+  /**
+   * LandingPage delete
+   */
+  export type LandingPageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    /**
+     * Filter which LandingPage to delete.
+     */
+    where: LandingPageWhereUniqueInput
+  }
+
+  /**
+   * LandingPage deleteMany
+   */
+  export type LandingPageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LandingPages to delete
+     */
+    where?: LandingPageWhereInput
+    /**
+     * Limit how many LandingPages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LandingPage.leads
+   */
+  export type LandingPage$leadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lead
+     */
+    select?: LeadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Lead
+     */
+    omit?: LeadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    where?: LeadWhereInput
+    orderBy?: LeadOrderByWithRelationInput | LeadOrderByWithRelationInput[]
+    cursor?: LeadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadScalarFieldEnum | LeadScalarFieldEnum[]
+  }
+
+  /**
+   * LandingPage without action
+   */
+  export type LandingPageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+  }
+
 
   /**
    * Model Lead
@@ -986,6 +2398,7 @@ export namespace Prisma {
     contact: string | null
     ipAddress: string | null
     country: string | null
+    landingPageId: string | null
     createdAt: Date | null
   }
 
@@ -995,6 +2408,7 @@ export namespace Prisma {
     contact: string | null
     ipAddress: string | null
     country: string | null
+    landingPageId: string | null
     createdAt: Date | null
   }
 
@@ -1004,6 +2418,7 @@ export namespace Prisma {
     contact: number
     ipAddress: number
     country: number
+    landingPageId: number
     createdAt: number
     _all: number
   }
@@ -1015,6 +2430,7 @@ export namespace Prisma {
     contact?: true
     ipAddress?: true
     country?: true
+    landingPageId?: true
     createdAt?: true
   }
 
@@ -1024,6 +2440,7 @@ export namespace Prisma {
     contact?: true
     ipAddress?: true
     country?: true
+    landingPageId?: true
     createdAt?: true
   }
 
@@ -1033,6 +2450,7 @@ export namespace Prisma {
     contact?: true
     ipAddress?: true
     country?: true
+    landingPageId?: true
     createdAt?: true
     _all?: true
   }
@@ -1115,6 +2533,7 @@ export namespace Prisma {
     contact: string
     ipAddress: string | null
     country: string | null
+    landingPageId: string | null
     createdAt: Date
     _count: LeadCountAggregateOutputType | null
     _min: LeadMinAggregateOutputType | null
@@ -1141,7 +2560,9 @@ export namespace Prisma {
     contact?: boolean
     ipAddress?: boolean
     country?: boolean
+    landingPageId?: boolean
     createdAt?: boolean
+    landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
   export type LeadSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1150,7 +2571,9 @@ export namespace Prisma {
     contact?: boolean
     ipAddress?: boolean
     country?: boolean
+    landingPageId?: boolean
     createdAt?: boolean
+    landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
   export type LeadSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1159,7 +2582,9 @@ export namespace Prisma {
     contact?: boolean
     ipAddress?: boolean
     country?: boolean
+    landingPageId?: boolean
     createdAt?: boolean
+    landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
   export type LeadSelectScalar = {
@@ -1168,20 +2593,33 @@ export namespace Prisma {
     contact?: boolean
     ipAddress?: boolean
     country?: boolean
+    landingPageId?: boolean
     createdAt?: boolean
   }
 
-  export type LeadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channel" | "contact" | "ipAddress" | "country" | "createdAt", ExtArgs["result"]["lead"]>
+  export type LeadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channel" | "contact" | "ipAddress" | "country" | "landingPageId" | "createdAt", ExtArgs["result"]["lead"]>
+  export type LeadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
+  }
+  export type LeadIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
+  }
+  export type LeadIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
+  }
 
   export type $LeadPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Lead"
-    objects: {}
+    objects: {
+      landingPage: Prisma.$LandingPagePayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       channel: $Enums.Channel
       contact: string
       ipAddress: string | null
       country: string | null
+      landingPageId: string | null
       createdAt: Date
     }, ExtArgs["result"]["lead"]>
     composites: {}
@@ -1577,6 +3015,7 @@ export namespace Prisma {
    */
   export interface Prisma__LeadClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    landingPage<T extends Lead$landingPageArgs<ExtArgs> = {}>(args?: Subset<T, Lead$landingPageArgs<ExtArgs>>): Prisma__LandingPageClient<$Result.GetResult<Prisma.$LandingPagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1611,6 +3050,7 @@ export namespace Prisma {
     readonly contact: FieldRef<"Lead", 'String'>
     readonly ipAddress: FieldRef<"Lead", 'String'>
     readonly country: FieldRef<"Lead", 'String'>
+    readonly landingPageId: FieldRef<"Lead", 'String'>
     readonly createdAt: FieldRef<"Lead", 'DateTime'>
   }
     
@@ -1628,6 +3068,10 @@ export namespace Prisma {
      * Omit specific fields from the Lead
      */
     omit?: LeadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
     /**
      * Filter, which Lead to fetch.
      */
@@ -1647,6 +3091,10 @@ export namespace Prisma {
      */
     omit?: LeadOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    /**
      * Filter, which Lead to fetch.
      */
     where: LeadWhereUniqueInput
@@ -1664,6 +3112,10 @@ export namespace Prisma {
      * Omit specific fields from the Lead
      */
     omit?: LeadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
     /**
      * Filter, which Lead to fetch.
      */
@@ -1713,6 +3165,10 @@ export namespace Prisma {
      */
     omit?: LeadOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    /**
      * Filter, which Lead to fetch.
      */
     where?: LeadWhereInput
@@ -1761,6 +3217,10 @@ export namespace Prisma {
      */
     omit?: LeadOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    /**
      * Filter, which Leads to fetch.
      */
     where?: LeadWhereInput
@@ -1804,6 +3264,10 @@ export namespace Prisma {
      */
     omit?: LeadOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    /**
      * The data needed to create a Lead.
      */
     data: XOR<LeadCreateInput, LeadUncheckedCreateInput>
@@ -1837,6 +3301,10 @@ export namespace Prisma {
      */
     data: LeadCreateManyInput | LeadCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -1851,6 +3319,10 @@ export namespace Prisma {
      * Omit specific fields from the Lead
      */
     omit?: LeadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
     /**
      * The data needed to update a Lead.
      */
@@ -1903,6 +3375,10 @@ export namespace Prisma {
      * Limit how many Leads to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -1917,6 +3393,10 @@ export namespace Prisma {
      * Omit specific fields from the Lead
      */
     omit?: LeadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
     /**
      * The filter to search for the Lead to update in case it exists.
      */
@@ -1944,6 +3424,10 @@ export namespace Prisma {
      */
     omit?: LeadOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    /**
      * Filter which Lead to delete.
      */
     where: LeadWhereUniqueInput
@@ -1964,6 +3448,25 @@ export namespace Prisma {
   }
 
   /**
+   * Lead.landingPage
+   */
+  export type Lead$landingPageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LandingPage
+     */
+    select?: LandingPageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LandingPage
+     */
+    omit?: LandingPageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LandingPageInclude<ExtArgs> | null
+    where?: LandingPageWhereInput
+  }
+
+  /**
    * Lead without action
    */
   export type LeadDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1975,6 +3478,10 @@ export namespace Prisma {
      * Omit specific fields from the Lead
      */
     omit?: LeadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
   }
 
 
@@ -1990,6 +3497,7 @@ export namespace Prisma {
 
   export type LandingContentMinAggregateOutputType = {
     id: string | null
+    defaultLandingName: string | null
     headerPhrase: string | null
     heroImage: string | null
     heroHeading: string | null
@@ -2013,6 +3521,7 @@ export namespace Prisma {
 
   export type LandingContentMaxAggregateOutputType = {
     id: string | null
+    defaultLandingName: string | null
     headerPhrase: string | null
     heroImage: string | null
     heroHeading: string | null
@@ -2036,6 +3545,7 @@ export namespace Prisma {
 
   export type LandingContentCountAggregateOutputType = {
     id: number
+    defaultLandingName: number
     headerPhrase: number
     heroImage: number
     heroHeading: number
@@ -2061,6 +3571,7 @@ export namespace Prisma {
 
   export type LandingContentMinAggregateInputType = {
     id?: true
+    defaultLandingName?: true
     headerPhrase?: true
     heroImage?: true
     heroHeading?: true
@@ -2084,6 +3595,7 @@ export namespace Prisma {
 
   export type LandingContentMaxAggregateInputType = {
     id?: true
+    defaultLandingName?: true
     headerPhrase?: true
     heroImage?: true
     heroHeading?: true
@@ -2107,6 +3619,7 @@ export namespace Prisma {
 
   export type LandingContentCountAggregateInputType = {
     id?: true
+    defaultLandingName?: true
     headerPhrase?: true
     heroImage?: true
     heroHeading?: true
@@ -2203,6 +3716,7 @@ export namespace Prisma {
 
   export type LandingContentGroupByOutputType = {
     id: string
+    defaultLandingName: string
     headerPhrase: string
     heroImage: string | null
     heroHeading: string
@@ -2243,6 +3757,7 @@ export namespace Prisma {
 
   export type LandingContentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    defaultLandingName?: boolean
     headerPhrase?: boolean
     heroImage?: boolean
     heroHeading?: boolean
@@ -2266,6 +3781,7 @@ export namespace Prisma {
 
   export type LandingContentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    defaultLandingName?: boolean
     headerPhrase?: boolean
     heroImage?: boolean
     heroHeading?: boolean
@@ -2289,6 +3805,7 @@ export namespace Prisma {
 
   export type LandingContentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    defaultLandingName?: boolean
     headerPhrase?: boolean
     heroImage?: boolean
     heroHeading?: boolean
@@ -2312,6 +3829,7 @@ export namespace Prisma {
 
   export type LandingContentSelectScalar = {
     id?: boolean
+    defaultLandingName?: boolean
     headerPhrase?: boolean
     heroImage?: boolean
     heroHeading?: boolean
@@ -2333,13 +3851,14 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type LandingContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "headerPhrase" | "heroImage" | "heroHeading" | "heroDescription" | "heroSupport" | "buttonLabel" | "contact" | "videoUrl" | "nextScreenTitle" | "nextScreenDescription" | "nextScreenQuestion" | "telegramEnabled" | "whatsappEnabled" | "customScript" | "telegramBotToken" | "telegramChatIds" | "logoPath" | "createdAt" | "updatedAt", ExtArgs["result"]["landingContent"]>
+  export type LandingContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "defaultLandingName" | "headerPhrase" | "heroImage" | "heroHeading" | "heroDescription" | "heroSupport" | "buttonLabel" | "contact" | "videoUrl" | "nextScreenTitle" | "nextScreenDescription" | "nextScreenQuestion" | "telegramEnabled" | "whatsappEnabled" | "customScript" | "telegramBotToken" | "telegramChatIds" | "logoPath" | "createdAt" | "updatedAt", ExtArgs["result"]["landingContent"]>
 
   export type $LandingContentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "LandingContent"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      defaultLandingName: string
       headerPhrase: string
       heroImage: string | null
       heroHeading: string
@@ -2783,6 +4302,7 @@ export namespace Prisma {
    */
   interface LandingContentFieldRefs {
     readonly id: FieldRef<"LandingContent", 'String'>
+    readonly defaultLandingName: FieldRef<"LandingContent", 'String'>
     readonly headerPhrase: FieldRef<"LandingContent", 'String'>
     readonly heroImage: FieldRef<"LandingContent", 'String'>
     readonly heroHeading: FieldRef<"LandingContent", 'String'>
@@ -3182,12 +4702,41 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const LandingPageScalarFieldEnum: {
+    id: 'id',
+    urlPath: 'urlPath',
+    name: 'name',
+    headerPhrase: 'headerPhrase',
+    heroImage: 'heroImage',
+    heroHeading: 'heroHeading',
+    heroDescription: 'heroDescription',
+    heroSupport: 'heroSupport',
+    buttonLabel: 'buttonLabel',
+    contact: 'contact',
+    videoUrl: 'videoUrl',
+    nextScreenTitle: 'nextScreenTitle',
+    nextScreenDescription: 'nextScreenDescription',
+    nextScreenQuestion: 'nextScreenQuestion',
+    telegramEnabled: 'telegramEnabled',
+    whatsappEnabled: 'whatsappEnabled',
+    customScript: 'customScript',
+    telegramBotToken: 'telegramBotToken',
+    telegramChatIds: 'telegramChatIds',
+    logoPath: 'logoPath',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LandingPageScalarFieldEnum = (typeof LandingPageScalarFieldEnum)[keyof typeof LandingPageScalarFieldEnum]
+
+
   export const LeadScalarFieldEnum: {
     id: 'id',
     channel: 'channel',
     contact: 'contact',
     ipAddress: 'ipAddress',
     country: 'country',
+    landingPageId: 'landingPageId',
     createdAt: 'createdAt'
   };
 
@@ -3196,6 +4745,7 @@ export namespace Prisma {
 
   export const LandingContentScalarFieldEnum: {
     id: 'id',
+    defaultLandingName: 'defaultLandingName',
     headerPhrase: 'headerPhrase',
     heroImage: 'heroImage',
     heroHeading: 'heroHeading',
@@ -3264,16 +4814,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Channel'
+   * Reference to a field of type 'Boolean'
    */
-  export type EnumChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Channel'>
-    
-
-
-  /**
-   * Reference to a field of type 'Channel[]'
-   */
-  export type ListEnumChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Channel[]'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -3292,9 +4835,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'Channel'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type EnumChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Channel'>
+    
+
+
+  /**
+   * Reference to a field of type 'Channel[]'
+   */
+  export type ListEnumChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Channel[]'>
     
 
 
@@ -3315,6 +4865,146 @@ export namespace Prisma {
    */
 
 
+  export type LandingPageWhereInput = {
+    AND?: LandingPageWhereInput | LandingPageWhereInput[]
+    OR?: LandingPageWhereInput[]
+    NOT?: LandingPageWhereInput | LandingPageWhereInput[]
+    id?: StringFilter<"LandingPage"> | string
+    urlPath?: StringFilter<"LandingPage"> | string
+    name?: StringFilter<"LandingPage"> | string
+    headerPhrase?: StringFilter<"LandingPage"> | string
+    heroImage?: StringNullableFilter<"LandingPage"> | string | null
+    heroHeading?: StringFilter<"LandingPage"> | string
+    heroDescription?: StringFilter<"LandingPage"> | string
+    heroSupport?: StringFilter<"LandingPage"> | string
+    buttonLabel?: StringFilter<"LandingPage"> | string
+    contact?: StringFilter<"LandingPage"> | string
+    videoUrl?: StringFilter<"LandingPage"> | string
+    nextScreenTitle?: StringFilter<"LandingPage"> | string
+    nextScreenDescription?: StringFilter<"LandingPage"> | string
+    nextScreenQuestion?: StringFilter<"LandingPage"> | string
+    telegramEnabled?: BoolFilter<"LandingPage"> | boolean
+    whatsappEnabled?: BoolFilter<"LandingPage"> | boolean
+    customScript?: StringNullableFilter<"LandingPage"> | string | null
+    telegramBotToken?: StringNullableFilter<"LandingPage"> | string | null
+    telegramChatIds?: StringNullableFilter<"LandingPage"> | string | null
+    logoPath?: StringFilter<"LandingPage"> | string
+    createdAt?: DateTimeFilter<"LandingPage"> | Date | string
+    updatedAt?: DateTimeFilter<"LandingPage"> | Date | string
+    leads?: LeadListRelationFilter
+  }
+
+  export type LandingPageOrderByWithRelationInput = {
+    id?: SortOrder
+    urlPath?: SortOrder
+    name?: SortOrder
+    headerPhrase?: SortOrder
+    heroImage?: SortOrderInput | SortOrder
+    heroHeading?: SortOrder
+    heroDescription?: SortOrder
+    heroSupport?: SortOrder
+    buttonLabel?: SortOrder
+    contact?: SortOrder
+    videoUrl?: SortOrder
+    nextScreenTitle?: SortOrder
+    nextScreenDescription?: SortOrder
+    nextScreenQuestion?: SortOrder
+    telegramEnabled?: SortOrder
+    whatsappEnabled?: SortOrder
+    customScript?: SortOrderInput | SortOrder
+    telegramBotToken?: SortOrderInput | SortOrder
+    telegramChatIds?: SortOrderInput | SortOrder
+    logoPath?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    leads?: LeadOrderByRelationAggregateInput
+  }
+
+  export type LandingPageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    urlPath?: string
+    AND?: LandingPageWhereInput | LandingPageWhereInput[]
+    OR?: LandingPageWhereInput[]
+    NOT?: LandingPageWhereInput | LandingPageWhereInput[]
+    name?: StringFilter<"LandingPage"> | string
+    headerPhrase?: StringFilter<"LandingPage"> | string
+    heroImage?: StringNullableFilter<"LandingPage"> | string | null
+    heroHeading?: StringFilter<"LandingPage"> | string
+    heroDescription?: StringFilter<"LandingPage"> | string
+    heroSupport?: StringFilter<"LandingPage"> | string
+    buttonLabel?: StringFilter<"LandingPage"> | string
+    contact?: StringFilter<"LandingPage"> | string
+    videoUrl?: StringFilter<"LandingPage"> | string
+    nextScreenTitle?: StringFilter<"LandingPage"> | string
+    nextScreenDescription?: StringFilter<"LandingPage"> | string
+    nextScreenQuestion?: StringFilter<"LandingPage"> | string
+    telegramEnabled?: BoolFilter<"LandingPage"> | boolean
+    whatsappEnabled?: BoolFilter<"LandingPage"> | boolean
+    customScript?: StringNullableFilter<"LandingPage"> | string | null
+    telegramBotToken?: StringNullableFilter<"LandingPage"> | string | null
+    telegramChatIds?: StringNullableFilter<"LandingPage"> | string | null
+    logoPath?: StringFilter<"LandingPage"> | string
+    createdAt?: DateTimeFilter<"LandingPage"> | Date | string
+    updatedAt?: DateTimeFilter<"LandingPage"> | Date | string
+    leads?: LeadListRelationFilter
+  }, "id" | "urlPath">
+
+  export type LandingPageOrderByWithAggregationInput = {
+    id?: SortOrder
+    urlPath?: SortOrder
+    name?: SortOrder
+    headerPhrase?: SortOrder
+    heroImage?: SortOrderInput | SortOrder
+    heroHeading?: SortOrder
+    heroDescription?: SortOrder
+    heroSupport?: SortOrder
+    buttonLabel?: SortOrder
+    contact?: SortOrder
+    videoUrl?: SortOrder
+    nextScreenTitle?: SortOrder
+    nextScreenDescription?: SortOrder
+    nextScreenQuestion?: SortOrder
+    telegramEnabled?: SortOrder
+    whatsappEnabled?: SortOrder
+    customScript?: SortOrderInput | SortOrder
+    telegramBotToken?: SortOrderInput | SortOrder
+    telegramChatIds?: SortOrderInput | SortOrder
+    logoPath?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LandingPageCountOrderByAggregateInput
+    _max?: LandingPageMaxOrderByAggregateInput
+    _min?: LandingPageMinOrderByAggregateInput
+  }
+
+  export type LandingPageScalarWhereWithAggregatesInput = {
+    AND?: LandingPageScalarWhereWithAggregatesInput | LandingPageScalarWhereWithAggregatesInput[]
+    OR?: LandingPageScalarWhereWithAggregatesInput[]
+    NOT?: LandingPageScalarWhereWithAggregatesInput | LandingPageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LandingPage"> | string
+    urlPath?: StringWithAggregatesFilter<"LandingPage"> | string
+    name?: StringWithAggregatesFilter<"LandingPage"> | string
+    headerPhrase?: StringWithAggregatesFilter<"LandingPage"> | string
+    heroImage?: StringNullableWithAggregatesFilter<"LandingPage"> | string | null
+    heroHeading?: StringWithAggregatesFilter<"LandingPage"> | string
+    heroDescription?: StringWithAggregatesFilter<"LandingPage"> | string
+    heroSupport?: StringWithAggregatesFilter<"LandingPage"> | string
+    buttonLabel?: StringWithAggregatesFilter<"LandingPage"> | string
+    contact?: StringWithAggregatesFilter<"LandingPage"> | string
+    videoUrl?: StringWithAggregatesFilter<"LandingPage"> | string
+    nextScreenTitle?: StringWithAggregatesFilter<"LandingPage"> | string
+    nextScreenDescription?: StringWithAggregatesFilter<"LandingPage"> | string
+    nextScreenQuestion?: StringWithAggregatesFilter<"LandingPage"> | string
+    telegramEnabled?: BoolWithAggregatesFilter<"LandingPage"> | boolean
+    whatsappEnabled?: BoolWithAggregatesFilter<"LandingPage"> | boolean
+    customScript?: StringNullableWithAggregatesFilter<"LandingPage"> | string | null
+    telegramBotToken?: StringNullableWithAggregatesFilter<"LandingPage"> | string | null
+    telegramChatIds?: StringNullableWithAggregatesFilter<"LandingPage"> | string | null
+    logoPath?: StringWithAggregatesFilter<"LandingPage"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LandingPage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LandingPage"> | Date | string
+  }
+
   export type LeadWhereInput = {
     AND?: LeadWhereInput | LeadWhereInput[]
     OR?: LeadWhereInput[]
@@ -3324,7 +5014,9 @@ export namespace Prisma {
     contact?: StringFilter<"Lead"> | string
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
+    landingPageId?: StringNullableFilter<"Lead"> | string | null
     createdAt?: DateTimeFilter<"Lead"> | Date | string
+    landingPage?: XOR<LandingPageNullableScalarRelationFilter, LandingPageWhereInput> | null
   }
 
   export type LeadOrderByWithRelationInput = {
@@ -3333,7 +5025,9 @@ export namespace Prisma {
     contact?: SortOrder
     ipAddress?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
+    landingPageId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    landingPage?: LandingPageOrderByWithRelationInput
   }
 
   export type LeadWhereUniqueInput = Prisma.AtLeast<{
@@ -3345,7 +5039,9 @@ export namespace Prisma {
     contact?: StringFilter<"Lead"> | string
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
+    landingPageId?: StringNullableFilter<"Lead"> | string | null
     createdAt?: DateTimeFilter<"Lead"> | Date | string
+    landingPage?: XOR<LandingPageNullableScalarRelationFilter, LandingPageWhereInput> | null
   }, "id">
 
   export type LeadOrderByWithAggregationInput = {
@@ -3354,6 +5050,7 @@ export namespace Prisma {
     contact?: SortOrder
     ipAddress?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
+    landingPageId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: LeadCountOrderByAggregateInput
     _max?: LeadMaxOrderByAggregateInput
@@ -3369,6 +5066,7 @@ export namespace Prisma {
     contact?: StringWithAggregatesFilter<"Lead"> | string
     ipAddress?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     country?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    landingPageId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Lead"> | Date | string
   }
 
@@ -3377,6 +5075,7 @@ export namespace Prisma {
     OR?: LandingContentWhereInput[]
     NOT?: LandingContentWhereInput | LandingContentWhereInput[]
     id?: StringFilter<"LandingContent"> | string
+    defaultLandingName?: StringFilter<"LandingContent"> | string
     headerPhrase?: StringFilter<"LandingContent"> | string
     heroImage?: StringNullableFilter<"LandingContent"> | string | null
     heroHeading?: StringFilter<"LandingContent"> | string
@@ -3400,6 +5099,7 @@ export namespace Prisma {
 
   export type LandingContentOrderByWithRelationInput = {
     id?: SortOrder
+    defaultLandingName?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrderInput | SortOrder
     heroHeading?: SortOrder
@@ -3426,6 +5126,7 @@ export namespace Prisma {
     AND?: LandingContentWhereInput | LandingContentWhereInput[]
     OR?: LandingContentWhereInput[]
     NOT?: LandingContentWhereInput | LandingContentWhereInput[]
+    defaultLandingName?: StringFilter<"LandingContent"> | string
     headerPhrase?: StringFilter<"LandingContent"> | string
     heroImage?: StringNullableFilter<"LandingContent"> | string | null
     heroHeading?: StringFilter<"LandingContent"> | string
@@ -3449,6 +5150,7 @@ export namespace Prisma {
 
   export type LandingContentOrderByWithAggregationInput = {
     id?: SortOrder
+    defaultLandingName?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrderInput | SortOrder
     heroHeading?: SortOrder
@@ -3478,6 +5180,7 @@ export namespace Prisma {
     OR?: LandingContentScalarWhereWithAggregatesInput[]
     NOT?: LandingContentScalarWhereWithAggregatesInput | LandingContentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"LandingContent"> | string
+    defaultLandingName?: StringWithAggregatesFilter<"LandingContent"> | string
     headerPhrase?: StringWithAggregatesFilter<"LandingContent"> | string
     heroImage?: StringNullableWithAggregatesFilter<"LandingContent"> | string | null
     heroHeading?: StringWithAggregatesFilter<"LandingContent"> | string
@@ -3499,6 +5202,185 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"LandingContent"> | Date | string
   }
 
+  export type LandingPageCreateInput = {
+    id?: string
+    urlPath: string
+    name: string
+    headerPhrase: string
+    heroImage?: string | null
+    heroHeading: string
+    heroDescription: string
+    heroSupport: string
+    buttonLabel: string
+    contact: string
+    videoUrl: string
+    nextScreenTitle: string
+    nextScreenDescription: string
+    nextScreenQuestion: string
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: string | null
+    telegramBotToken?: string | null
+    telegramChatIds?: string | null
+    logoPath?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leads?: LeadCreateNestedManyWithoutLandingPageInput
+  }
+
+  export type LandingPageUncheckedCreateInput = {
+    id?: string
+    urlPath: string
+    name: string
+    headerPhrase: string
+    heroImage?: string | null
+    heroHeading: string
+    heroDescription: string
+    heroSupport: string
+    buttonLabel: string
+    contact: string
+    videoUrl: string
+    nextScreenTitle: string
+    nextScreenDescription: string
+    nextScreenQuestion: string
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: string | null
+    telegramBotToken?: string | null
+    telegramChatIds?: string | null
+    logoPath?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leads?: LeadUncheckedCreateNestedManyWithoutLandingPageInput
+  }
+
+  export type LandingPageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    urlPath?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerPhrase?: StringFieldUpdateOperationsInput | string
+    heroImage?: NullableStringFieldUpdateOperationsInput | string | null
+    heroHeading?: StringFieldUpdateOperationsInput | string
+    heroDescription?: StringFieldUpdateOperationsInput | string
+    heroSupport?: StringFieldUpdateOperationsInput | string
+    buttonLabel?: StringFieldUpdateOperationsInput | string
+    contact?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nextScreenTitle?: StringFieldUpdateOperationsInput | string
+    nextScreenDescription?: StringFieldUpdateOperationsInput | string
+    nextScreenQuestion?: StringFieldUpdateOperationsInput | string
+    telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
+    whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
+    customScript?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
+    logoPath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leads?: LeadUpdateManyWithoutLandingPageNestedInput
+  }
+
+  export type LandingPageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    urlPath?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerPhrase?: StringFieldUpdateOperationsInput | string
+    heroImage?: NullableStringFieldUpdateOperationsInput | string | null
+    heroHeading?: StringFieldUpdateOperationsInput | string
+    heroDescription?: StringFieldUpdateOperationsInput | string
+    heroSupport?: StringFieldUpdateOperationsInput | string
+    buttonLabel?: StringFieldUpdateOperationsInput | string
+    contact?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nextScreenTitle?: StringFieldUpdateOperationsInput | string
+    nextScreenDescription?: StringFieldUpdateOperationsInput | string
+    nextScreenQuestion?: StringFieldUpdateOperationsInput | string
+    telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
+    whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
+    customScript?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
+    logoPath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leads?: LeadUncheckedUpdateManyWithoutLandingPageNestedInput
+  }
+
+  export type LandingPageCreateManyInput = {
+    id?: string
+    urlPath: string
+    name: string
+    headerPhrase: string
+    heroImage?: string | null
+    heroHeading: string
+    heroDescription: string
+    heroSupport: string
+    buttonLabel: string
+    contact: string
+    videoUrl: string
+    nextScreenTitle: string
+    nextScreenDescription: string
+    nextScreenQuestion: string
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: string | null
+    telegramBotToken?: string | null
+    telegramChatIds?: string | null
+    logoPath?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LandingPageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    urlPath?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerPhrase?: StringFieldUpdateOperationsInput | string
+    heroImage?: NullableStringFieldUpdateOperationsInput | string | null
+    heroHeading?: StringFieldUpdateOperationsInput | string
+    heroDescription?: StringFieldUpdateOperationsInput | string
+    heroSupport?: StringFieldUpdateOperationsInput | string
+    buttonLabel?: StringFieldUpdateOperationsInput | string
+    contact?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nextScreenTitle?: StringFieldUpdateOperationsInput | string
+    nextScreenDescription?: StringFieldUpdateOperationsInput | string
+    nextScreenQuestion?: StringFieldUpdateOperationsInput | string
+    telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
+    whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
+    customScript?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
+    logoPath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LandingPageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    urlPath?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerPhrase?: StringFieldUpdateOperationsInput | string
+    heroImage?: NullableStringFieldUpdateOperationsInput | string | null
+    heroHeading?: StringFieldUpdateOperationsInput | string
+    heroDescription?: StringFieldUpdateOperationsInput | string
+    heroSupport?: StringFieldUpdateOperationsInput | string
+    buttonLabel?: StringFieldUpdateOperationsInput | string
+    contact?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nextScreenTitle?: StringFieldUpdateOperationsInput | string
+    nextScreenDescription?: StringFieldUpdateOperationsInput | string
+    nextScreenQuestion?: StringFieldUpdateOperationsInput | string
+    telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
+    whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
+    customScript?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
+    logoPath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type LeadCreateInput = {
     id?: string
     channel: $Enums.Channel
@@ -3506,6 +5388,7 @@ export namespace Prisma {
     ipAddress?: string | null
     country?: string | null
     createdAt?: Date | string
+    landingPage?: LandingPageCreateNestedOneWithoutLeadsInput
   }
 
   export type LeadUncheckedCreateInput = {
@@ -3514,6 +5397,7 @@ export namespace Prisma {
     contact: string
     ipAddress?: string | null
     country?: string | null
+    landingPageId?: string | null
     createdAt?: Date | string
   }
 
@@ -3524,6 +5408,7 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    landingPage?: LandingPageUpdateOneWithoutLeadsNestedInput
   }
 
   export type LeadUncheckedUpdateInput = {
@@ -3532,6 +5417,7 @@ export namespace Prisma {
     contact?: StringFieldUpdateOperationsInput | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    landingPageId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3541,6 +5427,7 @@ export namespace Prisma {
     contact: string
     ipAddress?: string | null
     country?: string | null
+    landingPageId?: string | null
     createdAt?: Date | string
   }
 
@@ -3559,11 +5446,13 @@ export namespace Prisma {
     contact?: StringFieldUpdateOperationsInput | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    landingPageId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LandingContentCreateInput = {
     id: string
+    defaultLandingName?: string
     headerPhrase: string
     heroImage?: string | null
     heroHeading: string
@@ -3587,6 +5476,7 @@ export namespace Prisma {
 
   export type LandingContentUncheckedCreateInput = {
     id: string
+    defaultLandingName?: string
     headerPhrase: string
     heroImage?: string | null
     heroHeading: string
@@ -3610,6 +5500,7 @@ export namespace Prisma {
 
   export type LandingContentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    defaultLandingName?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
     heroHeading?: StringFieldUpdateOperationsInput | string
@@ -3633,6 +5524,7 @@ export namespace Prisma {
 
   export type LandingContentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    defaultLandingName?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
     heroHeading?: StringFieldUpdateOperationsInput | string
@@ -3656,6 +5548,7 @@ export namespace Prisma {
 
   export type LandingContentCreateManyInput = {
     id: string
+    defaultLandingName?: string
     headerPhrase: string
     heroImage?: string | null
     heroHeading: string
@@ -3679,6 +5572,7 @@ export namespace Prisma {
 
   export type LandingContentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    defaultLandingName?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
     heroHeading?: StringFieldUpdateOperationsInput | string
@@ -3702,6 +5596,7 @@ export namespace Prisma {
 
   export type LandingContentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    defaultLandingName?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
     heroHeading?: StringFieldUpdateOperationsInput | string
@@ -3738,13 +5633,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumChannelFilter<$PrismaModel = never> = {
-    equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
-    in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
-    not?: NestedEnumChannelFilter<$PrismaModel> | $Enums.Channel
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3760,6 +5648,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -3771,36 +5664,94 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type LeadListRelationFilter = {
+    every?: LeadWhereInput
+    some?: LeadWhereInput
+    none?: LeadWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
-  export type LeadCountOrderByAggregateInput = {
-    id?: SortOrder
-    channel?: SortOrder
-    contact?: SortOrder
-    ipAddress?: SortOrder
-    country?: SortOrder
-    createdAt?: SortOrder
+  export type LeadOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type LeadMaxOrderByAggregateInput = {
+  export type LandingPageCountOrderByAggregateInput = {
     id?: SortOrder
-    channel?: SortOrder
+    urlPath?: SortOrder
+    name?: SortOrder
+    headerPhrase?: SortOrder
+    heroImage?: SortOrder
+    heroHeading?: SortOrder
+    heroDescription?: SortOrder
+    heroSupport?: SortOrder
+    buttonLabel?: SortOrder
     contact?: SortOrder
-    ipAddress?: SortOrder
-    country?: SortOrder
+    videoUrl?: SortOrder
+    nextScreenTitle?: SortOrder
+    nextScreenDescription?: SortOrder
+    nextScreenQuestion?: SortOrder
+    telegramEnabled?: SortOrder
+    whatsappEnabled?: SortOrder
+    customScript?: SortOrder
+    telegramBotToken?: SortOrder
+    telegramChatIds?: SortOrder
+    logoPath?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type LeadMinOrderByAggregateInput = {
+  export type LandingPageMaxOrderByAggregateInput = {
     id?: SortOrder
-    channel?: SortOrder
+    urlPath?: SortOrder
+    name?: SortOrder
+    headerPhrase?: SortOrder
+    heroImage?: SortOrder
+    heroHeading?: SortOrder
+    heroDescription?: SortOrder
+    heroSupport?: SortOrder
+    buttonLabel?: SortOrder
     contact?: SortOrder
-    ipAddress?: SortOrder
-    country?: SortOrder
+    videoUrl?: SortOrder
+    nextScreenTitle?: SortOrder
+    nextScreenDescription?: SortOrder
+    nextScreenQuestion?: SortOrder
+    telegramEnabled?: SortOrder
+    whatsappEnabled?: SortOrder
+    customScript?: SortOrder
+    telegramBotToken?: SortOrder
+    telegramChatIds?: SortOrder
+    logoPath?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LandingPageMinOrderByAggregateInput = {
+    id?: SortOrder
+    urlPath?: SortOrder
+    name?: SortOrder
+    headerPhrase?: SortOrder
+    heroImage?: SortOrder
+    heroHeading?: SortOrder
+    heroDescription?: SortOrder
+    heroSupport?: SortOrder
+    buttonLabel?: SortOrder
+    contact?: SortOrder
+    videoUrl?: SortOrder
+    nextScreenTitle?: SortOrder
+    nextScreenDescription?: SortOrder
+    nextScreenQuestion?: SortOrder
+    telegramEnabled?: SortOrder
+    whatsappEnabled?: SortOrder
+    customScript?: SortOrder
+    telegramBotToken?: SortOrder
+    telegramChatIds?: SortOrder
+    logoPath?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3821,16 +5772,6 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type EnumChannelWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
-    in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
-    not?: NestedEnumChannelWithAggregatesFilter<$PrismaModel> | $Enums.Channel
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumChannelFilter<$PrismaModel>
-    _max?: NestedEnumChannelFilter<$PrismaModel>
-  }
-
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3849,6 +5790,14 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -3863,13 +5812,61 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type EnumChannelFilter<$PrismaModel = never> = {
+    equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumChannelFilter<$PrismaModel> | $Enums.Channel
+  }
+
+  export type LandingPageNullableScalarRelationFilter = {
+    is?: LandingPageWhereInput | null
+    isNot?: LandingPageWhereInput | null
+  }
+
+  export type LeadCountOrderByAggregateInput = {
+    id?: SortOrder
+    channel?: SortOrder
+    contact?: SortOrder
+    ipAddress?: SortOrder
+    country?: SortOrder
+    landingPageId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LeadMaxOrderByAggregateInput = {
+    id?: SortOrder
+    channel?: SortOrder
+    contact?: SortOrder
+    ipAddress?: SortOrder
+    country?: SortOrder
+    landingPageId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LeadMinOrderByAggregateInput = {
+    id?: SortOrder
+    channel?: SortOrder
+    contact?: SortOrder
+    ipAddress?: SortOrder
+    country?: SortOrder
+    landingPageId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumChannelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumChannelWithAggregatesFilter<$PrismaModel> | $Enums.Channel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumChannelFilter<$PrismaModel>
+    _max?: NestedEnumChannelFilter<$PrismaModel>
   }
 
   export type LandingContentCountOrderByAggregateInput = {
     id?: SortOrder
+    defaultLandingName?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrder
     heroHeading?: SortOrder
@@ -3893,6 +5890,7 @@ export namespace Prisma {
 
   export type LandingContentMaxOrderByAggregateInput = {
     id?: SortOrder
+    defaultLandingName?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrder
     heroHeading?: SortOrder
@@ -3916,6 +5914,7 @@ export namespace Prisma {
 
   export type LandingContentMinOrderByAggregateInput = {
     id?: SortOrder
+    defaultLandingName?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrder
     heroHeading?: SortOrder
@@ -3937,32 +5936,82 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+  export type LeadCreateNestedManyWithoutLandingPageInput = {
+    create?: XOR<LeadCreateWithoutLandingPageInput, LeadUncheckedCreateWithoutLandingPageInput> | LeadCreateWithoutLandingPageInput[] | LeadUncheckedCreateWithoutLandingPageInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutLandingPageInput | LeadCreateOrConnectWithoutLandingPageInput[]
+    createMany?: LeadCreateManyLandingPageInputEnvelope
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+  }
+
+  export type LeadUncheckedCreateNestedManyWithoutLandingPageInput = {
+    create?: XOR<LeadCreateWithoutLandingPageInput, LeadUncheckedCreateWithoutLandingPageInput> | LeadCreateWithoutLandingPageInput[] | LeadUncheckedCreateWithoutLandingPageInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutLandingPageInput | LeadCreateOrConnectWithoutLandingPageInput[]
+    createMany?: LeadCreateManyLandingPageInputEnvelope
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type EnumChannelFieldUpdateOperationsInput = {
-    set?: $Enums.Channel
-  }
-
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type LeadUpdateManyWithoutLandingPageNestedInput = {
+    create?: XOR<LeadCreateWithoutLandingPageInput, LeadUncheckedCreateWithoutLandingPageInput> | LeadCreateWithoutLandingPageInput[] | LeadUncheckedCreateWithoutLandingPageInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutLandingPageInput | LeadCreateOrConnectWithoutLandingPageInput[]
+    upsert?: LeadUpsertWithWhereUniqueWithoutLandingPageInput | LeadUpsertWithWhereUniqueWithoutLandingPageInput[]
+    createMany?: LeadCreateManyLandingPageInputEnvelope
+    set?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    disconnect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    delete?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    update?: LeadUpdateWithWhereUniqueWithoutLandingPageInput | LeadUpdateWithWhereUniqueWithoutLandingPageInput[]
+    updateMany?: LeadUpdateManyWithWhereWithoutLandingPageInput | LeadUpdateManyWithWhereWithoutLandingPageInput[]
+    deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
+  }
+
+  export type LeadUncheckedUpdateManyWithoutLandingPageNestedInput = {
+    create?: XOR<LeadCreateWithoutLandingPageInput, LeadUncheckedCreateWithoutLandingPageInput> | LeadCreateWithoutLandingPageInput[] | LeadUncheckedCreateWithoutLandingPageInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutLandingPageInput | LeadCreateOrConnectWithoutLandingPageInput[]
+    upsert?: LeadUpsertWithWhereUniqueWithoutLandingPageInput | LeadUpsertWithWhereUniqueWithoutLandingPageInput[]
+    createMany?: LeadCreateManyLandingPageInputEnvelope
+    set?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    disconnect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    delete?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    update?: LeadUpdateWithWhereUniqueWithoutLandingPageInput | LeadUpdateWithWhereUniqueWithoutLandingPageInput[]
+    updateMany?: LeadUpdateManyWithWhereWithoutLandingPageInput | LeadUpdateManyWithWhereWithoutLandingPageInput[]
+    deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
+  }
+
+  export type LandingPageCreateNestedOneWithoutLeadsInput = {
+    create?: XOR<LandingPageCreateWithoutLeadsInput, LandingPageUncheckedCreateWithoutLeadsInput>
+    connectOrCreate?: LandingPageCreateOrConnectWithoutLeadsInput
+    connect?: LandingPageWhereUniqueInput
+  }
+
+  export type EnumChannelFieldUpdateOperationsInput = {
+    set?: $Enums.Channel
+  }
+
+  export type LandingPageUpdateOneWithoutLeadsNestedInput = {
+    create?: XOR<LandingPageCreateWithoutLeadsInput, LandingPageUncheckedCreateWithoutLeadsInput>
+    connectOrCreate?: LandingPageCreateOrConnectWithoutLeadsInput
+    upsert?: LandingPageUpsertWithoutLeadsInput
+    disconnect?: LandingPageWhereInput | boolean
+    delete?: LandingPageWhereInput | boolean
+    connect?: LandingPageWhereUniqueInput
+    update?: XOR<XOR<LandingPageUpdateToOneWithWhereWithoutLeadsInput, LandingPageUpdateWithoutLeadsInput>, LandingPageUncheckedUpdateWithoutLeadsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -3979,13 +6028,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedEnumChannelFilter<$PrismaModel = never> = {
-    equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
-    in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
-    not?: NestedEnumChannelFilter<$PrismaModel> | $Enums.Channel
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3998,6 +6040,11 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -4039,16 +6086,6 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumChannelWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
-    in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
-    not?: NestedEnumChannelWithAggregatesFilter<$PrismaModel> | $Enums.Channel
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumChannelFilter<$PrismaModel>
-    _max?: NestedEnumChannelFilter<$PrismaModel>
-  }
-
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -4077,6 +6114,14 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4091,17 +6136,230 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type NestedEnumChannelFilter<$PrismaModel = never> = {
+    equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumChannelFilter<$PrismaModel> | $Enums.Channel
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  export type NestedEnumChannelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumChannelWithAggregatesFilter<$PrismaModel> | $Enums.Channel
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    _min?: NestedEnumChannelFilter<$PrismaModel>
+    _max?: NestedEnumChannelFilter<$PrismaModel>
+  }
+
+  export type LeadCreateWithoutLandingPageInput = {
+    id?: string
+    channel: $Enums.Channel
+    contact: string
+    ipAddress?: string | null
+    country?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LeadUncheckedCreateWithoutLandingPageInput = {
+    id?: string
+    channel: $Enums.Channel
+    contact: string
+    ipAddress?: string | null
+    country?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LeadCreateOrConnectWithoutLandingPageInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutLandingPageInput, LeadUncheckedCreateWithoutLandingPageInput>
+  }
+
+  export type LeadCreateManyLandingPageInputEnvelope = {
+    data: LeadCreateManyLandingPageInput | LeadCreateManyLandingPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LeadUpsertWithWhereUniqueWithoutLandingPageInput = {
+    where: LeadWhereUniqueInput
+    update: XOR<LeadUpdateWithoutLandingPageInput, LeadUncheckedUpdateWithoutLandingPageInput>
+    create: XOR<LeadCreateWithoutLandingPageInput, LeadUncheckedCreateWithoutLandingPageInput>
+  }
+
+  export type LeadUpdateWithWhereUniqueWithoutLandingPageInput = {
+    where: LeadWhereUniqueInput
+    data: XOR<LeadUpdateWithoutLandingPageInput, LeadUncheckedUpdateWithoutLandingPageInput>
+  }
+
+  export type LeadUpdateManyWithWhereWithoutLandingPageInput = {
+    where: LeadScalarWhereInput
+    data: XOR<LeadUpdateManyMutationInput, LeadUncheckedUpdateManyWithoutLandingPageInput>
+  }
+
+  export type LeadScalarWhereInput = {
+    AND?: LeadScalarWhereInput | LeadScalarWhereInput[]
+    OR?: LeadScalarWhereInput[]
+    NOT?: LeadScalarWhereInput | LeadScalarWhereInput[]
+    id?: StringFilter<"Lead"> | string
+    channel?: EnumChannelFilter<"Lead"> | $Enums.Channel
+    contact?: StringFilter<"Lead"> | string
+    ipAddress?: StringNullableFilter<"Lead"> | string | null
+    country?: StringNullableFilter<"Lead"> | string | null
+    landingPageId?: StringNullableFilter<"Lead"> | string | null
+    createdAt?: DateTimeFilter<"Lead"> | Date | string
+  }
+
+  export type LandingPageCreateWithoutLeadsInput = {
+    id?: string
+    urlPath: string
+    name: string
+    headerPhrase: string
+    heroImage?: string | null
+    heroHeading: string
+    heroDescription: string
+    heroSupport: string
+    buttonLabel: string
+    contact: string
+    videoUrl: string
+    nextScreenTitle: string
+    nextScreenDescription: string
+    nextScreenQuestion: string
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: string | null
+    telegramBotToken?: string | null
+    telegramChatIds?: string | null
+    logoPath?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LandingPageUncheckedCreateWithoutLeadsInput = {
+    id?: string
+    urlPath: string
+    name: string
+    headerPhrase: string
+    heroImage?: string | null
+    heroHeading: string
+    heroDescription: string
+    heroSupport: string
+    buttonLabel: string
+    contact: string
+    videoUrl: string
+    nextScreenTitle: string
+    nextScreenDescription: string
+    nextScreenQuestion: string
+    telegramEnabled?: boolean
+    whatsappEnabled?: boolean
+    customScript?: string | null
+    telegramBotToken?: string | null
+    telegramChatIds?: string | null
+    logoPath?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LandingPageCreateOrConnectWithoutLeadsInput = {
+    where: LandingPageWhereUniqueInput
+    create: XOR<LandingPageCreateWithoutLeadsInput, LandingPageUncheckedCreateWithoutLeadsInput>
+  }
+
+  export type LandingPageUpsertWithoutLeadsInput = {
+    update: XOR<LandingPageUpdateWithoutLeadsInput, LandingPageUncheckedUpdateWithoutLeadsInput>
+    create: XOR<LandingPageCreateWithoutLeadsInput, LandingPageUncheckedCreateWithoutLeadsInput>
+    where?: LandingPageWhereInput
+  }
+
+  export type LandingPageUpdateToOneWithWhereWithoutLeadsInput = {
+    where?: LandingPageWhereInput
+    data: XOR<LandingPageUpdateWithoutLeadsInput, LandingPageUncheckedUpdateWithoutLeadsInput>
+  }
+
+  export type LandingPageUpdateWithoutLeadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    urlPath?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerPhrase?: StringFieldUpdateOperationsInput | string
+    heroImage?: NullableStringFieldUpdateOperationsInput | string | null
+    heroHeading?: StringFieldUpdateOperationsInput | string
+    heroDescription?: StringFieldUpdateOperationsInput | string
+    heroSupport?: StringFieldUpdateOperationsInput | string
+    buttonLabel?: StringFieldUpdateOperationsInput | string
+    contact?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nextScreenTitle?: StringFieldUpdateOperationsInput | string
+    nextScreenDescription?: StringFieldUpdateOperationsInput | string
+    nextScreenQuestion?: StringFieldUpdateOperationsInput | string
+    telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
+    whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
+    customScript?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
+    logoPath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LandingPageUncheckedUpdateWithoutLeadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    urlPath?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerPhrase?: StringFieldUpdateOperationsInput | string
+    heroImage?: NullableStringFieldUpdateOperationsInput | string | null
+    heroHeading?: StringFieldUpdateOperationsInput | string
+    heroDescription?: StringFieldUpdateOperationsInput | string
+    heroSupport?: StringFieldUpdateOperationsInput | string
+    buttonLabel?: StringFieldUpdateOperationsInput | string
+    contact?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nextScreenTitle?: StringFieldUpdateOperationsInput | string
+    nextScreenDescription?: StringFieldUpdateOperationsInput | string
+    nextScreenQuestion?: StringFieldUpdateOperationsInput | string
+    telegramEnabled?: BoolFieldUpdateOperationsInput | boolean
+    whatsappEnabled?: BoolFieldUpdateOperationsInput | boolean
+    customScript?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
+    logoPath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadCreateManyLandingPageInput = {
+    id?: string
+    channel: $Enums.Channel
+    contact: string
+    ipAddress?: string | null
+    country?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LeadUpdateWithoutLandingPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    contact?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadUncheckedUpdateWithoutLandingPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    contact?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadUncheckedUpdateManyWithoutLandingPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    contact?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

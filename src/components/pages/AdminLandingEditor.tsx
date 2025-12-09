@@ -2,47 +2,14 @@
 
 import * as React from "react";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { buttonVariants } from "@/components/ui/button";
+import type { LandingContentPayload } from "@/lib/landing";
 import {
-  defaultLandingContent,
-  LandingContentPayload,
-} from "@/lib/landing";
-
-type LandingFormState = Omit<LandingContentPayload, "heroImage"> & {
-  heroImage: string;
-  customScript: string;
-  logoPath: string;
-  telegramBotToken: string;
-  telegramChatIds: string;
-};
-
-const normalizeToFormState = (payload: LandingContentPayload): LandingFormState => ({
-  ...payload,
-  heroImage: payload.heroImage ?? "",
-  customScript: payload.customScript ?? "",
-  logoPath: payload.logoPath ?? "",
-  telegramBotToken: payload.telegramBotToken ?? "",
-  telegramChatIds: payload.telegramChatIds ?? "",
-});
-
-const buildRequestPayload = (state: LandingFormState): LandingContentPayload => {
-  const optimizedHeroImage = state.heroImage.trim();
-  const optimizedScript = state.customScript.trim();
-  const optimizedLogoPath = state.logoPath.trim();
-  const optimizedBotToken = (state.telegramBotToken ?? "").trim();
-  const optimizedChatIds = (state.telegramChatIds ?? "").trim();
-  return {
-    ...state,
-    heroImage: optimizedHeroImage === "" ? null : optimizedHeroImage,
-    customScript: optimizedScript === "" ? null : optimizedScript,
-    telegramBotToken: optimizedBotToken === "" ? null : optimizedBotToken,
-    telegramChatIds: optimizedChatIds === "" ? null : optimizedChatIds,
-    logoPath: optimizedLogoPath,
-  };
-};
+  buildLandingFormPayload,
+  defaultLandingFormState,
+  normalizeToLandingFormState,
+  type LandingFormState,
+} from "@/lib/landingForm";
+import { LandingContentForm } from "@/components/pages/LandingContentForm";
 
 type LandingApiResponse =
   | { ok: true; data: LandingContentPayload }
@@ -50,7 +17,7 @@ type LandingApiResponse =
 
 export default function AdminLandingEditor() {
   const [formState, setFormState] =
-    React.useState<LandingFormState>(() => normalizeToFormState(defaultLandingContent));
+    React.useState<LandingFormState>(() => defaultLandingFormState);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isSaving, setIsSaving] = React.useState(false);
   const [status, setStatus] =
@@ -77,13 +44,15 @@ export default function AdminLandingEditor() {
           throw new Error(payload.error ?? "Не удалось загрузить настройки лендинга");
         }
 
-        setFormState(normalizeToFormState(payload.data));
+        setFormState(normalizeToLandingFormState(payload.data));
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") {
           return;
         }
         setLoadError(
-          error instanceof Error ? error.message : "Не удалось загрузить настройки лендинга",
+          error instanceof Error
+            ? error.message
+            : "Не удалось загрузить настройки лендинга",
         );
       } finally {
         if (!controller.signal.aborted) {
@@ -116,7 +85,7 @@ export default function AdminLandingEditor() {
     setStatus(null);
 
     try {
-      const payload = buildRequestPayload(formState);
+      const payload = buildLandingFormPayload(formState);
       const response = await fetch("/api/admin/landing", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -132,13 +101,15 @@ export default function AdminLandingEditor() {
         throw new Error(result.error ?? "Не удалось сохранить настройки");
       }
 
-      setFormState(normalizeToFormState(result.data));
+      setFormState(normalizeToLandingFormState(result.data));
       setStatus({ kind: "success", message: "Настройки сохранены" });
     } catch (error) {
       setStatus({
         kind: "error",
         message:
-          error instanceof Error ? error.message : "Не удалось сохранить настройки лендинга",
+          error instanceof Error
+            ? error.message
+            : "Не удалось сохранить настройки лендинга",
       });
     } finally {
       setIsSaving(false);
@@ -146,240 +117,22 @@ export default function AdminLandingEditor() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 rounded-3xl border border-slate-200 bg-white p-10 text-left text-sm text-slate-700 shadow-sm">
-      <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.4em] text-slate-400">
-          Редактирование лендинга
-        </p>
-        <h1 className="text-2xl font-semibold text-slate-900">Контент</h1>
-        <p className="text-slate-700">
-          Настройки синхронизируются с API лендинга. Изменения отображаются сразу после
-          сохранения.
-        </p>
-      </div>
-      {loadError && (
-        <div className="rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-700">
-          {loadError}
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid gap-4 md:grid-cols-2">
-          <label className="text-xs font-semibold text-slate-700">
-            Короткая фраза в шапке
-            <Input
-              name="headerPhrase"
-              value={formState.headerPhrase}
-              disabled={isLoading}
-              onChange={(event) => handleChange("headerPhrase", event.target.value)}
-            />
-          </label>
-          <label className="text-xs font-semibold text-slate-700">
-            Контакт на футере
-            <Input
-              name="contact"
-              value={formState.contact}
-              disabled={isLoading}
-              onChange={(event) => handleChange("contact", event.target.value)}
-            />
-          </label>
-        </div>
-
-        <div className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
-            Telegram-уведомления
-          </p>
-          <label className="text-xs font-semibold text-slate-700">
-            Bot Token
-            <Input
-              name="telegramBotToken"
-              value={formState.telegramBotToken}
-              disabled={isLoading}
-              onChange={(event) => handleChange("telegramBotToken", event.target.value)}
-            />
-          </label>
-          <label className="text-xs font-semibold text-slate-700">
-            Chat IDs (через запятую или с новой строки)
-            <Textarea
-              name="telegramChatIds"
-              value={formState.telegramChatIds}
-              disabled={isLoading}
-              onChange={(event) => handleChange("telegramChatIds", event.target.value)}
-              rows={3}
-              className="text-sm text-slate-900"
-            />
-          </label>
-        </div>
-
-        <div className="space-y-4">
-          <label className="block text-xs font-semibold text-slate-700">
-            Заголовок героя
-            <Input
-              name="heroHeading"
-              value={formState.heroHeading}
-              disabled={isLoading}
-              onChange={(event) => handleChange("heroHeading", event.target.value)}
-            />
-          </label>
-          <label className="block text-xs font-semibold text-slate-700">
-            Описание героя
-            <Textarea
-              name="heroDescription"
-              value={formState.heroDescription}
-              disabled={isLoading}
-              onChange={(event) => handleChange("heroDescription", event.target.value)}
-              rows={3}
-              className="text-sm text-slate-900"
-            />
-          </label>
-          <label className="block text-xs font-semibold text-slate-700">
-            Текст поддержки
-            <Input
-              name="heroSupport"
-              value={formState.heroSupport}
-              disabled={isLoading}
-              onChange={(event) => handleChange("heroSupport", event.target.value)}
-            />
-          </label>
-          <label className="block text-xs font-semibold text-slate-700">
-            Путь к изображению героя
-            <Input
-              name="heroImage"
-              value={formState.heroImage}
-              disabled={isLoading}
-              onChange={(event) => handleChange("heroImage", event.target.value)}
-            />
-          </label>
-          <label className="block text-xs font-semibold text-slate-700">
-            Путь к логотипу
-            <Input
-              name="logoPath"
-              value={formState.logoPath}
-              disabled={isLoading}
-              onChange={(event) => handleChange("logoPath", event.target.value)}
-            />
-          </label>
-        </div>
-
-        <div className="space-y-4">
-          <label className="block text-xs font-semibold text-slate-700">
-            Надпись на кнопке
-            <Input
-              name="buttonLabel"
-              value={formState.buttonLabel}
-              disabled={isLoading}
-              onChange={(event) => handleChange("buttonLabel", event.target.value)}
-            />
-          </label>
-          <label className="block text-xs font-semibold text-slate-700">
-            Ссылка на видео
-            <Input
-              name="videoUrl"
-              value={formState.videoUrl}
-              disabled={isLoading}
-              onChange={(event) => handleChange("videoUrl", event.target.value)}
-            />
-          </label>
-          <label className="block text-xs font-semibold text-slate-700">
-            Кастомный скрипт
-            <Textarea
-              name="customScript"
-              value={formState.customScript}
-              disabled={isLoading}
-              onChange={(event) => handleChange("customScript", event.target.value)}
-              rows={4}
-              className="text-xs text-slate-900"
-            />
-            <p className="mt-2 text-[11px] text-slate-500">
-              Скрипт встроится внутрь лендинга. Убедитесь, что код безопасен и работает без
-              зависимостей.
-            </p>
-          </label>
-        </div>
-
-        <div className="space-y-4">
-          <label className="block text-xs font-semibold text-slate-700">
-            Заголовок следующего экрана
-            <Input
-              name="nextScreenTitle"
-              value={formState.nextScreenTitle}
-              disabled={isLoading}
-              onChange={(event) => handleChange("nextScreenTitle", event.target.value)}
-            />
-          </label>
-          <label className="block text-xs font-semibold text-slate-700">
-            Подпись следующего экрана
-            <Textarea
-              name="nextScreenDescription"
-              value={formState.nextScreenDescription}
-              disabled={isLoading}
-              onChange={(event) => handleChange("nextScreenDescription", event.target.value)}
-              rows={3}
-              className="text-sm text-slate-900"
-            />
-          </label>
-          <label className="block text-xs font-semibold text-slate-700">
-            Вопрос
-            <Input
-              name="nextScreenQuestion"
-              value={formState.nextScreenQuestion}
-              disabled={isLoading}
-              onChange={(event) => handleChange("nextScreenQuestion", event.target.value)}
-            />
-          </label>
-        </div>
-
-        <div className="flex flex-wrap gap-6 border-t border-slate-200 pt-4 text-sm text-slate-700">
-          <div className="flex items-center gap-3">
-            <Checkbox
-              id="switch-whatsapp"
-              checked={formState.whatsappEnabled}
-              disabled={isLoading}
-              onCheckedChange={(value) =>
-                handleChange("whatsappEnabled", value === true)
-              }
-            />
-            <label htmlFor="switch-whatsapp" className="font-semibold text-slate-700">
-              WhatsApp
-            </label>
-          </div>
-          <div className="flex items-center gap-3">
-            <Checkbox
-              id="switch-telegram"
-              checked={formState.telegramEnabled}
-              disabled={isLoading}
-              onCheckedChange={(value) =>
-                handleChange("telegramEnabled", value === true)
-              }
-            />
-            <label htmlFor="switch-telegram" className="font-semibold text-slate-700">
-              Telegram
-            </label>
-          </div>
-        </div>
-
-        <div className="space-y-3 border-t border-slate-200 pt-4">
-          <button
-            type="submit"
-            disabled={isLoading || isSaving}
-            className={`${buttonVariants()} w-full justify-center ${
-              isSaving ? 'opacity-80 cursor-wait' : ''
-            }`}
-          >
-            {isSaving ? "Сохраняем..." : "Сохранить изменения"}
-          </button>
-          {status && (
-            <p
-              className={`text-sm ${
-                status.kind === "success"
-                  ? "text-emerald-600"
-                  : "text-rose-500"
-              }`}
-            >
-              {status.message}
-            </p>
-          )}
-        </div>
-      </form>
-    </div>
+      <LandingContentForm
+        formState={formState}
+        isLoading={isLoading}
+        isSaving={isSaving}
+        status={status}
+        loadError={loadError}
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        defaultLandingNameField={{
+          label: "Название главной страницы",
+          helper: "Это имя будет использоваться в таблице заявок, когда лендинг не выбран.",
+          value: formState.defaultLandingName,
+          onChange: (value) => handleChange("defaultLandingName", value),
+        }}
+        description="Настройки синхронизируются с API лендинга. Изменения отображаются сразу после сохранения."
+        mode="edit"
+      />
   );
 }

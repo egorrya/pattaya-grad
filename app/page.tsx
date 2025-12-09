@@ -1,54 +1,9 @@
-import { Landing, NextScreenData } from '@/components/pages/Landing';
-import { MessageCircle, Send } from 'lucide-react';
+import { Landing } from '@/components/pages/Landing';
 import { Metadata } from 'next';
 import { getLandingContent } from '@lib/landing';
+import { buildNextScreen } from '@/lib/landingNextScreen';
 
 export const revalidate = 0;
-
-async function buildNextScreen(
-	landing: Awaited<ReturnType<typeof getLandingContent>>,
-) {
-	const options: NextScreenData['options'] = [];
-	if (landing.telegramEnabled) {
-		options.push({
-			label: 'Telegram',
-			channel: 'telegram',
-			icon: <Send className='h-4 w-4' />,
-			buttonColor: '#1c4a99',
-		});
-	}
-	if (landing.whatsappEnabled) {
-		options.push({
-			label: 'WhatsApp',
-			channel: 'whatsapp',
-			icon: <MessageCircle className='h-4 w-4' />,
-			buttonColor: '#0a8f72',
-		});
-	}
-
-	if (options.length === 0) {
-		return undefined;
-	}
-
-	return {
-		title: landing.nextScreenTitle,
-		description: landing.nextScreenDescription,
-		question: landing.nextScreenQuestion,
-		options,
-		consent: (
-			<span>
-				Я согласен на{' '}
-				<span className='text-pink-500 underline'>
-					обработку персональных данных
-				</span>{' '}
-				согласно{' '}
-				<span className='text-pink-500 underline'>
-					политике конфиденциальности
-				</span>
-			</span>
-		),
-	};
-}
 
 async function loadLandingData() {
 	return getLandingContent();

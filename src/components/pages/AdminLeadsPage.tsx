@@ -24,6 +24,8 @@ import { cn } from "@/lib/utils"
 type Channel = "whatsapp" | "telegram"
 type ChannelFilter = Channel | "all"
 
+const DEFAULT_LANDING_NAME = "Главная страница";
+
 type Lead = {
   id: string
   channel: Channel
@@ -31,6 +33,7 @@ type Lead = {
   createdAt: string
   ipAddress: string | null
   country: string | null
+  landingName: string | null
 }
 
 type LeadsResponse =
@@ -203,6 +206,7 @@ export default function AdminLeadsPage() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>Лендинг</TableHead>
                 <TableHead>Тип связи</TableHead>
                 <TableHead>Дата</TableHead>
                 <TableHead>IP</TableHead>
@@ -215,7 +219,7 @@ export default function AdminLeadsPage() {
               {isLoading ? (
                 <TableRow>
                   <TableCell
-                    colSpan={6}
+                    colSpan={7}
                     className="py-6 text-center text-sm text-slate-500"
                   >
                     Загрузка заявок...
@@ -224,7 +228,7 @@ export default function AdminLeadsPage() {
               ) : error ? (
                 <TableRow>
                   <TableCell
-                    colSpan={6}
+                    colSpan={7}
                     className="py-6 text-center text-sm text-rose-500"
                   >
                     {error}
@@ -233,7 +237,7 @@ export default function AdminLeadsPage() {
               ) : leads.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={6}
+                    colSpan={7}
                     className="py-6 text-center text-sm text-slate-500"
                   >
                     Заявок пока нет
@@ -245,6 +249,9 @@ export default function AdminLeadsPage() {
 
                   return (
                     <TableRow key={lead.id}>
+                      <TableCell className="font-semibold">
+                        {lead.landingName ?? DEFAULT_LANDING_NAME}
+                      </TableCell>
                       <TableCell className="font-semibold">
                         {CHANNEL_LABELS[lead.channel]}
                       </TableCell>

@@ -58,6 +58,7 @@ export const buildLandingContentPayload = (payload: unknown): LandingContentPayl
   const fields = payload as Record<string, unknown>;
 
   return {
+    defaultLandingName: requireNonEmptyString(fields.defaultLandingName, 'defaultLandingName'),
     headerPhrase: requireNonEmptyString(fields.headerPhrase, 'headerPhrase'),
     heroImage: normalizeOptionalString(fields.heroImage),
     heroHeading: requireNonEmptyString(fields.heroHeading, 'heroHeading'),
