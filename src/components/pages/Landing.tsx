@@ -214,6 +214,12 @@ type LandingProps = {
 			setBotField('');
 		};
 
+		// Strip invisible formatting characters and normalize dashes before validation.
+		const normalizePhoneInput = (value: string) =>
+			value
+				.replace(/[\u200B-\u200F\u2060\uFEFF]/g, '')
+				.replace(/[\u2010-\u2015]/g, '-');
+
 		const validateContactInput = (
 			channel: Channel,
 			value: string,
@@ -223,28 +229,29 @@ type LandingProps = {
 				return 'Контакт должен быть не короче 3 символов.';
 			}
 
-			const phonePattern = /^[+\d][\d\s-]*\d$/;
-			const digitsOnly = trimmed.replace(/\D/g, '');
+			const normalizedValue = normalizePhoneInput(trimmed);
+			const phonePattern = /^[+\d][\d\s\-()]*\d$/;
+			const digitsOnly = normalizedValue.replace(/\D/g, '');
 
 			if (channel === 'whatsapp') {
 				if (digitsOnly.length < 7) {
 					return 'Номер WhatsApp должен содержать как минимум 7 цифр.';
 				}
-				if (!phonePattern.test(trimmed)) {
-					return 'В WhatsApp можно вводить только цифры, пробелы, дефисы и плюс.';
+				if (!phonePattern.test(normalizedValue)) {
+					return 'В WhatsApp можно вводить только цифры, пробелы, дефисы, плюс и скобки.';
 				}
 				return null;
 			}
 
 			// Telegram допускает телефон или никнейм
-			if (phonePattern.test(trimmed)) {
+			if (phonePattern.test(normalizedValue)) {
 				if (digitsOnly.length < 7) {
 					return 'Номер в Telegram должен содержать как минимум 7 цифр.';
 				}
 				return null;
 			}
 
-			const telegramHandle = trimmed.replace(/^@/, '');
+			const telegramHandle = normalizedValue.replace(/^@/, '');
 			if (!/^[A-Za-z0-9_.]{3,}$/.test(telegramHandle)) {
 				return 'Telegram-ник должен начинаться с буквы или @ и содержать минимум 3 символа.';
 			}
@@ -280,7 +287,7 @@ type LandingProps = {
 					setContactInput(formatWhatsAppNumber(digitsOnly));
 					return;
 				}
-				const sanitized = value.replace(/[^A-Za-z0-9@]/g, '');
+				const sanitized = value.replace(/[^A-Za-z0-9._@]/g, '');
 				setContactInput(sanitized);
 				return;
 			}
@@ -307,8 +314,8 @@ type LandingProps = {
 					if (digitsOnly.length > 0 && numericInputPattern.test(value)) {
 						return formatWhatsAppNumber(digitsOnly);
 					}
-					return value.replace(/[^A-Za-z0-9@]/g, '');
-				});
+				return value.replace(/[^A-Za-z0-9._@]/g, '');
+			});
 			}
 		}, [selectedChannel]);
 
