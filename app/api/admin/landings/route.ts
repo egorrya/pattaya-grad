@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
   try {
     const created = await createLandingPage(payload);
     revalidatePath(landingUrlPathToRoute(created.urlPath));
+    revalidatePath(landingUrlPathToRoute(`${created.urlPath}/success`));
     return NextResponse.json({ ok: true, data: created });
   } catch (error) {
     console.error('Failed to create landing page', error);

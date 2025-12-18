@@ -24,6 +24,7 @@ import {
 	privacyPolicyVersion,
 } from '@/data/privacyPolicy';
 import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const hexToRgb = (hex: string): [number, number, number] | null => {
 	const normalized = hex.replace(/^#/, '');
@@ -191,6 +192,8 @@ type LandingProps = {
 		const resolvedVideoUrl =
 			videoUrl ?? 'https://www.youtube.com/embed/GBiYp3E1_ws?autoplay=1&rel=0';
 		const resolvedLogoPath = logoPath ?? '/assets/images/logo.webp';
+		const router = useRouter();
+		const successPath = landingSlug ? `/${landingSlug}/success` : '/success';
 		const heroSupportText = heroSupport.trim();
 		const whatsappNumber = contact.replace(/\D/g, '');
 		const channelLabelMap: Record<Channel, string> = {
@@ -368,18 +371,20 @@ type LandingProps = {
 					return;
 				}
 
-			setSubmissionStatus('success');
-			setSubmissionMessage('Готово! Скоро менеджер напишет вам.');
-			setContactInput('');
-			setBotField('');
+				setSubmissionStatus('success');
+				setSubmissionMessage('Готово! Скоро менеджер напишет вам.');
+				setContactInput('');
+				setBotField('');
+				router.push(successPath);
+				return;
 			} catch (error) {
 				console.error('Lead submit error', error);
 				setSubmissionStatus('error');
 				setSubmissionMessage('Сбой отправки. Попробуйте снова.');
 			} finally {
-			setIsSubmittingContact(false);
-		}
-	};
+				setIsSubmittingContact(false);
+			}
+		};
 
 	useEffect(() => {
 		const container = scriptContainerRef.current;

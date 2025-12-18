@@ -37,16 +37,10 @@ export default async function SuccessPage() {
   const landing = await getLandingContent();
 
   return (
-    <>
-      <head>
-        <link rel='preload' href='/assets/images/image.webp' as='image' />
-        <link rel='preload' href='/assets/images/logo.webp' as='image' />
-      </head>
-      <LandingSuccess
-        headerPhrase={landing.headerPhrase}
-        contact={landing.contact}
-        logoPath={landing.logoPath ?? undefined}
-      />
-    </>
+    <LandingSuccess
+      headerPhrase={landing.headerPhrase}
+      contact={landing.contact}
+      logoPath={landing.logoPath ?? undefined}
+    />
   );
 }
