@@ -45,6 +45,8 @@ export default function RootLayout({
 				<Script id='gtm-bootstrap' strategy='afterInteractive'>
 					{GTM_SNIPPET}
 				</Script>
+				<link rel='preload' href='/assets/images/image.webp' as='image' />
+				<link rel='preload' href='/assets/images/logo.webp' as='image' />
 			</head>
 			<body suppressHydrationWarning className='antialiased font-sans'>
 				<noscript>

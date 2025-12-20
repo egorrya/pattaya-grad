@@ -75,10 +75,10 @@ export async function PATCH(
 
     const updated = await updateLandingPage(id, payload);
     revalidatePath(landingUrlPathToRoute(updated.urlPath));
-    revalidatePath(landingUrlPathToRoute(`${updated.urlPath}/success`));
+    revalidatePath('/success');
     if (existing.urlPath !== updated.urlPath) {
       revalidatePath(landingUrlPathToRoute(existing.urlPath));
-      revalidatePath(landingUrlPathToRoute(`${existing.urlPath}/success`));
+      revalidatePath('/success');
     }
     return NextResponse.json({ ok: true, data: updated });
   } catch (error) {
@@ -109,7 +109,7 @@ export async function DELETE(
 
     await deleteLandingPage(id);
     revalidatePath(landingUrlPathToRoute(existing.urlPath));
-    revalidatePath(landingUrlPathToRoute(`${existing.urlPath}/success`));
+    revalidatePath('/success');
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error('Failed to delete landing page', error);

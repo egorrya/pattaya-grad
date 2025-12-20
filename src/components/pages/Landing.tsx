@@ -193,7 +193,7 @@ type LandingProps = {
 			videoUrl ?? 'https://www.youtube.com/embed/GBiYp3E1_ws?autoplay=1&rel=0';
 		const resolvedLogoPath = logoPath ?? '/assets/images/logo.webp';
 		const router = useRouter();
-		const successPath = landingSlug ? `/${landingSlug}/success` : '/success';
+		const successPath = '/success';
 		const heroSupportText = heroSupport.trim();
 		const whatsappNumber = contact.replace(/\D/g, '');
 		const channelLabelMap: Record<Channel, string> = {
