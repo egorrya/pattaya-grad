@@ -7,6 +7,7 @@ import {
   useEffect,
   useContext,
   useMemo,
+  useRef,
   useState,
 } from "react"
 import flags from "react-phone-number-input/flags"
@@ -79,6 +80,7 @@ function PhoneInput({
   ...props
 }: PhoneInputProps) {
   const phoneInputSize = variant || "default"
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const resolvedPopupClassName = cn(
     "w-[16.5rem] max-w-[calc(100vw-1rem)]",
     popupClassName
@@ -112,6 +114,11 @@ function PhoneInput({
   const handleCountryChange = (country: PhoneCountryIso) => {
     setSelectedCountryIso(country)
     onCountryChange?.(country)
+    if (!props.disabled) {
+      requestAnimationFrame(() => {
+        inputRef.current?.focus()
+      })
+    }
   }
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -149,6 +156,7 @@ function PhoneInput({
           onChange={handleCountryChange}
         />
         <Input
+          ref={inputRef}
           className={cn(
             "rounded-s-none focus:z-1",
             variant === "sm" && "h-7",
