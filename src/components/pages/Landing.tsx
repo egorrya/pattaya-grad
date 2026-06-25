@@ -11,6 +11,7 @@ import {
 	CardDescription,
 	CardTitle,
 } from '@/components/ui';
+import { PhoneInput } from '@/components/reui/phone-input';
 import {
 	AlertDialog,
 	AlertDialogCancel,
@@ -27,6 +28,16 @@ import {
 } from '@/data/privacyPolicy';
 import { pushGtmEvent } from '@/lib/analytics/gtm';
 import { syncLandingAttribution } from '@/lib/analytics/landingAttribution';
+import {
+	DEFAULT_PHONE_COUNTRY_ISO,
+	buildWhatsAppContact,
+	PHONE_COUNTRIES,
+	getPhoneCountryByIso,
+	normalizePhoneNationalDigits,
+	validatePhoneNationalDigits,
+	type PhoneCountry,
+	type PhoneCountryIso,
+} from '@/lib/phone';
 
 const hexToRgb = (hex: string): [number, number, number] | null => {
 	const normalized = hex.replace(/^#/, '');
@@ -179,6 +190,8 @@ export function Landing({
 }: LandingProps) {
 	const [shownNext, setShownNext] = useState(false);
 	const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
+	const [selectedWhatsAppCountryIso, setSelectedWhatsAppCountryIso] =
+		useState<PhoneCountryIso>(DEFAULT_PHONE_COUNTRY_ISO);
 	const [contactInput, setContactInput] = useState('');
 	const [botField, setBotField] = useState('');
 	const [isSubmittingContact, setIsSubmittingContact] = useState(false);
@@ -205,12 +218,16 @@ export function Landing({
 		whatsapp: 'WhatsApp',
 		telegram: 'Telegram',
 	};
+	const selectedWhatsAppCountry =
+		getPhoneCountryByIso(selectedWhatsAppCountryIso) ??
+		getPhoneCountryByIso(DEFAULT_PHONE_COUNTRY_ISO) ??
+		PHONE_COUNTRIES[0];
 	const currentChannelLabel = selectedChannel
 		? channelLabelMap[selectedChannel]
 		: null;
 	const contactPlaceholder =
 		selectedChannel === 'whatsapp'
-			? 'Например, +7 911 123 45 67'
+			? selectedWhatsAppCountry.placeholder
 			: 'Например, +7 911 123 45 67 или @nikname';
 	const customScriptContent = customScript?.trim();
 	const scriptContainerRef = useRef<HTMLDivElement | null>(null);
@@ -229,9 +246,10 @@ export function Landing({
 	const validateContactInput = (
 		channel: Channel,
 		value: string,
+		whatsappCountry?: PhoneCountry,
 	): string | null => {
 		const trimmed = value.trim();
-		if (trimmed.length < 3) {
+		if (channel !== 'whatsapp' && trimmed.length < 3) {
 			return 'Контакт должен быть не короче 3 символов.';
 		}
 
@@ -240,8 +258,20 @@ export function Landing({
 		const digitsOnly = normalizedValue.replace(/\D/g, '');
 
 		if (channel === 'whatsapp') {
-			if (digitsOnly.length < 7) {
-				return 'Номер WhatsApp должен содержать как минимум 7 цифр.';
+			if (!whatsappCountry) {
+				return 'Не удалось определить страну для WhatsApp.';
+			}
+
+			const normalizedDigits = normalizePhoneNationalDigits(
+				normalizedValue,
+				whatsappCountry,
+			);
+			const phoneError = validatePhoneNationalDigits(
+				normalizedDigits,
+				whatsappCountry,
+			);
+			if (phoneError) {
+				return phoneError;
 			}
 			if (!phonePattern.test(normalizedValue)) {
 				return 'В WhatsApp можно вводить только цифры, пробелы, дефисы, плюс и скобки.';
@@ -276,6 +306,9 @@ export function Landing({
 		});
 
 		setSelectedChannel(channel);
+		if (channel === 'whatsapp') {
+			setSelectedWhatsAppCountryIso(DEFAULT_PHONE_COUNTRY_ISO);
+		}
 		setSubmissionStatus('idle');
 		setSubmissionMessage(null);
 		setContactInput('');
@@ -286,6 +319,7 @@ export function Landing({
 		channelStepViewTrackedRef.current = false;
 		formViewTrackedMethodRef.current = null;
 		setSelectedChannel(null);
+		setSelectedWhatsAppCountryIso(DEFAULT_PHONE_COUNTRY_ISO);
 		setSubmissionStatus('idle');
 		setSubmissionMessage(null);
 		setContactInput('');
@@ -295,16 +329,6 @@ export function Landing({
 	const handleContactInputChange = (value: string) => {
 		setSubmissionStatus('idle');
 		setSubmissionMessage(null);
-
-		if (selectedChannel === 'whatsapp') {
-			const digitsOnly = value.replace(/\D/g, '');
-			if (digitsOnly.length === 0) {
-				setContactInput('');
-				return;
-			}
-			setContactInput(formatWhatsAppNumber(digitsOnly));
-			return;
-		}
 
 		if (selectedChannel === 'telegram') {
 			const digitsOnly = value.replace(/\D/g, '');
@@ -399,6 +423,7 @@ export function Landing({
 		const validationError = validateContactInput(
 			selectedChannel,
 			normalizedContact,
+			selectedWhatsAppCountry,
 		);
 		if (validationError) {
 			pushGtmEvent('lead_form_submit_error', {
@@ -426,6 +451,10 @@ export function Landing({
 				body: JSON.stringify({
 					channel: selectedChannel,
 					contact: normalizedContact,
+					phoneCountryIso:
+						selectedChannel === 'whatsapp'
+							? selectedWhatsAppCountry.iso
+							: null,
 					honeypot: botField,
 					landingSlug,
 					attribution,
@@ -687,16 +716,101 @@ export function Landing({
 											>
 												Контакт для {currentChannelLabel}
 											</label>
-											<input
-												id='contact-input'
-												type='text'
-												value={contactInput}
-												onChange={(event) =>
-													handleContactInputChange(event.target.value)
-												}
-												placeholder={contactPlaceholder}
-												className='w-full rounded-full border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200'
-											/>
+											{selectedChannel === 'whatsapp' ? (
+												<PhoneInput
+													id='contact-input'
+													defaultCountry={
+														selectedWhatsAppCountry.iso as PhoneCountryIso
+													}
+													countries={PHONE_COUNTRIES.map(
+														(country) => country.iso as PhoneCountryIso,
+													)}
+													labels={{
+														country: 'Страна',
+														phone: 'Телефон',
+														...PHONE_COUNTRIES.reduce<Record<string, string>>(
+															(acc, country) => {
+																acc[country.iso] = country.label;
+																return acc;
+															},
+															{},
+														),
+													}}
+													value={contactInput}
+													limitMaxLength
+													onChange={(value) => {
+														setSubmissionStatus('idle');
+														setSubmissionMessage(null);
+														const nextValue = value || '';
+														if (!nextValue) {
+															setContactInput('');
+															return;
+														}
+
+														const normalizedDigits =
+															normalizePhoneNationalDigits(
+																nextValue,
+																selectedWhatsAppCountry,
+															);
+														setContactInput(
+															normalizedDigits
+																? buildWhatsAppContact(
+																		normalizedDigits,
+																		selectedWhatsAppCountry,
+																	)
+																: '',
+														);
+													}}
+													onCountryChange={(country) => {
+														const nextCountryIso = (country ??
+															DEFAULT_PHONE_COUNTRY_ISO) as PhoneCountryIso;
+														const nextCountry =
+															getPhoneCountryByIso(nextCountryIso) ??
+															selectedWhatsAppCountry;
+														setSelectedWhatsAppCountryIso(nextCountryIso);
+														setContactInput((currentValue) => {
+															if (!currentValue) {
+																return '';
+															}
+
+															const normalizedDigits =
+																normalizePhoneNationalDigits(
+																	currentValue,
+																	nextCountry,
+																);
+															return normalizedDigits
+																? buildWhatsAppContact(
+																		normalizedDigits,
+																		nextCountry,
+																	)
+																: '';
+														});
+														setSubmissionStatus('idle');
+														setSubmissionMessage(null);
+													}}
+													placeholder={contactPlaceholder}
+													inputMode='tel'
+													autoComplete='tel-national'
+													className='w-full'
+												/>
+											) : (
+												<input
+													id='contact-input'
+													type='text'
+													value={contactInput}
+													onChange={(event) =>
+														handleContactInputChange(event.target.value)
+													}
+													placeholder={contactPlaceholder}
+													className='w-full rounded-full border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200'
+												/>
+											)}
+											{selectedChannel === 'whatsapp' && (
+												<p className='text-xs text-slate-500'>
+													Код страны выбирается слева. Введите только
+													национальный номер.
+												</p>
+											)}
 										</div>
 										<button
 											type='submit'

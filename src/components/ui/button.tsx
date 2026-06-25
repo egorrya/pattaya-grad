@@ -1,6 +1,7 @@
 'use client';
 
 import { CSSProperties, ReactNode } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	label?: ReactNode;
@@ -10,7 +11,8 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	iconColor?: string;
 	icon?: ReactNode;
 	variant?: 'default' | 'outline' | 'ghost';
-	size?: 'icon' | 'default';
+	size?: 'icon-xs' | 'icon-sm' | 'icon' | 'default';
+	asChild?: boolean;
 };
 
 const defaultIcon = (
@@ -38,18 +40,36 @@ export function Button({
 	iconBgColor,
 	iconColor,
 	icon = defaultIcon,
+	variant: _variant = 'default',
+	size: _size = 'default',
+	asChild = false,
 	className = '',
 	...buttonProps
 }: ButtonProps) {
+	void _variant;
+	void _size;
+
 	const iconOverlayStyle: CSSProperties = {
 		...(iconBgColor ? { backgroundColor: iconBgColor } : {}),
 	};
 	const iconStyle: CSSProperties = {
 		...(iconColor ? { color: iconColor } : {}),
 	};
+	const Component = asChild ? Slot : 'button';
+
+	if (asChild) {
+		return (
+			<Component
+				className={`${className}`}
+				{...buttonProps}
+			>
+				{label ?? buttonProps.children}
+			</Component>
+		);
+	}
 
 	return (
-		<button
+		<Component
 			type='button'
 			className={`group relative inline-flex h-14 items-center justify-center rounded-full py-1 pl-6 pr-14 font-medium text-white transition shadow-[0_15px_30px_rgba(17,24,39,0.2)] cursor-pointer ${backgroundClass} ${className}`}
 			{...buttonProps}
@@ -69,13 +89,13 @@ export function Button({
 					{icon}
 				</span>
 			</div>
-		</button>
+		</Component>
 	);
 }
 
 type ButtonVariantsOptions = {
 	variant?: 'default' | 'outline' | 'ghost';
-	size?: 'icon' | 'default';
+	size?: 'icon-xs' | 'icon-sm' | 'icon' | 'default';
 };
 
 export function buttonVariants(options: ButtonVariantsOptions = {}) {

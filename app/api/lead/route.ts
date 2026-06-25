@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@lib/db';
 import { getLandingContent } from '@lib/landing';
 import { getLandingPageByUrlPath } from '@lib/landingPages';
+import {
+	DEFAULT_PHONE_COUNTRY_ISO,
+	buildWhatsAppContact,
+	getPhoneCountryByIso,
+	normalizePhoneNationalDigits,
+	validatePhoneNationalDigits,
+} from '@/lib/phone';
 import type { LeadAttribution } from '@/lib/analytics/landingAttribution';
 import type {
 	LandingContent,
@@ -17,6 +24,7 @@ type LeadWithLandingName = Prisma.LeadGetPayload<{
 const MIN_CONTACT_LENGTH = 3;
 const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 100;
+const MAIN_LANDING_SLUG = 'main';
 const DEFAULT_MAIN_LANDING_NAME = 'Главная страница';
 const ATTRIBUTION_FIELDS = [
 	'pagePath',
@@ -206,10 +214,12 @@ export async function POST(request: NextRequest) {
 	const { channel, contact, honeypot, landingSlug, attribution } = payload as {
 		channel?: Channel;
 		contact?: unknown;
+		phoneCountryIso?: unknown;
 		honeypot?: unknown;
 		landingSlug?: unknown;
 		attribution?: unknown;
 	};
+	const { phoneCountryIso } = payload as { phoneCountryIso?: unknown };
 	const leadAttribution = parseLeadAttribution(attribution);
 
 	if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
@@ -224,15 +234,56 @@ export async function POST(request: NextRequest) {
 		return badRequest(`Contact must be a string with at least ${MIN_CONTACT_LENGTH} characters`);
 	}
 
-	const normalizedContact = contact.trim();
+	const contactValue = contact.trim();
+	let normalizedContact = contactValue;
 
 	try {
+		if (channel === 'whatsapp') {
+			const whatsappInputPattern = /^[+\d][\d\s\-()]*\d$/;
+			if (!whatsappInputPattern.test(contactValue)) {
+				return badRequest('Invalid WhatsApp phone format');
+			}
+
+			let resolvedPhoneCountry = getPhoneCountryByIso(DEFAULT_PHONE_COUNTRY_ISO);
+			if (typeof phoneCountryIso === 'string') {
+				const requestedCountry = getPhoneCountryByIso(phoneCountryIso);
+				if (!requestedCountry) {
+					return badRequest('Unsupported phone country');
+				}
+				resolvedPhoneCountry = requestedCountry;
+			}
+
+			if (!resolvedPhoneCountry) {
+				return badRequest('Unsupported phone country');
+			}
+
+			const nationalDigits = normalizePhoneNationalDigits(
+				contactValue,
+				resolvedPhoneCountry,
+			);
+			const validationError = validatePhoneNationalDigits(
+				nationalDigits,
+				resolvedPhoneCountry,
+			);
+			if (validationError) {
+				return badRequest(validationError);
+			}
+
+			normalizedContact = buildWhatsAppContact(
+				nationalDigits,
+				resolvedPhoneCountry,
+			);
+		}
+
 		const ipAddress = extractClientIp(request);
 		const country = extractClientCountry(request);
+		const normalizedLandingSlug = normalizeString(landingSlug);
+		const isLandingPageLead =
+			normalizedLandingSlug !== null && normalizedLandingSlug !== MAIN_LANDING_SLUG;
 
 		const landing =
-			typeof landingSlug === 'string'
-				? await getLandingPageByUrlPath(landingSlug)
+			isLandingPageLead
+				? await getLandingPageByUrlPath(normalizedLandingSlug)
 				: await getLandingContent();
 
 		if (!landing) {
@@ -245,7 +296,7 @@ export async function POST(request: NextRequest) {
 				channel,
 				ipAddress,
 				country,
-				landingPageId: typeof landingSlug === 'string' ? landing.id : null,
+				landingPageId: isLandingPageLead ? landing.id : null,
 				pagePath: leadAttribution?.pagePath ?? null,
 				utmSource: leadAttribution?.utmSource ?? null,
 				utmMedium: leadAttribution?.utmMedium ?? null,
@@ -269,7 +320,7 @@ export async function POST(request: NextRequest) {
 			botToken: botToken ?? '',
 			chatIds,
 			landingName:
-				typeof landingSlug === 'string'
+				isLandingPageLead
 					? (landing as LandingPage).name
 					: (landing as LandingContent).defaultLandingName ??
 					  DEFAULT_MAIN_LANDING_NAME,
