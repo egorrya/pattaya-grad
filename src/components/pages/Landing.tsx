@@ -2,7 +2,14 @@
 
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import {
+	FormEvent,
+	KeyboardEvent,
+	ReactNode,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 
 import {
 	Button,
@@ -100,6 +107,7 @@ const lightenColor = (hex: string, amount = 0.9) => {
 type Channel = 'whatsapp' | 'telegram';
 
 const FUNNEL_NAME = 'pattaya_catalog';
+const telegramPhoneInputPattern = /^[\d\s()+-]*$/;
 
 const formatWhatsAppNumber = (rawValue: string) => {
 	const digitsOnly = rawValue.replace(/\D/g, '');
@@ -332,8 +340,7 @@ export function Landing({
 
 		if (selectedChannel === 'telegram') {
 			const digitsOnly = value.replace(/\D/g, '');
-			const numericInputPattern = /^[\d\s()+-]*$/;
-			if (digitsOnly.length > 0 && numericInputPattern.test(value)) {
+			if (digitsOnly.length > 0 && telegramPhoneInputPattern.test(value)) {
 				setContactInput(formatWhatsAppNumber(digitsOnly));
 				return;
 			}
@@ -344,6 +351,86 @@ export function Landing({
 		}
 
 		setContactInput(value);
+	};
+
+	const handleTelegramInputKeyDown = (
+		event: KeyboardEvent<HTMLInputElement>,
+	) => {
+		if (event.key !== 'Backspace' && event.key !== 'Delete') {
+			return;
+		}
+
+		const input = event.currentTarget;
+		const { selectionStart, selectionEnd, value: currentValue } = input;
+		if (
+			selectionStart === null ||
+			selectionEnd === null ||
+			!telegramPhoneInputPattern.test(currentValue)
+		) {
+			return;
+		}
+
+		const currentDigits = currentValue.replace(/\D/g, '');
+		if (!currentDigits) {
+			return;
+		}
+
+		const digitsBeforeStart = currentValue
+			.slice(0, selectionStart)
+			.replace(/\D/g, '');
+		const digitsBeforeEnd = currentValue.slice(0, selectionEnd).replace(/\D/g, '');
+
+		let nextDigits = currentDigits;
+		if (selectionStart !== selectionEnd) {
+			const selectedDigitCount =
+				digitsBeforeEnd.length - digitsBeforeStart.length;
+			if (selectedDigitCount > 0) {
+				nextDigits = `${currentDigits.slice(
+					0,
+					digitsBeforeStart.length,
+				)}${currentDigits.slice(digitsBeforeEnd.length)}`;
+			} else if (
+				event.key === 'Delete' &&
+				digitsBeforeStart.length < currentDigits.length
+			) {
+				nextDigits = `${currentDigits.slice(
+					0,
+					digitsBeforeStart.length,
+				)}${currentDigits.slice(digitsBeforeStart.length + 1)}`;
+			} else if (digitsBeforeStart.length > 0) {
+				nextDigits = `${currentDigits.slice(
+					0,
+					digitsBeforeStart.length - 1,
+				)}${currentDigits.slice(digitsBeforeStart.length)}`;
+			} else {
+				return;
+			}
+		} else if (event.key === 'Backspace') {
+			if (digitsBeforeStart.length === 0) {
+				return;
+			}
+			nextDigits = `${currentDigits.slice(
+				0,
+				digitsBeforeStart.length - 1,
+			)}${currentDigits.slice(digitsBeforeStart.length)}`;
+		} else if (event.key === 'Delete') {
+			if (digitsBeforeStart.length >= currentDigits.length) {
+				return;
+			}
+			nextDigits = `${currentDigits.slice(
+				0,
+				digitsBeforeStart.length,
+			)}${currentDigits.slice(digitsBeforeStart.length + 1)}`;
+		}
+
+		if (nextDigits === currentDigits) {
+			return;
+		}
+
+		event.preventDefault();
+		setSubmissionStatus('idle');
+		setSubmissionMessage(null);
+		setContactInput(nextDigits ? formatWhatsAppNumber(nextDigits) : '');
 	};
 
 	useEffect(() => {
@@ -798,6 +885,7 @@ export function Landing({
 													id='contact-input'
 													type='text'
 													value={contactInput}
+													onKeyDown={handleTelegramInputKeyDown}
 													onChange={(event) =>
 														handleContactInputChange(event.target.value)
 													}

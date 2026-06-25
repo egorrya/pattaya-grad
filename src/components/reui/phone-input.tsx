@@ -3,6 +3,7 @@
 import {
   ComponentProps,
   type ChangeEvent,
+  type KeyboardEvent,
   createContext,
   useEffect,
   useContext,
@@ -133,6 +134,65 @@ function PhoneInput({
     )
   }
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    props.onKeyDown?.(event)
+    if (event.defaultPrevented || props.disabled) {
+      return
+    }
+
+    if (event.key !== "Backspace" && event.key !== "Delete") {
+      return
+    }
+
+    const input = inputRef.current
+    if (!input) {
+      return
+    }
+
+    const { selectionStart, selectionEnd, value: currentValue } = input
+    if (selectionStart === null || selectionEnd === null) {
+      return
+    }
+
+    const currentDigits = normalizePhoneNationalDigits(
+      currentValue,
+      selectedCountry,
+    )
+    if (!currentDigits) {
+      return
+    }
+
+    const digitsBeforeStart = normalizePhoneNationalDigits(
+      currentValue.slice(0, selectionStart),
+      selectedCountry,
+    )
+    const digitsBeforeEnd = normalizePhoneNationalDigits(
+      currentValue.slice(0, selectionEnd),
+      selectedCountry,
+    )
+
+    let nextDigits = currentDigits
+    if (selectionStart !== selectionEnd) {
+      nextDigits =
+        digitsBeforeStart.length === 0
+          ? currentDigits.slice(digitsBeforeEnd.length)
+          : `${currentDigits.slice(0, digitsBeforeStart.length)}${currentDigits.slice(digitsBeforeEnd.length)}`
+    } else if (event.key === "Backspace") {
+      if (digitsBeforeStart.length === 0) {
+        return
+      }
+      nextDigits = currentDigits.slice(0, digitsBeforeStart.length - 1)
+    } else if (event.key === "Delete") {
+      if (digitsBeforeStart.length >= currentDigits.length) {
+        return
+      }
+      nextDigits = `${currentDigits.slice(0, digitsBeforeStart.length)}${currentDigits.slice(digitsBeforeStart.length + 1)}`
+    }
+
+    event.preventDefault()
+    onChange?.(nextDigits ? buildWhatsAppContact(nextDigits, selectedCountry) : "")
+  }
+
   return (
     <PhoneInputContext.Provider
       value={{
@@ -166,6 +226,7 @@ function PhoneInput({
           {...props}
           value={displayedValue}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           maxLength={
             limitMaxLength
               ? getPhoneCountryNationalInputMaxLength(selectedCountry)
