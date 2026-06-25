@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react';
 
 import {
 	Button,
@@ -23,8 +25,8 @@ import {
 	privacyPolicyParagraphs,
 	privacyPolicyVersion,
 } from '@/data/privacyPolicy';
-import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { pushGtmEvent } from '@/lib/analytics/gtm';
+import { syncLandingAttribution } from '@/lib/analytics/landingAttribution';
 
 const hexToRgb = (hex: string): [number, number, number] | null => {
 	const normalized = hex.replace(/^#/, '');
@@ -48,7 +50,7 @@ const hexToRgb = (hex: string): [number, number, number] | null => {
 	return values.map((segment) => parseInt(segment, 16)) as [
 		number,
 		number,
-		number
+		number,
 	];
 };
 
@@ -64,7 +66,7 @@ const darkenColor = (hex: string, amount = 0.7) => {
 	const keep = Math.max(0, Math.min(1, 1 - amount));
 	const base = 15;
 	const darkened = rgb.map((channel) =>
-		clampColor(base + (channel - base) * keep)
+		clampColor(base + (channel - base) * keep),
 	);
 
 	return `rgb(${darkened.join(', ')})`;
@@ -78,13 +80,15 @@ const lightenColor = (hex: string, amount = 0.9) => {
 
 	const mix = Math.max(0, Math.min(1, amount));
 	const lightened = rgb.map((channel) =>
-		clampColor(channel + (255 - channel) * mix)
+		clampColor(channel + (255 - channel) * mix),
 	);
 
 	return `rgb(${lightened.join(', ')})`;
 };
 
 type Channel = 'whatsapp' | 'telegram';
+
+const FUNNEL_NAME = 'pattaya_catalog';
 
 const formatWhatsAppNumber = (rawValue: string) => {
 	const digitsOnly = rawValue.replace(/\D/g, '');
@@ -155,236 +159,333 @@ type LandingProps = {
 	customScript?: string;
 	logoPath?: string;
 	landingSlug?: string;
+	analyticsLandingName?: string;
 };
 
-	export function Landing({
-		headerPhrase,
-		heroImage,
-		heroHeading,
-		heroDescription,
-		heroSupport,
-		buttonLabel,
-		contact,
-		nextScreen,
-		videoUrl,
-		customScript,
-		logoPath,
-		landingSlug,
-	}: LandingProps) {
-		const [shownNext, setShownNext] = useState(false);
-		const [selectedChannel, setSelectedChannel] = useState<
-			Channel | null
-		>(null);
-		const [contactInput, setContactInput] = useState('');
-		const [botField, setBotField] = useState('');
-		const [isSubmittingContact, setIsSubmittingContact] = useState(false);
-		const [submissionStatus, setSubmissionStatus] = useState<
-			'idle' | 'success' | 'error'
-		>('idle');
-		const [submissionMessage, setSubmissionMessage] = useState<string | null>(
-			null,
-		);
-		const [videoOpen, setVideoOpen] = useState(false);
-		const hasHeroImage = Boolean(heroImage);
-		const textPaddingClass = hasHeroImage
-			? 'pt-4'
-			: 'pt-6 rounded-t-[32px]';
-		const resolvedVideoUrl =
-			videoUrl ?? 'https://www.youtube.com/embed/GBiYp3E1_ws?autoplay=1&rel=0';
-		const resolvedLogoPath = logoPath ?? '/assets/images/logo.webp';
-		const router = useRouter();
-		const successPath = '/success';
-		const heroSupportText = heroSupport.trim();
-		const whatsappNumber = contact.replace(/\D/g, '');
-		const channelLabelMap: Record<Channel, string> = {
-			whatsapp: 'WhatsApp',
-			telegram: 'Telegram',
-		};
-		const currentChannelLabel = selectedChannel
-			? channelLabelMap[selectedChannel]
-			: null;
-		const contactPlaceholder =
-			selectedChannel === 'whatsapp'
-				? 'Например, +7 911 123 45 67'
-				: 'Например, +7 911 123 45 67 или @nikname';
-		const customScriptContent = customScript?.trim();
-		const scriptContainerRef = useRef<HTMLDivElement | null>(null);
-		const handleOptionSelect = (channel: Channel) => {
-			setSelectedChannel(channel);
-			setSubmissionStatus('idle');
-			setSubmissionMessage(null);
-			setContactInput('');
-			setBotField('');
-		};
+export function Landing({
+	headerPhrase,
+	heroImage,
+	heroHeading,
+	heroDescription,
+	heroSupport,
+	buttonLabel,
+	contact,
+	nextScreen,
+	videoUrl,
+	customScript,
+	logoPath,
+	landingSlug,
+	analyticsLandingName: analyticsLandingNameProp,
+}: LandingProps) {
+	const [shownNext, setShownNext] = useState(false);
+	const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
+	const [contactInput, setContactInput] = useState('');
+	const [botField, setBotField] = useState('');
+	const [isSubmittingContact, setIsSubmittingContact] = useState(false);
+	const [submissionStatus, setSubmissionStatus] = useState<
+		'idle' | 'success' | 'error'
+	>('idle');
+	const [submissionMessage, setSubmissionMessage] = useState<string | null>(
+		null,
+	);
+	const [videoOpen, setVideoOpen] = useState(false);
+	const hasHeroImage = Boolean(heroImage);
+	const textPaddingClass = hasHeroImage ? 'pt-4' : 'pt-6 rounded-t-[32px]';
+	const resolvedVideoUrl =
+		videoUrl ?? 'https://www.youtube.com/embed/GBiYp3E1_ws?autoplay=1&rel=0';
+	const resolvedLogoPath = logoPath ?? '/assets/images/logo.webp';
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const searchParamsString = searchParams.toString();
+	const successPath = '/success';
+	const heroSupportText = heroSupport.trim();
+	const whatsappNumber = contact.replace(/\D/g, '');
+	const channelLabelMap: Record<Channel, string> = {
+		whatsapp: 'WhatsApp',
+		telegram: 'Telegram',
+	};
+	const currentChannelLabel = selectedChannel
+		? channelLabelMap[selectedChannel]
+		: null;
+	const contactPlaceholder =
+		selectedChannel === 'whatsapp'
+			? 'Например, +7 911 123 45 67'
+			: 'Например, +7 911 123 45 67 или @nikname';
+	const customScriptContent = customScript?.trim();
+	const scriptContainerRef = useRef<HTMLDivElement | null>(null);
+	const channelStepViewTrackedRef = useRef(false);
+	const formViewTrackedMethodRef = useRef<Channel | null>(null);
+	const trackedLeadIdsRef = useRef(new Set<string>());
+	const pagePath = pathname || '/';
+	const analyticsLandingSlug = landingSlug ?? 'main';
+	const analyticsLandingName = analyticsLandingNameProp ?? headerPhrase;
 
-		// Strip invisible formatting characters and normalize dashes before validation.
-		const normalizePhoneInput = (value: string) =>
-			value
-				.replace(/[\u200B-\u200F\u2060\uFEFF]/g, '')
-				.replace(/[\u2010-\u2015]/g, '-');
+	const normalizePhoneInput = (value: string) =>
+		value
+			.replace(/[\u200B-\u200F\u2060\uFEFF]/g, '')
+			.replace(/[\u2010-\u2015]/g, '-');
 
-		const validateContactInput = (
-			channel: Channel,
-			value: string,
-		): string | null => {
-			const trimmed = value.trim();
-			if (trimmed.length < 3) {
-				return 'Контакт должен быть не короче 3 символов.';
+	const validateContactInput = (
+		channel: Channel,
+		value: string,
+	): string | null => {
+		const trimmed = value.trim();
+		if (trimmed.length < 3) {
+			return 'Контакт должен быть не короче 3 символов.';
+		}
+
+		const normalizedValue = normalizePhoneInput(trimmed);
+		const phonePattern = /^[+\d][\d\s\-()]*\d$/;
+		const digitsOnly = normalizedValue.replace(/\D/g, '');
+
+		if (channel === 'whatsapp') {
+			if (digitsOnly.length < 7) {
+				return 'Номер WhatsApp должен содержать как минимум 7 цифр.';
 			}
-
-			const normalizedValue = normalizePhoneInput(trimmed);
-			const phonePattern = /^[+\d][\d\s\-()]*\d$/;
-			const digitsOnly = normalizedValue.replace(/\D/g, '');
-
-			if (channel === 'whatsapp') {
-				if (digitsOnly.length < 7) {
-					return 'Номер WhatsApp должен содержать как минимум 7 цифр.';
-				}
-				if (!phonePattern.test(normalizedValue)) {
-					return 'В WhatsApp можно вводить только цифры, пробелы, дефисы, плюс и скобки.';
-				}
-				return null;
+			if (!phonePattern.test(normalizedValue)) {
+				return 'В WhatsApp можно вводить только цифры, пробелы, дефисы, плюс и скобки.';
 			}
-
-			// Telegram допускает телефон или никнейм
-			if (phonePattern.test(normalizedValue)) {
-				if (digitsOnly.length < 7) {
-					return 'Номер в Telegram должен содержать как минимум 7 цифр.';
-				}
-				return null;
-			}
-
-			const telegramHandle = normalizedValue.replace(/^@/, '');
-			if (!/^[A-Za-z0-9_.]{3,}$/.test(telegramHandle)) {
-				return 'Telegram-ник должен начинаться с буквы или @ и содержать минимум 3 символа.';
-			}
-
 			return null;
-		};
+		}
 
-		const resetChannelSelection = () => {
-			setSelectedChannel(null);
-			setSubmissionStatus('idle');
-			setSubmissionMessage(null);
-			setContactInput('');
-			setBotField('');
-		};
+		// Telegram допускает телефон или никнейм
+		if (phonePattern.test(normalizedValue)) {
+			if (digitsOnly.length < 7) {
+				return 'Номер в Telegram должен содержать как минимум 7 цифр.';
+			}
+			return null;
+		}
 
-		const handleContactInputChange = (value: string) => {
-			setSubmissionStatus('idle');
-			setSubmissionMessage(null);
-			if (selectedChannel === 'whatsapp') {
-				const digitsOnly = value.replace(/\D/g, '');
-				if (digitsOnly.length === 0) {
-					setContactInput('');
-					return;
-				}
+		const telegramHandle = normalizedValue.replace(/^@/, '');
+		if (!/^[A-Za-z0-9_.]{3,}$/.test(telegramHandle)) {
+			return 'Telegram-ник должен начинаться с буквы или @ и содержать минимум 3 символа.';
+		}
+
+		return null;
+	};
+
+	const handleOptionSelect = (channel: Channel) => {
+		pushGtmEvent('lead_channel_select', {
+			funnel_name: FUNNEL_NAME,
+			step: 'channel_selected',
+			method: channel,
+			page_path: pagePath,
+			landing_slug: analyticsLandingSlug,
+			landing_name: analyticsLandingName,
+		});
+
+		setSelectedChannel(channel);
+		setSubmissionStatus('idle');
+		setSubmissionMessage(null);
+		setContactInput('');
+		setBotField('');
+	};
+
+	const resetChannelSelection = () => {
+		channelStepViewTrackedRef.current = false;
+		formViewTrackedMethodRef.current = null;
+		setSelectedChannel(null);
+		setSubmissionStatus('idle');
+		setSubmissionMessage(null);
+		setContactInput('');
+		setBotField('');
+	};
+
+	const handleContactInputChange = (value: string) => {
+		setSubmissionStatus('idle');
+		setSubmissionMessage(null);
+
+		if (selectedChannel === 'whatsapp') {
+			const digitsOnly = value.replace(/\D/g, '');
+			if (digitsOnly.length === 0) {
+				setContactInput('');
+				return;
+			}
+			setContactInput(formatWhatsAppNumber(digitsOnly));
+			return;
+		}
+
+		if (selectedChannel === 'telegram') {
+			const digitsOnly = value.replace(/\D/g, '');
+			const numericInputPattern = /^[\d\s()+-]*$/;
+			if (digitsOnly.length > 0 && numericInputPattern.test(value)) {
 				setContactInput(formatWhatsAppNumber(digitsOnly));
 				return;
 			}
 
-			if (selectedChannel === 'telegram') {
-				const digitsOnly = value.replace(/\D/g, '');
-				const numericInputPattern = /^[\d\s()+-]*$/;
-				if (digitsOnly.length > 0 && numericInputPattern.test(value)) {
-					setContactInput(formatWhatsAppNumber(digitsOnly));
-					return;
-				}
-				const sanitized = value.replace(/[^A-Za-z0-9._@]/g, '');
-				setContactInput(sanitized);
-				return;
-			}
+			const sanitized = value.replace(/[^A-Za-z0-9._@]/g, '');
+			setContactInput(sanitized);
+			return;
+		}
 
-			setContactInput(value);
-		};
+		setContactInput(value);
+	};
 
-		useEffect(() => {
-			if (selectedChannel === 'whatsapp') {
-				setContactInput((value) => {
-					const digitsOnly = value.replace(/\D/g, '');
-					if (digitsOnly.length === 0) {
-						return '';
-					}
-					return formatWhatsAppNumber(digitsOnly);
+	useEffect(() => {
+		syncLandingAttribution(pagePath, searchParamsString);
+	}, [pagePath, searchParamsString]);
+
+	useEffect(() => {
+		if (shownNext && nextScreen && !selectedChannel) {
+			if (!channelStepViewTrackedRef.current) {
+				pushGtmEvent('lead_channel_step_view', {
+					funnel_name: FUNNEL_NAME,
+					step: 'channel_select',
+					page_path: pagePath,
+					landing_slug: analyticsLandingSlug,
+					landing_name: analyticsLandingName,
 				});
-				return;
+				channelStepViewTrackedRef.current = true;
 			}
+			return;
+		}
 
-			if (selectedChannel === 'telegram') {
-				setContactInput((value) => {
-					const digitsOnly = value.replace(/\D/g, '');
-					const numericInputPattern = /^[\d\s()+-]*$/;
-					if (digitsOnly.length > 0 && numericInputPattern.test(value)) {
-						return formatWhatsAppNumber(digitsOnly);
-					}
-				return value.replace(/[^A-Za-z0-9._@]/g, '');
+		if (!shownNext || !nextScreen) {
+			channelStepViewTrackedRef.current = false;
+		}
+	}, [
+		analyticsLandingName,
+		analyticsLandingSlug,
+		nextScreen,
+		pagePath,
+		selectedChannel,
+		shownNext,
+	]);
+
+	useEffect(() => {
+		if (!selectedChannel) {
+			formViewTrackedMethodRef.current = null;
+			return;
+		}
+
+		if (formViewTrackedMethodRef.current === selectedChannel) {
+			return;
+		}
+
+		pushGtmEvent('lead_form_view', {
+			funnel_name: FUNNEL_NAME,
+			step: 'contact_form',
+			method: selectedChannel,
+			page_path: pagePath,
+			landing_slug: analyticsLandingSlug,
+			landing_name: analyticsLandingName,
+		});
+		formViewTrackedMethodRef.current = selectedChannel;
+	}, [analyticsLandingName, analyticsLandingSlug, pagePath, selectedChannel]);
+
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		if (!selectedChannel) {
+			return;
+		}
+
+		if (botField.trim().length > 0) {
+			setSubmissionStatus('error');
+			setSubmissionMessage('Не удалось отправить заявку.');
+			return;
+		}
+
+		pushGtmEvent('lead_form_submit_attempt', {
+			funnel_name: FUNNEL_NAME,
+			step: 'submit_attempt',
+			method: selectedChannel,
+			page_path: pagePath,
+			landing_slug: analyticsLandingSlug,
+			landing_name: analyticsLandingName,
+		});
+
+		const normalizedContact = contactInput.trim();
+		const validationError = validateContactInput(
+			selectedChannel,
+			normalizedContact,
+		);
+		if (validationError) {
+			pushGtmEvent('lead_form_submit_error', {
+				funnel_name: FUNNEL_NAME,
+				step: 'submit_error',
+				method: selectedChannel,
+				page_path: pagePath,
+				landing_slug: analyticsLandingSlug,
+				landing_name: analyticsLandingName,
 			});
-			}
-		}, [selectedChannel]);
+			setSubmissionStatus('error');
+			setSubmissionMessage(validationError);
+			return;
+		}
 
-		const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-			event.preventDefault();
-			if (!selectedChannel) {
-				return;
-			}
+		setIsSubmittingContact(true);
+		setSubmissionStatus('idle');
+		setSubmissionMessage(null);
 
-			if (botField.trim().length > 0) {
-				setSubmissionStatus('error');
-				setSubmissionMessage('Не удалось отправить заявку.');
-				return;
-			}
+		try {
+			const attribution = syncLandingAttribution(pagePath, searchParamsString);
+			const response = await fetch('/api/lead', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					channel: selectedChannel,
+					contact: normalizedContact,
+					honeypot: botField,
+					landingSlug,
+					attribution,
+				}),
+			});
 
-			const normalizedContact = contactInput.trim();
-			const validationError = validateContactInput(
-				selectedChannel,
-				normalizedContact,
-			);
-			if (validationError) {
-				setSubmissionStatus('error');
-				setSubmissionMessage(validationError);
-				return;
-			}
+			const responseBody = await response.json().catch(() => null);
 
-			setIsSubmittingContact(true);
-			setSubmissionStatus('idle');
-			setSubmissionMessage(null);
-
-			try {
-				const response = await fetch('/api/lead', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						channel: selectedChannel,
-						contact: normalizedContact,
-						honeypot: botField,
-						landingSlug,
-					}),
+			if (!response.ok || responseBody?.ok !== true) {
+				const errorText =
+					responseBody?.error ?? 'Не удалось отправить заявку. Повторите позже.';
+				pushGtmEvent('lead_form_submit_error', {
+					funnel_name: FUNNEL_NAME,
+					step: 'submit_error',
+					method: selectedChannel,
+					page_path: pagePath,
+					landing_slug: analyticsLandingSlug,
+					landing_name: analyticsLandingName,
 				});
-
-				const responseBody = await response.json().catch(() => null);
-
-				if (!response.ok || responseBody?.ok !== true) {
-					const errorText =
-						responseBody?.error ?? 'Не удалось отправить заявку. Повторите позже.';
-					setSubmissionStatus('error');
-					setSubmissionMessage(errorText);
-					return;
-				}
-
-				setSubmissionStatus('success');
-				setSubmissionMessage('Готово! Скоро менеджер напишет вам.');
-				setContactInput('');
-				setBotField('');
-				router.push(successPath);
-				return;
-			} catch (error) {
-				console.error('Lead submit error', error);
 				setSubmissionStatus('error');
-				setSubmissionMessage('Сбой отправки. Попробуйте снова.');
-			} finally {
-				setIsSubmittingContact(false);
+				setSubmissionMessage(errorText);
+				return;
 			}
-		};
+
+			const leadId =
+				typeof responseBody?.leadId === 'string' ? responseBody.leadId : null;
+			if (leadId && !trackedLeadIdsRef.current.has(leadId)) {
+				pushGtmEvent('generate_lead', {
+					funnel_name: FUNNEL_NAME,
+					step: 'lead_created',
+					method: selectedChannel,
+					lead_id: leadId,
+					page_path: pagePath,
+					landing_slug: analyticsLandingSlug,
+					landing_name: analyticsLandingName,
+				});
+				trackedLeadIdsRef.current.add(leadId);
+			}
+
+			setSubmissionStatus('success');
+			setSubmissionMessage('Готово! Скоро менеджер напишет вам.');
+			setContactInput('');
+			setBotField('');
+			router.push(successPath);
+		} catch (error) {
+			console.error('Lead submit error', error);
+			pushGtmEvent('lead_form_submit_error', {
+				funnel_name: FUNNEL_NAME,
+				step: 'submit_error',
+				method: selectedChannel,
+				page_path: pagePath,
+				landing_slug: analyticsLandingSlug,
+				landing_name: analyticsLandingName,
+			});
+			setSubmissionStatus('error');
+			setSubmissionMessage('Сбой отправки. Попробуйте снова.');
+		} finally {
+			setIsSubmittingContact(false);
+		}
+	};
 
 	useEffect(() => {
 		const container = scriptContainerRef.current;
@@ -463,15 +564,15 @@ type LandingProps = {
 											<AlertDialogTitle>Смотрите видео обзор</AlertDialogTitle>
 										</AlertDialogHeader>
 										<div className='relative aspect-video w-full overflow-hidden rounded-xl bg-black'>
-							{videoOpen && (
-								<iframe
-									className='absolute inset-0 h-full w-full'
-									src={resolvedVideoUrl}
-									title='Pattaya Grad'
-									allow='autoplay; fullscreen'
-									allowFullScreen
-								/>
-							)}
+											{videoOpen && (
+												<iframe
+													className='absolute inset-0 h-full w-full'
+													src={resolvedVideoUrl}
+													title='Pattaya Grad'
+													allow='autoplay; fullscreen'
+													allowFullScreen
+												/>
+											)}
 										</div>
 										<AlertDialogFooter>
 											<AlertDialogCancel>Закрыть</AlertDialogCancel>
@@ -481,9 +582,7 @@ type LandingProps = {
 							</div>
 						)}
 						{!shownNext && (
-							<CardContent
-								className={`space-y-3 px-5 pb-5 ${textPaddingClass}`}
-							>
+							<CardContent className={`space-y-3 px-5 pb-5 ${textPaddingClass}`}>
 								<CardTitle className='text-[1.65rem] font-bold leading-[1.2] text-slate-900 md:text-[1.85rem]'>
 									{heroHeading}
 								</CardTitle>
@@ -493,20 +592,25 @@ type LandingProps = {
 								<div className='flex flex-wrap items-center gap-3'>
 									<Button
 										label={buttonLabel}
-										onClick={() => setShownNext(true)}
+										onClick={() => {
+											pushGtmEvent('catalog_cta_click', {
+												funnel_name: FUNNEL_NAME,
+												step: 'catalog_cta',
+												page_path: pagePath,
+												landing_slug: analyticsLandingSlug,
+												landing_name: analyticsLandingName,
+											});
+											setShownNext(true);
+										}}
 									/>
 									{heroSupportText && (
-										<p className='text-sm text-slate-500'>
-											{heroSupportText}
-										</p>
+										<p className='text-sm text-slate-500'>{heroSupportText}</p>
 									)}
 								</div>
 							</CardContent>
 						)}
 						{shownNext && nextScreen && (
-							<CardContent
-								className={`space-y-4 px-5 pb-5 ${textPaddingClass}`}
-							>
+							<CardContent className={`space-y-4 px-5 pb-5 ${textPaddingClass}`}>
 								<CardTitle className='text-2xl font-bold leading-[1.2] text-slate-900'>
 									{nextScreen.title}
 								</CardTitle>
@@ -516,69 +620,66 @@ type LandingProps = {
 								<h3 className='text-lg font-semibold text-slate-800'>
 									{nextScreen.question}
 								</h3>
-									{!selectedChannel ? (
-										<div className='flex flex-wrap gap-3'>
-											{nextScreen.options.map((option) => {
-												const baseColor =
-													option.buttonColor ?? option.iconColor ?? '#111827';
-												// derive brand-aware shades so the controls stay dark yet legible
-												const buttonBackgroundColor = darkenColor(
-													baseColor,
-													0.35,
-												);
-												const iconBackgroundColor = darkenColor(baseColor);
-												const iconForegroundColor = lightenColor(baseColor);
+								{!selectedChannel ? (
+									<div className='flex flex-wrap gap-3'>
+										{nextScreen.options.map((option) => {
+											const baseColor =
+												option.buttonColor ?? option.iconColor ?? '#111827';
+											// derive brand-aware shades so the controls stay dark yet legible
+											const buttonBackgroundColor = darkenColor(
+												baseColor,
+												0.35,
+											);
+											const iconBackgroundColor = darkenColor(baseColor);
+											const iconForegroundColor = lightenColor(baseColor);
 
-												return (
-													<Button
-														key={option.label}
-														icon={option.icon}
-														onClick={() => handleOptionSelect(option.channel)}
-														iconBgColor={iconBackgroundColor}
-														iconColor={iconForegroundColor}
-														backgroundClass='bg-transparent hover:opacity-90'
-														style={{
-															backgroundColor: buttonBackgroundColor,
-														}}
-														className='transition-[filter] hover:brightness-105'
-													>
-														{option.label}
-													</Button>
-												);
-											})}
-										</div>
-									) : (
-										<div className='flex items-center justify-between rounded-2xl border border-pink-200/70 bg-pink-50/60 px-4 py-3 text-sm text-slate-800'>
-											<p>
-												Вы выбрали канал{' '}
-												<span className='font-semibold'>
-													{currentChannelLabel}
-												</span>
-											</p>
-											<button
-												type='button'
-												className='text-xs font-semibold uppercase tracking-wide text-pink-500 underline-offset-2 transition hover:text-pink-400 cursor-pointer'
-												onClick={resetChannelSelection}
-											>
-												Сменить выбор
-											</button>
-										</div>
-									)}
+											return (
+												<Button
+													key={option.label}
+													icon={option.icon}
+													onClick={() => handleOptionSelect(option.channel)}
+													iconBgColor={iconBackgroundColor}
+													iconColor={iconForegroundColor}
+													backgroundClass='bg-transparent hover:opacity-90'
+													style={{
+														backgroundColor: buttonBackgroundColor,
+													}}
+													className='transition-[filter] hover:brightness-105'
+												>
+													{option.label}
+												</Button>
+											);
+										})}
+									</div>
+								) : (
+									<div className='flex items-center justify-between rounded-2xl border border-pink-200/70 bg-pink-50/60 px-4 py-3 text-sm text-slate-800'>
+										<p>
+											Вы выбрали канал{' '}
+											<span className='font-semibold'>
+												{currentChannelLabel}
+											</span>
+										</p>
+										<button
+											type='button'
+											className='text-xs font-semibold uppercase tracking-wide text-pink-500 underline-offset-2 transition hover:text-pink-400 cursor-pointer'
+											onClick={resetChannelSelection}
+										>
+											Сменить выбор
+										</button>
+									</div>
+								)}
 								{selectedChannel && (
-								<form
-									onSubmit={handleSubmit}
-									className='space-y-3 pt-3'
-								>
-									<input
-										type='text'
-										name='favorite-city'
-										autoComplete='off'
-										value={botField}
-										onChange={(event) => setBotField(event.target.value)}
-										tabIndex={-1}
-										className='pointer-events-none absolute left-[-9999px] h-px w-px overflow-hidden'
-										aria-hidden='true'
-									/>
+									<form onSubmit={handleSubmit} className='space-y-3 pt-3'>
+										<input
+											type='text'
+											name='favorite-city'
+											autoComplete='off'
+											value={botField}
+											onChange={(event) => setBotField(event.target.value)}
+											tabIndex={-1}
+											className='pointer-events-none absolute left-[-9999px] h-px w-px overflow-hidden'
+											aria-hidden='true'
+										/>
 										<div className='flex flex-col gap-2'>
 											<label
 												htmlFor='contact-input'
@@ -667,11 +768,9 @@ type LandingProps = {
 					<span className='text-sm text-slate-500 -mt-0.5 block'>
 						WhatsApp · Telegram
 					</span>
-					</footer>
-				</main>
-				{customScriptContent ? (
-					<div ref={scriptContainerRef} aria-hidden />
-				) : null}
-			</div>
-		);
-	}
+				</footer>
+			</main>
+			{customScriptContent ? <div ref={scriptContainerRef} aria-hidden /> : null}
+		</div>
+	);
+}

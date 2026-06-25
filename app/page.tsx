@@ -47,6 +47,8 @@ export default async function HomePage() {
 
 	return (
 		<Landing
+			analyticsLandingName={landing.defaultLandingName}
+			landingSlug='main'
 			headerPhrase={landing.headerPhrase}
 			heroImage={landing.heroImage ?? undefined}
 			heroHeading={landing.heroHeading}

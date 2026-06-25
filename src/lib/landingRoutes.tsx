@@ -54,6 +54,7 @@ export function renderLandingPage(landing: LandingPageRouteData, slug: string) {
 
   return (
     <Landing
+      analyticsLandingName={landing.name}
       landingSlug={slug}
       headerPhrase={landing.headerPhrase}
       heroImage={landing.heroImage ?? undefined}

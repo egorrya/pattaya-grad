@@ -39,14 +39,24 @@ model LandingPage {
 }
 
 model Lead {
-  id        String   @id @default(cuid())
-  channel   Channel
-  contact   String
-  ipAddress String?
-  country   String?
+  id            String       @id @default(cuid())
+  channel       Channel
+  contact       String
+  ipAddress     String?
+  country       String?
   landingPageId String?
   landingPage   LandingPage? @relation(fields: [landingPageId], references: [id])
-  createdAt  DateTime @default(now())
+  pagePath      String?
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  utmContent    String?
+  utmTerm       String?
+  gclid         String?
+  gbraid        String?
+  wbraid        String?
+  fbclid        String?
+  createdAt     DateTime     @default(now())
 }
 
 model LandingContent {

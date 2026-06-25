@@ -2399,6 +2399,16 @@ export namespace Prisma {
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
+    pagePath: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmContent: string | null
+    utmTerm: string | null
+    gclid: string | null
+    gbraid: string | null
+    wbraid: string | null
+    fbclid: string | null
     createdAt: Date | null
   }
 
@@ -2409,6 +2419,16 @@ export namespace Prisma {
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
+    pagePath: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmContent: string | null
+    utmTerm: string | null
+    gclid: string | null
+    gbraid: string | null
+    wbraid: string | null
+    fbclid: string | null
     createdAt: Date | null
   }
 
@@ -2419,6 +2439,16 @@ export namespace Prisma {
     ipAddress: number
     country: number
     landingPageId: number
+    pagePath: number
+    utmSource: number
+    utmMedium: number
+    utmCampaign: number
+    utmContent: number
+    utmTerm: number
+    gclid: number
+    gbraid: number
+    wbraid: number
+    fbclid: number
     createdAt: number
     _all: number
   }
@@ -2431,6 +2461,16 @@ export namespace Prisma {
     ipAddress?: true
     country?: true
     landingPageId?: true
+    pagePath?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmContent?: true
+    utmTerm?: true
+    gclid?: true
+    gbraid?: true
+    wbraid?: true
+    fbclid?: true
     createdAt?: true
   }
 
@@ -2441,6 +2481,16 @@ export namespace Prisma {
     ipAddress?: true
     country?: true
     landingPageId?: true
+    pagePath?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmContent?: true
+    utmTerm?: true
+    gclid?: true
+    gbraid?: true
+    wbraid?: true
+    fbclid?: true
     createdAt?: true
   }
 
@@ -2451,6 +2501,16 @@ export namespace Prisma {
     ipAddress?: true
     country?: true
     landingPageId?: true
+    pagePath?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmContent?: true
+    utmTerm?: true
+    gclid?: true
+    gbraid?: true
+    wbraid?: true
+    fbclid?: true
     createdAt?: true
     _all?: true
   }
@@ -2534,6 +2594,16 @@ export namespace Prisma {
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
+    pagePath: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmContent: string | null
+    utmTerm: string | null
+    gclid: string | null
+    gbraid: string | null
+    wbraid: string | null
+    fbclid: string | null
     createdAt: Date
     _count: LeadCountAggregateOutputType | null
     _min: LeadMinAggregateOutputType | null
@@ -2561,6 +2631,16 @@ export namespace Prisma {
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
+    pagePath?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmContent?: boolean
+    utmTerm?: boolean
+    gclid?: boolean
+    gbraid?: boolean
+    wbraid?: boolean
+    fbclid?: boolean
     createdAt?: boolean
     landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
@@ -2572,6 +2652,16 @@ export namespace Prisma {
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
+    pagePath?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmContent?: boolean
+    utmTerm?: boolean
+    gclid?: boolean
+    gbraid?: boolean
+    wbraid?: boolean
+    fbclid?: boolean
     createdAt?: boolean
     landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
@@ -2583,6 +2673,16 @@ export namespace Prisma {
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
+    pagePath?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmContent?: boolean
+    utmTerm?: boolean
+    gclid?: boolean
+    gbraid?: boolean
+    wbraid?: boolean
+    fbclid?: boolean
     createdAt?: boolean
     landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
@@ -2594,10 +2694,20 @@ export namespace Prisma {
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
+    pagePath?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmContent?: boolean
+    utmTerm?: boolean
+    gclid?: boolean
+    gbraid?: boolean
+    wbraid?: boolean
+    fbclid?: boolean
     createdAt?: boolean
   }
 
-  export type LeadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channel" | "contact" | "ipAddress" | "country" | "landingPageId" | "createdAt", ExtArgs["result"]["lead"]>
+  export type LeadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channel" | "contact" | "ipAddress" | "country" | "landingPageId" | "pagePath" | "utmSource" | "utmMedium" | "utmCampaign" | "utmContent" | "utmTerm" | "gclid" | "gbraid" | "wbraid" | "fbclid" | "createdAt", ExtArgs["result"]["lead"]>
   export type LeadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }
@@ -2620,6 +2730,16 @@ export namespace Prisma {
       ipAddress: string | null
       country: string | null
       landingPageId: string | null
+      pagePath: string | null
+      utmSource: string | null
+      utmMedium: string | null
+      utmCampaign: string | null
+      utmContent: string | null
+      utmTerm: string | null
+      gclid: string | null
+      gbraid: string | null
+      wbraid: string | null
+      fbclid: string | null
       createdAt: Date
     }, ExtArgs["result"]["lead"]>
     composites: {}
@@ -3051,6 +3171,16 @@ export namespace Prisma {
     readonly ipAddress: FieldRef<"Lead", 'String'>
     readonly country: FieldRef<"Lead", 'String'>
     readonly landingPageId: FieldRef<"Lead", 'String'>
+    readonly pagePath: FieldRef<"Lead", 'String'>
+    readonly utmSource: FieldRef<"Lead", 'String'>
+    readonly utmMedium: FieldRef<"Lead", 'String'>
+    readonly utmCampaign: FieldRef<"Lead", 'String'>
+    readonly utmContent: FieldRef<"Lead", 'String'>
+    readonly utmTerm: FieldRef<"Lead", 'String'>
+    readonly gclid: FieldRef<"Lead", 'String'>
+    readonly gbraid: FieldRef<"Lead", 'String'>
+    readonly wbraid: FieldRef<"Lead", 'String'>
+    readonly fbclid: FieldRef<"Lead", 'String'>
     readonly createdAt: FieldRef<"Lead", 'DateTime'>
   }
     
@@ -4737,6 +4867,16 @@ export namespace Prisma {
     ipAddress: 'ipAddress',
     country: 'country',
     landingPageId: 'landingPageId',
+    pagePath: 'pagePath',
+    utmSource: 'utmSource',
+    utmMedium: 'utmMedium',
+    utmCampaign: 'utmCampaign',
+    utmContent: 'utmContent',
+    utmTerm: 'utmTerm',
+    gclid: 'gclid',
+    gbraid: 'gbraid',
+    wbraid: 'wbraid',
+    fbclid: 'fbclid',
     createdAt: 'createdAt'
   };
 
@@ -5015,6 +5155,16 @@ export namespace Prisma {
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
+    pagePath?: StringNullableFilter<"Lead"> | string | null
+    utmSource?: StringNullableFilter<"Lead"> | string | null
+    utmMedium?: StringNullableFilter<"Lead"> | string | null
+    utmCampaign?: StringNullableFilter<"Lead"> | string | null
+    utmContent?: StringNullableFilter<"Lead"> | string | null
+    utmTerm?: StringNullableFilter<"Lead"> | string | null
+    gclid?: StringNullableFilter<"Lead"> | string | null
+    gbraid?: StringNullableFilter<"Lead"> | string | null
+    wbraid?: StringNullableFilter<"Lead"> | string | null
+    fbclid?: StringNullableFilter<"Lead"> | string | null
     createdAt?: DateTimeFilter<"Lead"> | Date | string
     landingPage?: XOR<LandingPageNullableScalarRelationFilter, LandingPageWhereInput> | null
   }
@@ -5026,6 +5176,16 @@ export namespace Prisma {
     ipAddress?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     landingPageId?: SortOrderInput | SortOrder
+    pagePath?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    utmContent?: SortOrderInput | SortOrder
+    utmTerm?: SortOrderInput | SortOrder
+    gclid?: SortOrderInput | SortOrder
+    gbraid?: SortOrderInput | SortOrder
+    wbraid?: SortOrderInput | SortOrder
+    fbclid?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     landingPage?: LandingPageOrderByWithRelationInput
   }
@@ -5040,6 +5200,16 @@ export namespace Prisma {
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
+    pagePath?: StringNullableFilter<"Lead"> | string | null
+    utmSource?: StringNullableFilter<"Lead"> | string | null
+    utmMedium?: StringNullableFilter<"Lead"> | string | null
+    utmCampaign?: StringNullableFilter<"Lead"> | string | null
+    utmContent?: StringNullableFilter<"Lead"> | string | null
+    utmTerm?: StringNullableFilter<"Lead"> | string | null
+    gclid?: StringNullableFilter<"Lead"> | string | null
+    gbraid?: StringNullableFilter<"Lead"> | string | null
+    wbraid?: StringNullableFilter<"Lead"> | string | null
+    fbclid?: StringNullableFilter<"Lead"> | string | null
     createdAt?: DateTimeFilter<"Lead"> | Date | string
     landingPage?: XOR<LandingPageNullableScalarRelationFilter, LandingPageWhereInput> | null
   }, "id">
@@ -5051,6 +5221,16 @@ export namespace Prisma {
     ipAddress?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     landingPageId?: SortOrderInput | SortOrder
+    pagePath?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    utmContent?: SortOrderInput | SortOrder
+    utmTerm?: SortOrderInput | SortOrder
+    gclid?: SortOrderInput | SortOrder
+    gbraid?: SortOrderInput | SortOrder
+    wbraid?: SortOrderInput | SortOrder
+    fbclid?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: LeadCountOrderByAggregateInput
     _max?: LeadMaxOrderByAggregateInput
@@ -5067,6 +5247,16 @@ export namespace Prisma {
     ipAddress?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     country?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     landingPageId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    pagePath?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmSource?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmMedium?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmCampaign?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmContent?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmTerm?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    gclid?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    gbraid?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    wbraid?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    fbclid?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Lead"> | Date | string
   }
 
@@ -5387,6 +5577,16 @@ export namespace Prisma {
     contact: string
     ipAddress?: string | null
     country?: string | null
+    pagePath?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
+    gclid?: string | null
+    gbraid?: string | null
+    wbraid?: string | null
+    fbclid?: string | null
     createdAt?: Date | string
     landingPage?: LandingPageCreateNestedOneWithoutLeadsInput
   }
@@ -5398,6 +5598,16 @@ export namespace Prisma {
     ipAddress?: string | null
     country?: string | null
     landingPageId?: string | null
+    pagePath?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
+    gclid?: string | null
+    gbraid?: string | null
+    wbraid?: string | null
+    fbclid?: string | null
     createdAt?: Date | string
   }
 
@@ -5407,6 +5617,16 @@ export namespace Prisma {
     contact?: StringFieldUpdateOperationsInput | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    pagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    gclid?: NullableStringFieldUpdateOperationsInput | string | null
+    gbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    wbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    fbclid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     landingPage?: LandingPageUpdateOneWithoutLeadsNestedInput
   }
@@ -5418,6 +5638,16 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     landingPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    gclid?: NullableStringFieldUpdateOperationsInput | string | null
+    gbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    wbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    fbclid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5428,6 +5658,16 @@ export namespace Prisma {
     ipAddress?: string | null
     country?: string | null
     landingPageId?: string | null
+    pagePath?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
+    gclid?: string | null
+    gbraid?: string | null
+    wbraid?: string | null
+    fbclid?: string | null
     createdAt?: Date | string
   }
 
@@ -5437,6 +5677,16 @@ export namespace Prisma {
     contact?: StringFieldUpdateOperationsInput | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    pagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    gclid?: NullableStringFieldUpdateOperationsInput | string | null
+    gbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    wbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    fbclid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5447,6 +5697,16 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     landingPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    gclid?: NullableStringFieldUpdateOperationsInput | string | null
+    gbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    wbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    fbclid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5831,6 +6091,16 @@ export namespace Prisma {
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
+    pagePath?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmContent?: SortOrder
+    utmTerm?: SortOrder
+    gclid?: SortOrder
+    gbraid?: SortOrder
+    wbraid?: SortOrder
+    fbclid?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5841,6 +6111,16 @@ export namespace Prisma {
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
+    pagePath?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmContent?: SortOrder
+    utmTerm?: SortOrder
+    gclid?: SortOrder
+    gbraid?: SortOrder
+    wbraid?: SortOrder
+    fbclid?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5851,6 +6131,16 @@ export namespace Prisma {
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
+    pagePath?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmContent?: SortOrder
+    utmTerm?: SortOrder
+    gclid?: SortOrder
+    gbraid?: SortOrder
+    wbraid?: SortOrder
+    fbclid?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -6159,6 +6449,16 @@ export namespace Prisma {
     contact: string
     ipAddress?: string | null
     country?: string | null
+    pagePath?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
+    gclid?: string | null
+    gbraid?: string | null
+    wbraid?: string | null
+    fbclid?: string | null
     createdAt?: Date | string
   }
 
@@ -6168,6 +6468,16 @@ export namespace Prisma {
     contact: string
     ipAddress?: string | null
     country?: string | null
+    pagePath?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
+    gclid?: string | null
+    gbraid?: string | null
+    wbraid?: string | null
+    fbclid?: string | null
     createdAt?: Date | string
   }
 
@@ -6207,6 +6517,16 @@ export namespace Prisma {
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
+    pagePath?: StringNullableFilter<"Lead"> | string | null
+    utmSource?: StringNullableFilter<"Lead"> | string | null
+    utmMedium?: StringNullableFilter<"Lead"> | string | null
+    utmCampaign?: StringNullableFilter<"Lead"> | string | null
+    utmContent?: StringNullableFilter<"Lead"> | string | null
+    utmTerm?: StringNullableFilter<"Lead"> | string | null
+    gclid?: StringNullableFilter<"Lead"> | string | null
+    gbraid?: StringNullableFilter<"Lead"> | string | null
+    wbraid?: StringNullableFilter<"Lead"> | string | null
+    fbclid?: StringNullableFilter<"Lead"> | string | null
     createdAt?: DateTimeFilter<"Lead"> | Date | string
   }
 
@@ -6332,6 +6652,16 @@ export namespace Prisma {
     contact: string
     ipAddress?: string | null
     country?: string | null
+    pagePath?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
+    gclid?: string | null
+    gbraid?: string | null
+    wbraid?: string | null
+    fbclid?: string | null
     createdAt?: Date | string
   }
 
@@ -6341,6 +6671,16 @@ export namespace Prisma {
     contact?: StringFieldUpdateOperationsInput | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    pagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    gclid?: NullableStringFieldUpdateOperationsInput | string | null
+    gbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    wbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    fbclid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6350,6 +6690,16 @@ export namespace Prisma {
     contact?: StringFieldUpdateOperationsInput | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    pagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    gclid?: NullableStringFieldUpdateOperationsInput | string | null
+    gbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    wbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    fbclid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6359,6 +6709,16 @@ export namespace Prisma {
     contact?: StringFieldUpdateOperationsInput | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    pagePath?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    gclid?: NullableStringFieldUpdateOperationsInput | string | null
+    gbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    wbraid?: NullableStringFieldUpdateOperationsInput | string | null
+    fbclid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

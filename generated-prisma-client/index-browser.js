@@ -152,6 +152,16 @@ exports.Prisma.LeadScalarFieldEnum = {
   ipAddress: 'ipAddress',
   country: 'country',
   landingPageId: 'landingPageId',
+  pagePath: 'pagePath',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  utmCampaign: 'utmCampaign',
+  utmContent: 'utmContent',
+  utmTerm: 'utmTerm',
+  gclid: 'gclid',
+  gbraid: 'gbraid',
+  wbraid: 'wbraid',
+  fbclid: 'fbclid',
   createdAt: 'createdAt'
 };
 

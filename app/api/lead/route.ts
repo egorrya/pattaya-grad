@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@lib/db';
 import { getLandingContent } from '@lib/landing';
 import { getLandingPageByUrlPath } from '@lib/landingPages';
+import type { LeadAttribution } from '@/lib/analytics/landingAttribution';
 import type {
 	LandingContent,
 	LandingPage,
@@ -17,6 +18,18 @@ const MIN_CONTACT_LENGTH = 3;
 const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 100;
 const DEFAULT_MAIN_LANDING_NAME = 'Главная страница';
+const ATTRIBUTION_FIELDS = [
+	'pagePath',
+	'utmSource',
+	'utmMedium',
+	'utmCampaign',
+	'utmContent',
+	'utmTerm',
+	'gclid',
+	'gbraid',
+	'wbraid',
+	'fbclid',
+] as const;
 
 const badRequest = (message: string) =>
 	NextResponse.json({ ok: false, error: message }, { status: 400 });
@@ -47,6 +60,33 @@ const parseChannelParam = (value: string | null): Channel | undefined => {
 		return value;
 	}
 	return undefined;
+};
+
+const normalizeString = (value: unknown) => {
+	if (typeof value !== 'string') {
+		return null;
+	}
+
+	const trimmed = value.trim();
+	return trimmed.length > 0 ? trimmed : null;
+};
+
+const parseLeadAttribution = (value: unknown): LeadAttribution | null => {
+	if (typeof value !== 'object' || value === null) {
+		return null;
+	}
+
+	const record = value as Record<string, unknown>;
+	const attribution: LeadAttribution = {};
+
+	for (const field of ATTRIBUTION_FIELDS) {
+		const normalized = normalizeString(record[field]);
+		if (normalized) {
+			attribution[field] = normalized;
+		}
+	}
+
+	return Object.keys(attribution).length > 0 ? attribution : null;
 };
 
 const formatChannelLabel = (channel: Channel) =>
@@ -163,12 +203,14 @@ export async function POST(request: NextRequest) {
 		return badRequest('Request body must be an object');
 	}
 
-	const { channel, contact, honeypot, landingSlug } = payload as {
+	const { channel, contact, honeypot, landingSlug, attribution } = payload as {
 		channel?: Channel;
 		contact?: unknown;
 		honeypot?: unknown;
 		landingSlug?: unknown;
+		attribution?: unknown;
 	};
+	const leadAttribution = parseLeadAttribution(attribution);
 
 	if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
 		return badRequest('Invalid request');
@@ -197,13 +239,23 @@ export async function POST(request: NextRequest) {
 			return badRequest('Лендинг не найден');
 		}
 
-		await prisma.lead.create({
+		const lead = await prisma.lead.create({
 			data: {
 				contact: normalizedContact,
 				channel,
 				ipAddress,
 				country,
 				landingPageId: typeof landingSlug === 'string' ? landing.id : null,
+				pagePath: leadAttribution?.pagePath ?? null,
+				utmSource: leadAttribution?.utmSource ?? null,
+				utmMedium: leadAttribution?.utmMedium ?? null,
+				utmCampaign: leadAttribution?.utmCampaign ?? null,
+				utmContent: leadAttribution?.utmContent ?? null,
+				utmTerm: leadAttribution?.utmTerm ?? null,
+				gclid: leadAttribution?.gclid ?? null,
+				gbraid: leadAttribution?.gbraid ?? null,
+				wbraid: leadAttribution?.wbraid ?? null,
+				fbclid: leadAttribution?.fbclid ?? null,
 			},
 		});
 
@@ -223,7 +275,7 @@ export async function POST(request: NextRequest) {
 					  DEFAULT_MAIN_LANDING_NAME,
 		});
 
-		return NextResponse.json({ ok: true });
+		return NextResponse.json({ ok: true, leadId: lead.id });
 	} catch (error) {
 		console.error('Failed to save lead', error);
 		return serverError();
