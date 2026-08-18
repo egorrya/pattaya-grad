@@ -188,12 +188,6 @@ export default function AdminQuizBotPage() {
         <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-10 text-left text-sm text-slate-700 shadow-sm">
           <div className="space-y-2">
             <h1 className="text-2xl font-semibold text-slate-900">Telegram квиз-бот</h1>
-            <p className="text-slate-700">
-              Бот проводит пользователя по сценарию: город → тип недвижимости → цель покупки →
-              бюджет → пожелания → заявка менеджеру. Вопросы и варианты ответов зашиты в код по
-              согласованному ТЗ, здесь редактируются только тексты приветствия/завершения и
-              ссылки.
-            </p>
           </div>
 
           <div className="grid gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600 md:grid-cols-3">

@@ -40,7 +40,7 @@ export function LandingSuccess({
           <Card className='rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,15,15,0.12)]'>
             <CardContent className='space-y-5'>
               <div className='space-y-1'>
-                <p className='text-xs font-semibold uppercase tracking-[0.25em] text-slate-500'>
+                <p className='text-xs font-semibold uppercase text-slate-500'>
                   Успешно
                 </p>
                 <h1 className='text-3xl font-bold leading-tight text-slate-900'>
@@ -91,7 +91,7 @@ export function LandingSuccess({
               </div>
 
               <div className='space-y-3 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 text-sm leading-relaxed text-slate-700'>
-                <p className='text-xs uppercase tracking-[0.2em] text-slate-500'>
+                <p className='text-xs uppercase text-slate-500'>
                   Контакт для связи
                 </p>
                 <p className='text-base font-semibold text-slate-900'>{contact}</p>

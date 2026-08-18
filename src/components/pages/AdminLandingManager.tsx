@@ -222,7 +222,7 @@ export default function AdminLandingManager() {
           <button
             type="button"
             onClick={handleResetForm}
-            className={`${buttonVariants({ variant: "outline" })} mt-2 text-xs uppercase tracking-[0.3em]`}
+            className={`${buttonVariants({ variant: "outline" })} mt-2 text-xs uppercase`}
           >
             Новый лендинг
           </button>
@@ -230,7 +230,7 @@ export default function AdminLandingManager() {
         <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
           <section className="space-y-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
             <div className="flex items-center justify-between">
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Лендинги</p>
+              <p className="text-xs uppercase text-slate-500">Лендинги</p>
               <span className="text-xs font-semibold text-slate-700">{landings.length} шт.</span>
             </div>
             {listLoading && <p className="text-sm text-slate-500">Загрузка...</p>}
@@ -250,7 +250,7 @@ export default function AdminLandingManager() {
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
+                      <p className="text-xs uppercase text-slate-500">
                         /{landing.urlPath}
                       </p>
                       <p className="font-semibold text-slate-900">{landing.headerPhrase}</p>

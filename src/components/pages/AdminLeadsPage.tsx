@@ -185,7 +185,7 @@ export default function AdminLeadsPage() {
     <AdminShell>
       <div className="flex w-full flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
+          <p className="text-xs uppercase text-slate-500">
             Лиды
           </p>
           <div className="flex flex-wrap items-center gap-2">

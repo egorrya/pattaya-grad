@@ -148,7 +148,7 @@ export function LandingContentForm({
         </div>
 
         <div className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+          <p className="text-xs font-semibold uppercase text-slate-500">
             Telegram-уведомления
           </p>
           <label className="text-xs font-semibold text-slate-700">
