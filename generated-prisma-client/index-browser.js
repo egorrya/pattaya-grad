@@ -148,7 +148,9 @@ exports.Prisma.LandingPageScalarFieldEnum = {
 exports.Prisma.LeadScalarFieldEnum = {
   id: 'id',
   channel: 'channel',
+  source: 'source',
   contact: 'contact',
+  message: 'message',
   ipAddress: 'ipAddress',
   country: 'country',
   landingPageId: 'landingPageId',
@@ -189,9 +191,40 @@ exports.Prisma.LandingContentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.QuizBotSettingsScalarFieldEnum = {
+  id: 'id',
+  enabled: 'enabled',
+  welcomeMessage: 'welcomeMessage',
+  startButtonLabel: 'startButtonLabel',
+  completionMessage: 'completionMessage',
+  managerContactUrl: 'managerContactUrl',
+  channelUrl: 'channelUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.QuizBotSessionScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  telegramUserId: 'telegramUserId',
+  username: 'username',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  step: 'step',
+  startParam: 'startParam',
+  answers: 'answers',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -203,15 +236,28 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.Channel = exports.$Enums.Channel = {
   whatsapp: 'whatsapp',
   telegram: 'telegram'
 };
 
+exports.LeadSource = exports.$Enums.LeadSource = {
+  site: 'site',
+  telegram_bot: 'telegram_bot'
+};
+
 exports.Prisma.ModelName = {
   LandingPage: 'LandingPage',
   Lead: 'Lead',
-  LandingContent: 'LandingContent'
+  LandingContent: 'LandingContent',
+  QuizBotSettings: 'QuizBotSettings',
+  QuizBotSession: 'QuizBotSession'
 };
 
 /**

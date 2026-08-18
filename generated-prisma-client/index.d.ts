@@ -28,6 +28,16 @@ export type Lead = $Result.DefaultSelection<Prisma.$LeadPayload>
  * 
  */
 export type LandingContent = $Result.DefaultSelection<Prisma.$LandingContentPayload>
+/**
+ * Model QuizBotSettings
+ * 
+ */
+export type QuizBotSettings = $Result.DefaultSelection<Prisma.$QuizBotSettingsPayload>
+/**
+ * Model QuizBotSession
+ * 
+ */
+export type QuizBotSession = $Result.DefaultSelection<Prisma.$QuizBotSessionPayload>
 
 /**
  * Enums
@@ -40,11 +50,23 @@ export namespace $Enums {
 
 export type Channel = (typeof Channel)[keyof typeof Channel]
 
+
+export const LeadSource: {
+  site: 'site',
+  telegram_bot: 'telegram_bot'
+};
+
+export type LeadSource = (typeof LeadSource)[keyof typeof LeadSource]
+
 }
 
 export type Channel = $Enums.Channel
 
 export const Channel: typeof $Enums.Channel
+
+export type LeadSource = $Enums.LeadSource
+
+export const LeadSource: typeof $Enums.LeadSource
 
 /**
  * ##  Prisma Client ʲˢ
@@ -192,6 +214,26 @@ export class PrismaClient<
     * ```
     */
   get landingContent(): Prisma.LandingContentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quizBotSettings`: Exposes CRUD operations for the **QuizBotSettings** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuizBotSettings
+    * const quizBotSettings = await prisma.quizBotSettings.findMany()
+    * ```
+    */
+  get quizBotSettings(): Prisma.QuizBotSettingsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quizBotSession`: Exposes CRUD operations for the **QuizBotSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuizBotSessions
+    * const quizBotSessions = await prisma.quizBotSession.findMany()
+    * ```
+    */
+  get quizBotSession(): Prisma.QuizBotSessionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -628,7 +670,9 @@ export namespace Prisma {
   export const ModelName: {
     LandingPage: 'LandingPage',
     Lead: 'Lead',
-    LandingContent: 'LandingContent'
+    LandingContent: 'LandingContent',
+    QuizBotSettings: 'QuizBotSettings',
+    QuizBotSession: 'QuizBotSession'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -644,7 +688,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "landingPage" | "lead" | "landingContent"
+      modelProps: "landingPage" | "lead" | "landingContent" | "quizBotSettings" | "quizBotSession"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -870,6 +914,154 @@ export namespace Prisma {
           }
         }
       }
+      QuizBotSettings: {
+        payload: Prisma.$QuizBotSettingsPayload<ExtArgs>
+        fields: Prisma.QuizBotSettingsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuizBotSettingsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuizBotSettingsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>
+          }
+          findFirst: {
+            args: Prisma.QuizBotSettingsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuizBotSettingsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>
+          }
+          findMany: {
+            args: Prisma.QuizBotSettingsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>[]
+          }
+          create: {
+            args: Prisma.QuizBotSettingsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>
+          }
+          createMany: {
+            args: Prisma.QuizBotSettingsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuizBotSettingsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>[]
+          }
+          delete: {
+            args: Prisma.QuizBotSettingsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>
+          }
+          update: {
+            args: Prisma.QuizBotSettingsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuizBotSettingsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuizBotSettingsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuizBotSettingsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuizBotSettingsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSettingsPayload>
+          }
+          aggregate: {
+            args: Prisma.QuizBotSettingsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuizBotSettings>
+          }
+          groupBy: {
+            args: Prisma.QuizBotSettingsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuizBotSettingsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuizBotSettingsCountArgs<ExtArgs>
+            result: $Utils.Optional<QuizBotSettingsCountAggregateOutputType> | number
+          }
+        }
+      }
+      QuizBotSession: {
+        payload: Prisma.$QuizBotSessionPayload<ExtArgs>
+        fields: Prisma.QuizBotSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuizBotSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuizBotSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.QuizBotSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuizBotSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>
+          }
+          findMany: {
+            args: Prisma.QuizBotSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>[]
+          }
+          create: {
+            args: Prisma.QuizBotSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>
+          }
+          createMany: {
+            args: Prisma.QuizBotSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuizBotSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.QuizBotSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>
+          }
+          update: {
+            args: Prisma.QuizBotSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuizBotSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuizBotSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuizBotSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuizBotSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizBotSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.QuizBotSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuizBotSession>
+          }
+          groupBy: {
+            args: Prisma.QuizBotSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuizBotSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuizBotSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<QuizBotSessionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -981,6 +1173,8 @@ export namespace Prisma {
     landingPage?: LandingPageOmit
     lead?: LeadOmit
     landingContent?: LandingContentOmit
+    quizBotSettings?: QuizBotSettingsOmit
+    quizBotSession?: QuizBotSessionOmit
   }
 
   /* Types for Logging */
@@ -2395,7 +2589,9 @@ export namespace Prisma {
   export type LeadMinAggregateOutputType = {
     id: string | null
     channel: $Enums.Channel | null
+    source: $Enums.LeadSource | null
     contact: string | null
+    message: string | null
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
@@ -2415,7 +2611,9 @@ export namespace Prisma {
   export type LeadMaxAggregateOutputType = {
     id: string | null
     channel: $Enums.Channel | null
+    source: $Enums.LeadSource | null
     contact: string | null
+    message: string | null
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
@@ -2435,7 +2633,9 @@ export namespace Prisma {
   export type LeadCountAggregateOutputType = {
     id: number
     channel: number
+    source: number
     contact: number
+    message: number
     ipAddress: number
     country: number
     landingPageId: number
@@ -2457,7 +2657,9 @@ export namespace Prisma {
   export type LeadMinAggregateInputType = {
     id?: true
     channel?: true
+    source?: true
     contact?: true
+    message?: true
     ipAddress?: true
     country?: true
     landingPageId?: true
@@ -2477,7 +2679,9 @@ export namespace Prisma {
   export type LeadMaxAggregateInputType = {
     id?: true
     channel?: true
+    source?: true
     contact?: true
+    message?: true
     ipAddress?: true
     country?: true
     landingPageId?: true
@@ -2497,7 +2701,9 @@ export namespace Prisma {
   export type LeadCountAggregateInputType = {
     id?: true
     channel?: true
+    source?: true
     contact?: true
+    message?: true
     ipAddress?: true
     country?: true
     landingPageId?: true
@@ -2590,7 +2796,9 @@ export namespace Prisma {
   export type LeadGroupByOutputType = {
     id: string
     channel: $Enums.Channel
+    source: $Enums.LeadSource
     contact: string
+    message: string | null
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
@@ -2627,7 +2835,9 @@ export namespace Prisma {
   export type LeadSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     channel?: boolean
+    source?: boolean
     contact?: boolean
+    message?: boolean
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
@@ -2648,7 +2858,9 @@ export namespace Prisma {
   export type LeadSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     channel?: boolean
+    source?: boolean
     contact?: boolean
+    message?: boolean
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
@@ -2669,7 +2881,9 @@ export namespace Prisma {
   export type LeadSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     channel?: boolean
+    source?: boolean
     contact?: boolean
+    message?: boolean
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
@@ -2690,7 +2904,9 @@ export namespace Prisma {
   export type LeadSelectScalar = {
     id?: boolean
     channel?: boolean
+    source?: boolean
     contact?: boolean
+    message?: boolean
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
@@ -2707,7 +2923,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type LeadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channel" | "contact" | "ipAddress" | "country" | "landingPageId" | "pagePath" | "utmSource" | "utmMedium" | "utmCampaign" | "utmContent" | "utmTerm" | "gclid" | "gbraid" | "wbraid" | "fbclid" | "createdAt", ExtArgs["result"]["lead"]>
+  export type LeadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channel" | "source" | "contact" | "message" | "ipAddress" | "country" | "landingPageId" | "pagePath" | "utmSource" | "utmMedium" | "utmCampaign" | "utmContent" | "utmTerm" | "gclid" | "gbraid" | "wbraid" | "fbclid" | "createdAt", ExtArgs["result"]["lead"]>
   export type LeadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }
@@ -2726,7 +2942,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       channel: $Enums.Channel
+      source: $Enums.LeadSource
       contact: string
+      message: string | null
       ipAddress: string | null
       country: string | null
       landingPageId: string | null
@@ -3167,7 +3385,9 @@ export namespace Prisma {
   interface LeadFieldRefs {
     readonly id: FieldRef<"Lead", 'String'>
     readonly channel: FieldRef<"Lead", 'Channel'>
+    readonly source: FieldRef<"Lead", 'LeadSource'>
     readonly contact: FieldRef<"Lead", 'String'>
+    readonly message: FieldRef<"Lead", 'String'>
     readonly ipAddress: FieldRef<"Lead", 'String'>
     readonly country: FieldRef<"Lead", 'String'>
     readonly landingPageId: FieldRef<"Lead", 'String'>
@@ -4819,6 +5039,2135 @@ export namespace Prisma {
 
 
   /**
+   * Model QuizBotSettings
+   */
+
+  export type AggregateQuizBotSettings = {
+    _count: QuizBotSettingsCountAggregateOutputType | null
+    _min: QuizBotSettingsMinAggregateOutputType | null
+    _max: QuizBotSettingsMaxAggregateOutputType | null
+  }
+
+  export type QuizBotSettingsMinAggregateOutputType = {
+    id: string | null
+    enabled: boolean | null
+    welcomeMessage: string | null
+    startButtonLabel: string | null
+    completionMessage: string | null
+    managerContactUrl: string | null
+    channelUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuizBotSettingsMaxAggregateOutputType = {
+    id: string | null
+    enabled: boolean | null
+    welcomeMessage: string | null
+    startButtonLabel: string | null
+    completionMessage: string | null
+    managerContactUrl: string | null
+    channelUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuizBotSettingsCountAggregateOutputType = {
+    id: number
+    enabled: number
+    welcomeMessage: number
+    startButtonLabel: number
+    completionMessage: number
+    managerContactUrl: number
+    channelUrl: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QuizBotSettingsMinAggregateInputType = {
+    id?: true
+    enabled?: true
+    welcomeMessage?: true
+    startButtonLabel?: true
+    completionMessage?: true
+    managerContactUrl?: true
+    channelUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuizBotSettingsMaxAggregateInputType = {
+    id?: true
+    enabled?: true
+    welcomeMessage?: true
+    startButtonLabel?: true
+    completionMessage?: true
+    managerContactUrl?: true
+    channelUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuizBotSettingsCountAggregateInputType = {
+    id?: true
+    enabled?: true
+    welcomeMessage?: true
+    startButtonLabel?: true
+    completionMessage?: true
+    managerContactUrl?: true
+    channelUrl?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QuizBotSettingsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizBotSettings to aggregate.
+     */
+    where?: QuizBotSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizBotSettings to fetch.
+     */
+    orderBy?: QuizBotSettingsOrderByWithRelationInput | QuizBotSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuizBotSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizBotSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizBotSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuizBotSettings
+    **/
+    _count?: true | QuizBotSettingsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuizBotSettingsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuizBotSettingsMaxAggregateInputType
+  }
+
+  export type GetQuizBotSettingsAggregateType<T extends QuizBotSettingsAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuizBotSettings]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuizBotSettings[P]>
+      : GetScalarType<T[P], AggregateQuizBotSettings[P]>
+  }
+
+
+
+
+  export type QuizBotSettingsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizBotSettingsWhereInput
+    orderBy?: QuizBotSettingsOrderByWithAggregationInput | QuizBotSettingsOrderByWithAggregationInput[]
+    by: QuizBotSettingsScalarFieldEnum[] | QuizBotSettingsScalarFieldEnum
+    having?: QuizBotSettingsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuizBotSettingsCountAggregateInputType | true
+    _min?: QuizBotSettingsMinAggregateInputType
+    _max?: QuizBotSettingsMaxAggregateInputType
+  }
+
+  export type QuizBotSettingsGroupByOutputType = {
+    id: string
+    enabled: boolean
+    welcomeMessage: string
+    startButtonLabel: string
+    completionMessage: string
+    managerContactUrl: string | null
+    channelUrl: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: QuizBotSettingsCountAggregateOutputType | null
+    _min: QuizBotSettingsMinAggregateOutputType | null
+    _max: QuizBotSettingsMaxAggregateOutputType | null
+  }
+
+  type GetQuizBotSettingsGroupByPayload<T extends QuizBotSettingsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuizBotSettingsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuizBotSettingsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuizBotSettingsGroupByOutputType[P]>
+            : GetScalarType<T[P], QuizBotSettingsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuizBotSettingsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    enabled?: boolean
+    welcomeMessage?: boolean
+    startButtonLabel?: boolean
+    completionMessage?: boolean
+    managerContactUrl?: boolean
+    channelUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizBotSettings"]>
+
+  export type QuizBotSettingsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    enabled?: boolean
+    welcomeMessage?: boolean
+    startButtonLabel?: boolean
+    completionMessage?: boolean
+    managerContactUrl?: boolean
+    channelUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizBotSettings"]>
+
+  export type QuizBotSettingsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    enabled?: boolean
+    welcomeMessage?: boolean
+    startButtonLabel?: boolean
+    completionMessage?: boolean
+    managerContactUrl?: boolean
+    channelUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizBotSettings"]>
+
+  export type QuizBotSettingsSelectScalar = {
+    id?: boolean
+    enabled?: boolean
+    welcomeMessage?: boolean
+    startButtonLabel?: boolean
+    completionMessage?: boolean
+    managerContactUrl?: boolean
+    channelUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QuizBotSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "enabled" | "welcomeMessage" | "startButtonLabel" | "completionMessage" | "managerContactUrl" | "channelUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["quizBotSettings"]>
+
+  export type $QuizBotSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuizBotSettings"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      enabled: boolean
+      welcomeMessage: string
+      startButtonLabel: string
+      completionMessage: string
+      managerContactUrl: string | null
+      channelUrl: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["quizBotSettings"]>
+    composites: {}
+  }
+
+  type QuizBotSettingsGetPayload<S extends boolean | null | undefined | QuizBotSettingsDefaultArgs> = $Result.GetResult<Prisma.$QuizBotSettingsPayload, S>
+
+  type QuizBotSettingsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuizBotSettingsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuizBotSettingsCountAggregateInputType | true
+    }
+
+  export interface QuizBotSettingsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuizBotSettings'], meta: { name: 'QuizBotSettings' } }
+    /**
+     * Find zero or one QuizBotSettings that matches the filter.
+     * @param {QuizBotSettingsFindUniqueArgs} args - Arguments to find a QuizBotSettings
+     * @example
+     * // Get one QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuizBotSettingsFindUniqueArgs>(args: SelectSubset<T, QuizBotSettingsFindUniqueArgs<ExtArgs>>): Prisma__QuizBotSettingsClient<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuizBotSettings that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuizBotSettingsFindUniqueOrThrowArgs} args - Arguments to find a QuizBotSettings
+     * @example
+     * // Get one QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuizBotSettingsFindUniqueOrThrowArgs>(args: SelectSubset<T, QuizBotSettingsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuizBotSettingsClient<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizBotSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSettingsFindFirstArgs} args - Arguments to find a QuizBotSettings
+     * @example
+     * // Get one QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuizBotSettingsFindFirstArgs>(args?: SelectSubset<T, QuizBotSettingsFindFirstArgs<ExtArgs>>): Prisma__QuizBotSettingsClient<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizBotSettings that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSettingsFindFirstOrThrowArgs} args - Arguments to find a QuizBotSettings
+     * @example
+     * // Get one QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuizBotSettingsFindFirstOrThrowArgs>(args?: SelectSubset<T, QuizBotSettingsFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuizBotSettingsClient<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuizBotSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSettingsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.findMany()
+     * 
+     * // Get first 10 QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quizBotSettingsWithIdOnly = await prisma.quizBotSettings.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuizBotSettingsFindManyArgs>(args?: SelectSubset<T, QuizBotSettingsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuizBotSettings.
+     * @param {QuizBotSettingsCreateArgs} args - Arguments to create a QuizBotSettings.
+     * @example
+     * // Create one QuizBotSettings
+     * const QuizBotSettings = await prisma.quizBotSettings.create({
+     *   data: {
+     *     // ... data to create a QuizBotSettings
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuizBotSettingsCreateArgs>(args: SelectSubset<T, QuizBotSettingsCreateArgs<ExtArgs>>): Prisma__QuizBotSettingsClient<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuizBotSettings.
+     * @param {QuizBotSettingsCreateManyArgs} args - Arguments to create many QuizBotSettings.
+     * @example
+     * // Create many QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuizBotSettingsCreateManyArgs>(args?: SelectSubset<T, QuizBotSettingsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuizBotSettings and returns the data saved in the database.
+     * @param {QuizBotSettingsCreateManyAndReturnArgs} args - Arguments to create many QuizBotSettings.
+     * @example
+     * // Create many QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuizBotSettings and only return the `id`
+     * const quizBotSettingsWithIdOnly = await prisma.quizBotSettings.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuizBotSettingsCreateManyAndReturnArgs>(args?: SelectSubset<T, QuizBotSettingsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuizBotSettings.
+     * @param {QuizBotSettingsDeleteArgs} args - Arguments to delete one QuizBotSettings.
+     * @example
+     * // Delete one QuizBotSettings
+     * const QuizBotSettings = await prisma.quizBotSettings.delete({
+     *   where: {
+     *     // ... filter to delete one QuizBotSettings
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuizBotSettingsDeleteArgs>(args: SelectSubset<T, QuizBotSettingsDeleteArgs<ExtArgs>>): Prisma__QuizBotSettingsClient<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuizBotSettings.
+     * @param {QuizBotSettingsUpdateArgs} args - Arguments to update one QuizBotSettings.
+     * @example
+     * // Update one QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuizBotSettingsUpdateArgs>(args: SelectSubset<T, QuizBotSettingsUpdateArgs<ExtArgs>>): Prisma__QuizBotSettingsClient<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuizBotSettings.
+     * @param {QuizBotSettingsDeleteManyArgs} args - Arguments to filter QuizBotSettings to delete.
+     * @example
+     * // Delete a few QuizBotSettings
+     * const { count } = await prisma.quizBotSettings.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuizBotSettingsDeleteManyArgs>(args?: SelectSubset<T, QuizBotSettingsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizBotSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSettingsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuizBotSettingsUpdateManyArgs>(args: SelectSubset<T, QuizBotSettingsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizBotSettings and returns the data updated in the database.
+     * @param {QuizBotSettingsUpdateManyAndReturnArgs} args - Arguments to update many QuizBotSettings.
+     * @example
+     * // Update many QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuizBotSettings and only return the `id`
+     * const quizBotSettingsWithIdOnly = await prisma.quizBotSettings.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuizBotSettingsUpdateManyAndReturnArgs>(args: SelectSubset<T, QuizBotSettingsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuizBotSettings.
+     * @param {QuizBotSettingsUpsertArgs} args - Arguments to update or create a QuizBotSettings.
+     * @example
+     * // Update or create a QuizBotSettings
+     * const quizBotSettings = await prisma.quizBotSettings.upsert({
+     *   create: {
+     *     // ... data to create a QuizBotSettings
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuizBotSettings we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuizBotSettingsUpsertArgs>(args: SelectSubset<T, QuizBotSettingsUpsertArgs<ExtArgs>>): Prisma__QuizBotSettingsClient<$Result.GetResult<Prisma.$QuizBotSettingsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuizBotSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSettingsCountArgs} args - Arguments to filter QuizBotSettings to count.
+     * @example
+     * // Count the number of QuizBotSettings
+     * const count = await prisma.quizBotSettings.count({
+     *   where: {
+     *     // ... the filter for the QuizBotSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuizBotSettingsCountArgs>(
+      args?: Subset<T, QuizBotSettingsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuizBotSettingsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuizBotSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSettingsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuizBotSettingsAggregateArgs>(args: Subset<T, QuizBotSettingsAggregateArgs>): Prisma.PrismaPromise<GetQuizBotSettingsAggregateType<T>>
+
+    /**
+     * Group by QuizBotSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSettingsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuizBotSettingsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuizBotSettingsGroupByArgs['orderBy'] }
+        : { orderBy?: QuizBotSettingsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuizBotSettingsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuizBotSettingsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuizBotSettings model
+   */
+  readonly fields: QuizBotSettingsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuizBotSettings.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuizBotSettingsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuizBotSettings model
+   */
+  interface QuizBotSettingsFieldRefs {
+    readonly id: FieldRef<"QuizBotSettings", 'String'>
+    readonly enabled: FieldRef<"QuizBotSettings", 'Boolean'>
+    readonly welcomeMessage: FieldRef<"QuizBotSettings", 'String'>
+    readonly startButtonLabel: FieldRef<"QuizBotSettings", 'String'>
+    readonly completionMessage: FieldRef<"QuizBotSettings", 'String'>
+    readonly managerContactUrl: FieldRef<"QuizBotSettings", 'String'>
+    readonly channelUrl: FieldRef<"QuizBotSettings", 'String'>
+    readonly createdAt: FieldRef<"QuizBotSettings", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuizBotSettings", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuizBotSettings findUnique
+   */
+  export type QuizBotSettingsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSettings to fetch.
+     */
+    where: QuizBotSettingsWhereUniqueInput
+  }
+
+  /**
+   * QuizBotSettings findUniqueOrThrow
+   */
+  export type QuizBotSettingsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSettings to fetch.
+     */
+    where: QuizBotSettingsWhereUniqueInput
+  }
+
+  /**
+   * QuizBotSettings findFirst
+   */
+  export type QuizBotSettingsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSettings to fetch.
+     */
+    where?: QuizBotSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizBotSettings to fetch.
+     */
+    orderBy?: QuizBotSettingsOrderByWithRelationInput | QuizBotSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizBotSettings.
+     */
+    cursor?: QuizBotSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizBotSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizBotSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizBotSettings.
+     */
+    distinct?: QuizBotSettingsScalarFieldEnum | QuizBotSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * QuizBotSettings findFirstOrThrow
+   */
+  export type QuizBotSettingsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSettings to fetch.
+     */
+    where?: QuizBotSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizBotSettings to fetch.
+     */
+    orderBy?: QuizBotSettingsOrderByWithRelationInput | QuizBotSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizBotSettings.
+     */
+    cursor?: QuizBotSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizBotSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizBotSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizBotSettings.
+     */
+    distinct?: QuizBotSettingsScalarFieldEnum | QuizBotSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * QuizBotSettings findMany
+   */
+  export type QuizBotSettingsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSettings to fetch.
+     */
+    where?: QuizBotSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizBotSettings to fetch.
+     */
+    orderBy?: QuizBotSettingsOrderByWithRelationInput | QuizBotSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuizBotSettings.
+     */
+    cursor?: QuizBotSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizBotSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizBotSettings.
+     */
+    skip?: number
+    distinct?: QuizBotSettingsScalarFieldEnum | QuizBotSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * QuizBotSettings create
+   */
+  export type QuizBotSettingsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a QuizBotSettings.
+     */
+    data: XOR<QuizBotSettingsCreateInput, QuizBotSettingsUncheckedCreateInput>
+  }
+
+  /**
+   * QuizBotSettings createMany
+   */
+  export type QuizBotSettingsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuizBotSettings.
+     */
+    data: QuizBotSettingsCreateManyInput | QuizBotSettingsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuizBotSettings createManyAndReturn
+   */
+  export type QuizBotSettingsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuizBotSettings.
+     */
+    data: QuizBotSettingsCreateManyInput | QuizBotSettingsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuizBotSettings update
+   */
+  export type QuizBotSettingsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a QuizBotSettings.
+     */
+    data: XOR<QuizBotSettingsUpdateInput, QuizBotSettingsUncheckedUpdateInput>
+    /**
+     * Choose, which QuizBotSettings to update.
+     */
+    where: QuizBotSettingsWhereUniqueInput
+  }
+
+  /**
+   * QuizBotSettings updateMany
+   */
+  export type QuizBotSettingsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuizBotSettings.
+     */
+    data: XOR<QuizBotSettingsUpdateManyMutationInput, QuizBotSettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizBotSettings to update
+     */
+    where?: QuizBotSettingsWhereInput
+    /**
+     * Limit how many QuizBotSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizBotSettings updateManyAndReturn
+   */
+  export type QuizBotSettingsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * The data used to update QuizBotSettings.
+     */
+    data: XOR<QuizBotSettingsUpdateManyMutationInput, QuizBotSettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizBotSettings to update
+     */
+    where?: QuizBotSettingsWhereInput
+    /**
+     * Limit how many QuizBotSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizBotSettings upsert
+   */
+  export type QuizBotSettingsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the QuizBotSettings to update in case it exists.
+     */
+    where: QuizBotSettingsWhereUniqueInput
+    /**
+     * In case the QuizBotSettings found by the `where` argument doesn't exist, create a new QuizBotSettings with this data.
+     */
+    create: XOR<QuizBotSettingsCreateInput, QuizBotSettingsUncheckedCreateInput>
+    /**
+     * In case the QuizBotSettings was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuizBotSettingsUpdateInput, QuizBotSettingsUncheckedUpdateInput>
+  }
+
+  /**
+   * QuizBotSettings delete
+   */
+  export type QuizBotSettingsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+    /**
+     * Filter which QuizBotSettings to delete.
+     */
+    where: QuizBotSettingsWhereUniqueInput
+  }
+
+  /**
+   * QuizBotSettings deleteMany
+   */
+  export type QuizBotSettingsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizBotSettings to delete
+     */
+    where?: QuizBotSettingsWhereInput
+    /**
+     * Limit how many QuizBotSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizBotSettings without action
+   */
+  export type QuizBotSettingsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSettings
+     */
+    select?: QuizBotSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSettings
+     */
+    omit?: QuizBotSettingsOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QuizBotSession
+   */
+
+  export type AggregateQuizBotSession = {
+    _count: QuizBotSessionCountAggregateOutputType | null
+    _min: QuizBotSessionMinAggregateOutputType | null
+    _max: QuizBotSessionMaxAggregateOutputType | null
+  }
+
+  export type QuizBotSessionMinAggregateOutputType = {
+    id: string | null
+    chatId: string | null
+    telegramUserId: string | null
+    username: string | null
+    firstName: string | null
+    lastName: string | null
+    step: string | null
+    startParam: string | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuizBotSessionMaxAggregateOutputType = {
+    id: string | null
+    chatId: string | null
+    telegramUserId: string | null
+    username: string | null
+    firstName: string | null
+    lastName: string | null
+    step: string | null
+    startParam: string | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuizBotSessionCountAggregateOutputType = {
+    id: number
+    chatId: number
+    telegramUserId: number
+    username: number
+    firstName: number
+    lastName: number
+    step: number
+    startParam: number
+    answers: number
+    completedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QuizBotSessionMinAggregateInputType = {
+    id?: true
+    chatId?: true
+    telegramUserId?: true
+    username?: true
+    firstName?: true
+    lastName?: true
+    step?: true
+    startParam?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuizBotSessionMaxAggregateInputType = {
+    id?: true
+    chatId?: true
+    telegramUserId?: true
+    username?: true
+    firstName?: true
+    lastName?: true
+    step?: true
+    startParam?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuizBotSessionCountAggregateInputType = {
+    id?: true
+    chatId?: true
+    telegramUserId?: true
+    username?: true
+    firstName?: true
+    lastName?: true
+    step?: true
+    startParam?: true
+    answers?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QuizBotSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizBotSession to aggregate.
+     */
+    where?: QuizBotSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizBotSessions to fetch.
+     */
+    orderBy?: QuizBotSessionOrderByWithRelationInput | QuizBotSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuizBotSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizBotSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizBotSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuizBotSessions
+    **/
+    _count?: true | QuizBotSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuizBotSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuizBotSessionMaxAggregateInputType
+  }
+
+  export type GetQuizBotSessionAggregateType<T extends QuizBotSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuizBotSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuizBotSession[P]>
+      : GetScalarType<T[P], AggregateQuizBotSession[P]>
+  }
+
+
+
+
+  export type QuizBotSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizBotSessionWhereInput
+    orderBy?: QuizBotSessionOrderByWithAggregationInput | QuizBotSessionOrderByWithAggregationInput[]
+    by: QuizBotSessionScalarFieldEnum[] | QuizBotSessionScalarFieldEnum
+    having?: QuizBotSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuizBotSessionCountAggregateInputType | true
+    _min?: QuizBotSessionMinAggregateInputType
+    _max?: QuizBotSessionMaxAggregateInputType
+  }
+
+  export type QuizBotSessionGroupByOutputType = {
+    id: string
+    chatId: string
+    telegramUserId: string | null
+    username: string | null
+    firstName: string | null
+    lastName: string | null
+    step: string
+    startParam: string | null
+    answers: JsonValue
+    completedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: QuizBotSessionCountAggregateOutputType | null
+    _min: QuizBotSessionMinAggregateOutputType | null
+    _max: QuizBotSessionMaxAggregateOutputType | null
+  }
+
+  type GetQuizBotSessionGroupByPayload<T extends QuizBotSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuizBotSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuizBotSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuizBotSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], QuizBotSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuizBotSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    chatId?: boolean
+    telegramUserId?: boolean
+    username?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    step?: boolean
+    startParam?: boolean
+    answers?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizBotSession"]>
+
+  export type QuizBotSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    chatId?: boolean
+    telegramUserId?: boolean
+    username?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    step?: boolean
+    startParam?: boolean
+    answers?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizBotSession"]>
+
+  export type QuizBotSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    chatId?: boolean
+    telegramUserId?: boolean
+    username?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    step?: boolean
+    startParam?: boolean
+    answers?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizBotSession"]>
+
+  export type QuizBotSessionSelectScalar = {
+    id?: boolean
+    chatId?: boolean
+    telegramUserId?: boolean
+    username?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    step?: boolean
+    startParam?: boolean
+    answers?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QuizBotSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "chatId" | "telegramUserId" | "username" | "firstName" | "lastName" | "step" | "startParam" | "answers" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizBotSession"]>
+
+  export type $QuizBotSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuizBotSession"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      chatId: string
+      telegramUserId: string | null
+      username: string | null
+      firstName: string | null
+      lastName: string | null
+      step: string
+      startParam: string | null
+      answers: Prisma.JsonValue
+      completedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["quizBotSession"]>
+    composites: {}
+  }
+
+  type QuizBotSessionGetPayload<S extends boolean | null | undefined | QuizBotSessionDefaultArgs> = $Result.GetResult<Prisma.$QuizBotSessionPayload, S>
+
+  type QuizBotSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuizBotSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuizBotSessionCountAggregateInputType | true
+    }
+
+  export interface QuizBotSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuizBotSession'], meta: { name: 'QuizBotSession' } }
+    /**
+     * Find zero or one QuizBotSession that matches the filter.
+     * @param {QuizBotSessionFindUniqueArgs} args - Arguments to find a QuizBotSession
+     * @example
+     * // Get one QuizBotSession
+     * const quizBotSession = await prisma.quizBotSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuizBotSessionFindUniqueArgs>(args: SelectSubset<T, QuizBotSessionFindUniqueArgs<ExtArgs>>): Prisma__QuizBotSessionClient<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuizBotSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuizBotSessionFindUniqueOrThrowArgs} args - Arguments to find a QuizBotSession
+     * @example
+     * // Get one QuizBotSession
+     * const quizBotSession = await prisma.quizBotSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuizBotSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, QuizBotSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuizBotSessionClient<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizBotSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSessionFindFirstArgs} args - Arguments to find a QuizBotSession
+     * @example
+     * // Get one QuizBotSession
+     * const quizBotSession = await prisma.quizBotSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuizBotSessionFindFirstArgs>(args?: SelectSubset<T, QuizBotSessionFindFirstArgs<ExtArgs>>): Prisma__QuizBotSessionClient<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizBotSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSessionFindFirstOrThrowArgs} args - Arguments to find a QuizBotSession
+     * @example
+     * // Get one QuizBotSession
+     * const quizBotSession = await prisma.quizBotSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuizBotSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, QuizBotSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuizBotSessionClient<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuizBotSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuizBotSessions
+     * const quizBotSessions = await prisma.quizBotSession.findMany()
+     * 
+     * // Get first 10 QuizBotSessions
+     * const quizBotSessions = await prisma.quizBotSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quizBotSessionWithIdOnly = await prisma.quizBotSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuizBotSessionFindManyArgs>(args?: SelectSubset<T, QuizBotSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuizBotSession.
+     * @param {QuizBotSessionCreateArgs} args - Arguments to create a QuizBotSession.
+     * @example
+     * // Create one QuizBotSession
+     * const QuizBotSession = await prisma.quizBotSession.create({
+     *   data: {
+     *     // ... data to create a QuizBotSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuizBotSessionCreateArgs>(args: SelectSubset<T, QuizBotSessionCreateArgs<ExtArgs>>): Prisma__QuizBotSessionClient<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuizBotSessions.
+     * @param {QuizBotSessionCreateManyArgs} args - Arguments to create many QuizBotSessions.
+     * @example
+     * // Create many QuizBotSessions
+     * const quizBotSession = await prisma.quizBotSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuizBotSessionCreateManyArgs>(args?: SelectSubset<T, QuizBotSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuizBotSessions and returns the data saved in the database.
+     * @param {QuizBotSessionCreateManyAndReturnArgs} args - Arguments to create many QuizBotSessions.
+     * @example
+     * // Create many QuizBotSessions
+     * const quizBotSession = await prisma.quizBotSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuizBotSessions and only return the `id`
+     * const quizBotSessionWithIdOnly = await prisma.quizBotSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuizBotSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, QuizBotSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuizBotSession.
+     * @param {QuizBotSessionDeleteArgs} args - Arguments to delete one QuizBotSession.
+     * @example
+     * // Delete one QuizBotSession
+     * const QuizBotSession = await prisma.quizBotSession.delete({
+     *   where: {
+     *     // ... filter to delete one QuizBotSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuizBotSessionDeleteArgs>(args: SelectSubset<T, QuizBotSessionDeleteArgs<ExtArgs>>): Prisma__QuizBotSessionClient<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuizBotSession.
+     * @param {QuizBotSessionUpdateArgs} args - Arguments to update one QuizBotSession.
+     * @example
+     * // Update one QuizBotSession
+     * const quizBotSession = await prisma.quizBotSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuizBotSessionUpdateArgs>(args: SelectSubset<T, QuizBotSessionUpdateArgs<ExtArgs>>): Prisma__QuizBotSessionClient<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuizBotSessions.
+     * @param {QuizBotSessionDeleteManyArgs} args - Arguments to filter QuizBotSessions to delete.
+     * @example
+     * // Delete a few QuizBotSessions
+     * const { count } = await prisma.quizBotSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuizBotSessionDeleteManyArgs>(args?: SelectSubset<T, QuizBotSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizBotSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuizBotSessions
+     * const quizBotSession = await prisma.quizBotSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuizBotSessionUpdateManyArgs>(args: SelectSubset<T, QuizBotSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizBotSessions and returns the data updated in the database.
+     * @param {QuizBotSessionUpdateManyAndReturnArgs} args - Arguments to update many QuizBotSessions.
+     * @example
+     * // Update many QuizBotSessions
+     * const quizBotSession = await prisma.quizBotSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuizBotSessions and only return the `id`
+     * const quizBotSessionWithIdOnly = await prisma.quizBotSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuizBotSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, QuizBotSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuizBotSession.
+     * @param {QuizBotSessionUpsertArgs} args - Arguments to update or create a QuizBotSession.
+     * @example
+     * // Update or create a QuizBotSession
+     * const quizBotSession = await prisma.quizBotSession.upsert({
+     *   create: {
+     *     // ... data to create a QuizBotSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuizBotSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuizBotSessionUpsertArgs>(args: SelectSubset<T, QuizBotSessionUpsertArgs<ExtArgs>>): Prisma__QuizBotSessionClient<$Result.GetResult<Prisma.$QuizBotSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuizBotSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSessionCountArgs} args - Arguments to filter QuizBotSessions to count.
+     * @example
+     * // Count the number of QuizBotSessions
+     * const count = await prisma.quizBotSession.count({
+     *   where: {
+     *     // ... the filter for the QuizBotSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuizBotSessionCountArgs>(
+      args?: Subset<T, QuizBotSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuizBotSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuizBotSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuizBotSessionAggregateArgs>(args: Subset<T, QuizBotSessionAggregateArgs>): Prisma.PrismaPromise<GetQuizBotSessionAggregateType<T>>
+
+    /**
+     * Group by QuizBotSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizBotSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuizBotSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuizBotSessionGroupByArgs['orderBy'] }
+        : { orderBy?: QuizBotSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuizBotSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuizBotSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuizBotSession model
+   */
+  readonly fields: QuizBotSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuizBotSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuizBotSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuizBotSession model
+   */
+  interface QuizBotSessionFieldRefs {
+    readonly id: FieldRef<"QuizBotSession", 'String'>
+    readonly chatId: FieldRef<"QuizBotSession", 'String'>
+    readonly telegramUserId: FieldRef<"QuizBotSession", 'String'>
+    readonly username: FieldRef<"QuizBotSession", 'String'>
+    readonly firstName: FieldRef<"QuizBotSession", 'String'>
+    readonly lastName: FieldRef<"QuizBotSession", 'String'>
+    readonly step: FieldRef<"QuizBotSession", 'String'>
+    readonly startParam: FieldRef<"QuizBotSession", 'String'>
+    readonly answers: FieldRef<"QuizBotSession", 'Json'>
+    readonly completedAt: FieldRef<"QuizBotSession", 'DateTime'>
+    readonly createdAt: FieldRef<"QuizBotSession", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuizBotSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuizBotSession findUnique
+   */
+  export type QuizBotSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSession to fetch.
+     */
+    where: QuizBotSessionWhereUniqueInput
+  }
+
+  /**
+   * QuizBotSession findUniqueOrThrow
+   */
+  export type QuizBotSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSession to fetch.
+     */
+    where: QuizBotSessionWhereUniqueInput
+  }
+
+  /**
+   * QuizBotSession findFirst
+   */
+  export type QuizBotSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSession to fetch.
+     */
+    where?: QuizBotSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizBotSessions to fetch.
+     */
+    orderBy?: QuizBotSessionOrderByWithRelationInput | QuizBotSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizBotSessions.
+     */
+    cursor?: QuizBotSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizBotSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizBotSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizBotSessions.
+     */
+    distinct?: QuizBotSessionScalarFieldEnum | QuizBotSessionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizBotSession findFirstOrThrow
+   */
+  export type QuizBotSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSession to fetch.
+     */
+    where?: QuizBotSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizBotSessions to fetch.
+     */
+    orderBy?: QuizBotSessionOrderByWithRelationInput | QuizBotSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizBotSessions.
+     */
+    cursor?: QuizBotSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizBotSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizBotSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizBotSessions.
+     */
+    distinct?: QuizBotSessionScalarFieldEnum | QuizBotSessionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizBotSession findMany
+   */
+  export type QuizBotSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizBotSessions to fetch.
+     */
+    where?: QuizBotSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizBotSessions to fetch.
+     */
+    orderBy?: QuizBotSessionOrderByWithRelationInput | QuizBotSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuizBotSessions.
+     */
+    cursor?: QuizBotSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizBotSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizBotSessions.
+     */
+    skip?: number
+    distinct?: QuizBotSessionScalarFieldEnum | QuizBotSessionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizBotSession create
+   */
+  export type QuizBotSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a QuizBotSession.
+     */
+    data: XOR<QuizBotSessionCreateInput, QuizBotSessionUncheckedCreateInput>
+  }
+
+  /**
+   * QuizBotSession createMany
+   */
+  export type QuizBotSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuizBotSessions.
+     */
+    data: QuizBotSessionCreateManyInput | QuizBotSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuizBotSession createManyAndReturn
+   */
+  export type QuizBotSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuizBotSessions.
+     */
+    data: QuizBotSessionCreateManyInput | QuizBotSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuizBotSession update
+   */
+  export type QuizBotSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a QuizBotSession.
+     */
+    data: XOR<QuizBotSessionUpdateInput, QuizBotSessionUncheckedUpdateInput>
+    /**
+     * Choose, which QuizBotSession to update.
+     */
+    where: QuizBotSessionWhereUniqueInput
+  }
+
+  /**
+   * QuizBotSession updateMany
+   */
+  export type QuizBotSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuizBotSessions.
+     */
+    data: XOR<QuizBotSessionUpdateManyMutationInput, QuizBotSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizBotSessions to update
+     */
+    where?: QuizBotSessionWhereInput
+    /**
+     * Limit how many QuizBotSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizBotSession updateManyAndReturn
+   */
+  export type QuizBotSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update QuizBotSessions.
+     */
+    data: XOR<QuizBotSessionUpdateManyMutationInput, QuizBotSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizBotSessions to update
+     */
+    where?: QuizBotSessionWhereInput
+    /**
+     * Limit how many QuizBotSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizBotSession upsert
+   */
+  export type QuizBotSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the QuizBotSession to update in case it exists.
+     */
+    where: QuizBotSessionWhereUniqueInput
+    /**
+     * In case the QuizBotSession found by the `where` argument doesn't exist, create a new QuizBotSession with this data.
+     */
+    create: XOR<QuizBotSessionCreateInput, QuizBotSessionUncheckedCreateInput>
+    /**
+     * In case the QuizBotSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuizBotSessionUpdateInput, QuizBotSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * QuizBotSession delete
+   */
+  export type QuizBotSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+    /**
+     * Filter which QuizBotSession to delete.
+     */
+    where: QuizBotSessionWhereUniqueInput
+  }
+
+  /**
+   * QuizBotSession deleteMany
+   */
+  export type QuizBotSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizBotSessions to delete
+     */
+    where?: QuizBotSessionWhereInput
+    /**
+     * Limit how many QuizBotSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizBotSession without action
+   */
+  export type QuizBotSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizBotSession
+     */
+    select?: QuizBotSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizBotSession
+     */
+    omit?: QuizBotSessionOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4863,7 +7212,9 @@ export namespace Prisma {
   export const LeadScalarFieldEnum: {
     id: 'id',
     channel: 'channel',
+    source: 'source',
     contact: 'contact',
+    message: 'message',
     ipAddress: 'ipAddress',
     country: 'country',
     landingPageId: 'landingPageId',
@@ -4910,12 +7261,52 @@ export namespace Prisma {
   export type LandingContentScalarFieldEnum = (typeof LandingContentScalarFieldEnum)[keyof typeof LandingContentScalarFieldEnum]
 
 
+  export const QuizBotSettingsScalarFieldEnum: {
+    id: 'id',
+    enabled: 'enabled',
+    welcomeMessage: 'welcomeMessage',
+    startButtonLabel: 'startButtonLabel',
+    completionMessage: 'completionMessage',
+    managerContactUrl: 'managerContactUrl',
+    channelUrl: 'channelUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QuizBotSettingsScalarFieldEnum = (typeof QuizBotSettingsScalarFieldEnum)[keyof typeof QuizBotSettingsScalarFieldEnum]
+
+
+  export const QuizBotSessionScalarFieldEnum: {
+    id: 'id',
+    chatId: 'chatId',
+    telegramUserId: 'telegramUserId',
+    username: 'username',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    step: 'step',
+    startParam: 'startParam',
+    answers: 'answers',
+    completedAt: 'completedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QuizBotSessionScalarFieldEnum = (typeof QuizBotSessionScalarFieldEnum)[keyof typeof QuizBotSessionScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -4932,6 +7323,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -4985,6 +7385,34 @@ export namespace Prisma {
    * Reference to a field of type 'Channel[]'
    */
   export type ListEnumChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Channel[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'LeadSource'
+   */
+  export type EnumLeadSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeadSource'>
+    
+
+
+  /**
+   * Reference to a field of type 'LeadSource[]'
+   */
+  export type ListEnumLeadSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeadSource[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -5151,7 +7579,9 @@ export namespace Prisma {
     NOT?: LeadWhereInput | LeadWhereInput[]
     id?: StringFilter<"Lead"> | string
     channel?: EnumChannelFilter<"Lead"> | $Enums.Channel
+    source?: EnumLeadSourceFilter<"Lead"> | $Enums.LeadSource
     contact?: StringFilter<"Lead"> | string
+    message?: StringNullableFilter<"Lead"> | string | null
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
@@ -5172,7 +7602,9 @@ export namespace Prisma {
   export type LeadOrderByWithRelationInput = {
     id?: SortOrder
     channel?: SortOrder
+    source?: SortOrder
     contact?: SortOrder
+    message?: SortOrderInput | SortOrder
     ipAddress?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     landingPageId?: SortOrderInput | SortOrder
@@ -5196,7 +7628,9 @@ export namespace Prisma {
     OR?: LeadWhereInput[]
     NOT?: LeadWhereInput | LeadWhereInput[]
     channel?: EnumChannelFilter<"Lead"> | $Enums.Channel
+    source?: EnumLeadSourceFilter<"Lead"> | $Enums.LeadSource
     contact?: StringFilter<"Lead"> | string
+    message?: StringNullableFilter<"Lead"> | string | null
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
@@ -5217,7 +7651,9 @@ export namespace Prisma {
   export type LeadOrderByWithAggregationInput = {
     id?: SortOrder
     channel?: SortOrder
+    source?: SortOrder
     contact?: SortOrder
+    message?: SortOrderInput | SortOrder
     ipAddress?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     landingPageId?: SortOrderInput | SortOrder
@@ -5243,7 +7679,9 @@ export namespace Prisma {
     NOT?: LeadScalarWhereWithAggregatesInput | LeadScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Lead"> | string
     channel?: EnumChannelWithAggregatesFilter<"Lead"> | $Enums.Channel
+    source?: EnumLeadSourceWithAggregatesFilter<"Lead"> | $Enums.LeadSource
     contact?: StringWithAggregatesFilter<"Lead"> | string
+    message?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     ipAddress?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     country?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     landingPageId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -5390,6 +7828,165 @@ export namespace Prisma {
     logoPath?: StringWithAggregatesFilter<"LandingContent"> | string
     createdAt?: DateTimeWithAggregatesFilter<"LandingContent"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"LandingContent"> | Date | string
+  }
+
+  export type QuizBotSettingsWhereInput = {
+    AND?: QuizBotSettingsWhereInput | QuizBotSettingsWhereInput[]
+    OR?: QuizBotSettingsWhereInput[]
+    NOT?: QuizBotSettingsWhereInput | QuizBotSettingsWhereInput[]
+    id?: StringFilter<"QuizBotSettings"> | string
+    enabled?: BoolFilter<"QuizBotSettings"> | boolean
+    welcomeMessage?: StringFilter<"QuizBotSettings"> | string
+    startButtonLabel?: StringFilter<"QuizBotSettings"> | string
+    completionMessage?: StringFilter<"QuizBotSettings"> | string
+    managerContactUrl?: StringNullableFilter<"QuizBotSettings"> | string | null
+    channelUrl?: StringNullableFilter<"QuizBotSettings"> | string | null
+    createdAt?: DateTimeFilter<"QuizBotSettings"> | Date | string
+    updatedAt?: DateTimeFilter<"QuizBotSettings"> | Date | string
+  }
+
+  export type QuizBotSettingsOrderByWithRelationInput = {
+    id?: SortOrder
+    enabled?: SortOrder
+    welcomeMessage?: SortOrder
+    startButtonLabel?: SortOrder
+    completionMessage?: SortOrder
+    managerContactUrl?: SortOrderInput | SortOrder
+    channelUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizBotSettingsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QuizBotSettingsWhereInput | QuizBotSettingsWhereInput[]
+    OR?: QuizBotSettingsWhereInput[]
+    NOT?: QuizBotSettingsWhereInput | QuizBotSettingsWhereInput[]
+    enabled?: BoolFilter<"QuizBotSettings"> | boolean
+    welcomeMessage?: StringFilter<"QuizBotSettings"> | string
+    startButtonLabel?: StringFilter<"QuizBotSettings"> | string
+    completionMessage?: StringFilter<"QuizBotSettings"> | string
+    managerContactUrl?: StringNullableFilter<"QuizBotSettings"> | string | null
+    channelUrl?: StringNullableFilter<"QuizBotSettings"> | string | null
+    createdAt?: DateTimeFilter<"QuizBotSettings"> | Date | string
+    updatedAt?: DateTimeFilter<"QuizBotSettings"> | Date | string
+  }, "id">
+
+  export type QuizBotSettingsOrderByWithAggregationInput = {
+    id?: SortOrder
+    enabled?: SortOrder
+    welcomeMessage?: SortOrder
+    startButtonLabel?: SortOrder
+    completionMessage?: SortOrder
+    managerContactUrl?: SortOrderInput | SortOrder
+    channelUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QuizBotSettingsCountOrderByAggregateInput
+    _max?: QuizBotSettingsMaxOrderByAggregateInput
+    _min?: QuizBotSettingsMinOrderByAggregateInput
+  }
+
+  export type QuizBotSettingsScalarWhereWithAggregatesInput = {
+    AND?: QuizBotSettingsScalarWhereWithAggregatesInput | QuizBotSettingsScalarWhereWithAggregatesInput[]
+    OR?: QuizBotSettingsScalarWhereWithAggregatesInput[]
+    NOT?: QuizBotSettingsScalarWhereWithAggregatesInput | QuizBotSettingsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuizBotSettings"> | string
+    enabled?: BoolWithAggregatesFilter<"QuizBotSettings"> | boolean
+    welcomeMessage?: StringWithAggregatesFilter<"QuizBotSettings"> | string
+    startButtonLabel?: StringWithAggregatesFilter<"QuizBotSettings"> | string
+    completionMessage?: StringWithAggregatesFilter<"QuizBotSettings"> | string
+    managerContactUrl?: StringNullableWithAggregatesFilter<"QuizBotSettings"> | string | null
+    channelUrl?: StringNullableWithAggregatesFilter<"QuizBotSettings"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"QuizBotSettings"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QuizBotSettings"> | Date | string
+  }
+
+  export type QuizBotSessionWhereInput = {
+    AND?: QuizBotSessionWhereInput | QuizBotSessionWhereInput[]
+    OR?: QuizBotSessionWhereInput[]
+    NOT?: QuizBotSessionWhereInput | QuizBotSessionWhereInput[]
+    id?: StringFilter<"QuizBotSession"> | string
+    chatId?: StringFilter<"QuizBotSession"> | string
+    telegramUserId?: StringNullableFilter<"QuizBotSession"> | string | null
+    username?: StringNullableFilter<"QuizBotSession"> | string | null
+    firstName?: StringNullableFilter<"QuizBotSession"> | string | null
+    lastName?: StringNullableFilter<"QuizBotSession"> | string | null
+    step?: StringFilter<"QuizBotSession"> | string
+    startParam?: StringNullableFilter<"QuizBotSession"> | string | null
+    answers?: JsonFilter<"QuizBotSession">
+    completedAt?: DateTimeNullableFilter<"QuizBotSession"> | Date | string | null
+    createdAt?: DateTimeFilter<"QuizBotSession"> | Date | string
+    updatedAt?: DateTimeFilter<"QuizBotSession"> | Date | string
+  }
+
+  export type QuizBotSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    telegramUserId?: SortOrderInput | SortOrder
+    username?: SortOrderInput | SortOrder
+    firstName?: SortOrderInput | SortOrder
+    lastName?: SortOrderInput | SortOrder
+    step?: SortOrder
+    startParam?: SortOrderInput | SortOrder
+    answers?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizBotSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    chatId?: string
+    AND?: QuizBotSessionWhereInput | QuizBotSessionWhereInput[]
+    OR?: QuizBotSessionWhereInput[]
+    NOT?: QuizBotSessionWhereInput | QuizBotSessionWhereInput[]
+    telegramUserId?: StringNullableFilter<"QuizBotSession"> | string | null
+    username?: StringNullableFilter<"QuizBotSession"> | string | null
+    firstName?: StringNullableFilter<"QuizBotSession"> | string | null
+    lastName?: StringNullableFilter<"QuizBotSession"> | string | null
+    step?: StringFilter<"QuizBotSession"> | string
+    startParam?: StringNullableFilter<"QuizBotSession"> | string | null
+    answers?: JsonFilter<"QuizBotSession">
+    completedAt?: DateTimeNullableFilter<"QuizBotSession"> | Date | string | null
+    createdAt?: DateTimeFilter<"QuizBotSession"> | Date | string
+    updatedAt?: DateTimeFilter<"QuizBotSession"> | Date | string
+  }, "id" | "chatId">
+
+  export type QuizBotSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    telegramUserId?: SortOrderInput | SortOrder
+    username?: SortOrderInput | SortOrder
+    firstName?: SortOrderInput | SortOrder
+    lastName?: SortOrderInput | SortOrder
+    step?: SortOrder
+    startParam?: SortOrderInput | SortOrder
+    answers?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QuizBotSessionCountOrderByAggregateInput
+    _max?: QuizBotSessionMaxOrderByAggregateInput
+    _min?: QuizBotSessionMinOrderByAggregateInput
+  }
+
+  export type QuizBotSessionScalarWhereWithAggregatesInput = {
+    AND?: QuizBotSessionScalarWhereWithAggregatesInput | QuizBotSessionScalarWhereWithAggregatesInput[]
+    OR?: QuizBotSessionScalarWhereWithAggregatesInput[]
+    NOT?: QuizBotSessionScalarWhereWithAggregatesInput | QuizBotSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuizBotSession"> | string
+    chatId?: StringWithAggregatesFilter<"QuizBotSession"> | string
+    telegramUserId?: StringNullableWithAggregatesFilter<"QuizBotSession"> | string | null
+    username?: StringNullableWithAggregatesFilter<"QuizBotSession"> | string | null
+    firstName?: StringNullableWithAggregatesFilter<"QuizBotSession"> | string | null
+    lastName?: StringNullableWithAggregatesFilter<"QuizBotSession"> | string | null
+    step?: StringWithAggregatesFilter<"QuizBotSession"> | string
+    startParam?: StringNullableWithAggregatesFilter<"QuizBotSession"> | string | null
+    answers?: JsonWithAggregatesFilter<"QuizBotSession">
+    completedAt?: DateTimeNullableWithAggregatesFilter<"QuizBotSession"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"QuizBotSession"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QuizBotSession"> | Date | string
   }
 
   export type LandingPageCreateInput = {
@@ -5574,7 +8171,9 @@ export namespace Prisma {
   export type LeadCreateInput = {
     id?: string
     channel: $Enums.Channel
+    source?: $Enums.LeadSource
     contact: string
+    message?: string | null
     ipAddress?: string | null
     country?: string | null
     pagePath?: string | null
@@ -5594,7 +8193,9 @@ export namespace Prisma {
   export type LeadUncheckedCreateInput = {
     id?: string
     channel: $Enums.Channel
+    source?: $Enums.LeadSource
     contact: string
+    message?: string | null
     ipAddress?: string | null
     country?: string | null
     landingPageId?: string | null
@@ -5614,7 +8215,9 @@ export namespace Prisma {
   export type LeadUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5634,7 +8237,9 @@ export namespace Prisma {
   export type LeadUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     landingPageId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5654,7 +8259,9 @@ export namespace Prisma {
   export type LeadCreateManyInput = {
     id?: string
     channel: $Enums.Channel
+    source?: $Enums.LeadSource
     contact: string
+    message?: string | null
     ipAddress?: string | null
     country?: string | null
     landingPageId?: string | null
@@ -5674,7 +8281,9 @@ export namespace Prisma {
   export type LeadUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5693,7 +8302,9 @@ export namespace Prisma {
   export type LeadUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     landingPageId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5874,6 +8485,195 @@ export namespace Prisma {
     telegramBotToken?: NullableStringFieldUpdateOperationsInput | string | null
     telegramChatIds?: NullableStringFieldUpdateOperationsInput | string | null
     logoPath?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizBotSettingsCreateInput = {
+    id: string
+    enabled?: boolean
+    welcomeMessage: string
+    startButtonLabel?: string
+    completionMessage: string
+    managerContactUrl?: string | null
+    channelUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizBotSettingsUncheckedCreateInput = {
+    id: string
+    enabled?: boolean
+    welcomeMessage: string
+    startButtonLabel?: string
+    completionMessage: string
+    managerContactUrl?: string | null
+    channelUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizBotSettingsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    welcomeMessage?: StringFieldUpdateOperationsInput | string
+    startButtonLabel?: StringFieldUpdateOperationsInput | string
+    completionMessage?: StringFieldUpdateOperationsInput | string
+    managerContactUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    channelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizBotSettingsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    welcomeMessage?: StringFieldUpdateOperationsInput | string
+    startButtonLabel?: StringFieldUpdateOperationsInput | string
+    completionMessage?: StringFieldUpdateOperationsInput | string
+    managerContactUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    channelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizBotSettingsCreateManyInput = {
+    id: string
+    enabled?: boolean
+    welcomeMessage: string
+    startButtonLabel?: string
+    completionMessage: string
+    managerContactUrl?: string | null
+    channelUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizBotSettingsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    welcomeMessage?: StringFieldUpdateOperationsInput | string
+    startButtonLabel?: StringFieldUpdateOperationsInput | string
+    completionMessage?: StringFieldUpdateOperationsInput | string
+    managerContactUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    channelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizBotSettingsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    welcomeMessage?: StringFieldUpdateOperationsInput | string
+    startButtonLabel?: StringFieldUpdateOperationsInput | string
+    completionMessage?: StringFieldUpdateOperationsInput | string
+    managerContactUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    channelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizBotSessionCreateInput = {
+    id?: string
+    chatId: string
+    telegramUserId?: string | null
+    username?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    step?: string
+    startParam?: string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizBotSessionUncheckedCreateInput = {
+    id?: string
+    chatId: string
+    telegramUserId?: string | null
+    username?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    step?: string
+    startParam?: string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizBotSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: StringFieldUpdateOperationsInput | string
+    startParam?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizBotSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: StringFieldUpdateOperationsInput | string
+    startParam?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizBotSessionCreateManyInput = {
+    id?: string
+    chatId: string
+    telegramUserId?: string | null
+    username?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    step?: string
+    startParam?: string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizBotSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: StringFieldUpdateOperationsInput | string
+    startParam?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizBotSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: StringFieldUpdateOperationsInput | string
+    startParam?: NullableStringFieldUpdateOperationsInput | string | null
+    answers?: JsonNullValueInput | InputJsonValue
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6079,6 +8879,13 @@ export namespace Prisma {
     not?: NestedEnumChannelFilter<$PrismaModel> | $Enums.Channel
   }
 
+  export type EnumLeadSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.LeadSource | EnumLeadSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.LeadSource[] | ListEnumLeadSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LeadSource[] | ListEnumLeadSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumLeadSourceFilter<$PrismaModel> | $Enums.LeadSource
+  }
+
   export type LandingPageNullableScalarRelationFilter = {
     is?: LandingPageWhereInput | null
     isNot?: LandingPageWhereInput | null
@@ -6087,7 +8894,9 @@ export namespace Prisma {
   export type LeadCountOrderByAggregateInput = {
     id?: SortOrder
     channel?: SortOrder
+    source?: SortOrder
     contact?: SortOrder
+    message?: SortOrder
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
@@ -6107,7 +8916,9 @@ export namespace Prisma {
   export type LeadMaxOrderByAggregateInput = {
     id?: SortOrder
     channel?: SortOrder
+    source?: SortOrder
     contact?: SortOrder
+    message?: SortOrder
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
@@ -6127,7 +8938,9 @@ export namespace Prisma {
   export type LeadMinOrderByAggregateInput = {
     id?: SortOrder
     channel?: SortOrder
+    source?: SortOrder
     contact?: SortOrder
+    message?: SortOrder
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
@@ -6152,6 +8965,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumChannelFilter<$PrismaModel>
     _max?: NestedEnumChannelFilter<$PrismaModel>
+  }
+
+  export type EnumLeadSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LeadSource | EnumLeadSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.LeadSource[] | ListEnumLeadSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LeadSource[] | ListEnumLeadSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumLeadSourceWithAggregatesFilter<$PrismaModel> | $Enums.LeadSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLeadSourceFilter<$PrismaModel>
+    _max?: NestedEnumLeadSourceFilter<$PrismaModel>
   }
 
   export type LandingContentCountOrderByAggregateInput = {
@@ -6226,6 +9049,159 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type QuizBotSettingsCountOrderByAggregateInput = {
+    id?: SortOrder
+    enabled?: SortOrder
+    welcomeMessage?: SortOrder
+    startButtonLabel?: SortOrder
+    completionMessage?: SortOrder
+    managerContactUrl?: SortOrder
+    channelUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizBotSettingsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    enabled?: SortOrder
+    welcomeMessage?: SortOrder
+    startButtonLabel?: SortOrder
+    completionMessage?: SortOrder
+    managerContactUrl?: SortOrder
+    channelUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizBotSettingsMinOrderByAggregateInput = {
+    id?: SortOrder
+    enabled?: SortOrder
+    welcomeMessage?: SortOrder
+    startButtonLabel?: SortOrder
+    completionMessage?: SortOrder
+    managerContactUrl?: SortOrder
+    channelUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type QuizBotSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    telegramUserId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    step?: SortOrder
+    startParam?: SortOrder
+    answers?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizBotSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    telegramUserId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    step?: SortOrder
+    startParam?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizBotSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    telegramUserId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    step?: SortOrder
+    startParam?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type LeadCreateNestedManyWithoutLandingPageInput = {
     create?: XOR<LeadCreateWithoutLandingPageInput, LeadUncheckedCreateWithoutLandingPageInput> | LeadCreateWithoutLandingPageInput[] | LeadUncheckedCreateWithoutLandingPageInput[]
     connectOrCreate?: LeadCreateOrConnectWithoutLandingPageInput | LeadCreateOrConnectWithoutLandingPageInput[]
@@ -6294,6 +9270,10 @@ export namespace Prisma {
     set?: $Enums.Channel
   }
 
+  export type EnumLeadSourceFieldUpdateOperationsInput = {
+    set?: $Enums.LeadSource
+  }
+
   export type LandingPageUpdateOneWithoutLeadsNestedInput = {
     create?: XOR<LandingPageCreateWithoutLeadsInput, LandingPageUncheckedCreateWithoutLeadsInput>
     connectOrCreate?: LandingPageCreateOrConnectWithoutLeadsInput
@@ -6302,6 +9282,10 @@ export namespace Prisma {
     delete?: LandingPageWhereInput | boolean
     connect?: LandingPageWhereUniqueInput
     update?: XOR<XOR<LandingPageUpdateToOneWithWhereWithoutLeadsInput, LandingPageUpdateWithoutLeadsInput>, LandingPageUncheckedUpdateWithoutLeadsInput>
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -6433,6 +9417,13 @@ export namespace Prisma {
     not?: NestedEnumChannelFilter<$PrismaModel> | $Enums.Channel
   }
 
+  export type NestedEnumLeadSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.LeadSource | EnumLeadSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.LeadSource[] | ListEnumLeadSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LeadSource[] | ListEnumLeadSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumLeadSourceFilter<$PrismaModel> | $Enums.LeadSource
+  }
+
   export type NestedEnumChannelWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Channel | EnumChannelFieldRefInput<$PrismaModel>
     in?: $Enums.Channel[] | ListEnumChannelFieldRefInput<$PrismaModel>
@@ -6443,10 +9434,70 @@ export namespace Prisma {
     _max?: NestedEnumChannelFilter<$PrismaModel>
   }
 
+  export type NestedEnumLeadSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LeadSource | EnumLeadSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.LeadSource[] | ListEnumLeadSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LeadSource[] | ListEnumLeadSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumLeadSourceWithAggregatesFilter<$PrismaModel> | $Enums.LeadSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLeadSourceFilter<$PrismaModel>
+    _max?: NestedEnumLeadSourceFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type LeadCreateWithoutLandingPageInput = {
     id?: string
     channel: $Enums.Channel
+    source?: $Enums.LeadSource
     contact: string
+    message?: string | null
     ipAddress?: string | null
     country?: string | null
     pagePath?: string | null
@@ -6465,7 +9516,9 @@ export namespace Prisma {
   export type LeadUncheckedCreateWithoutLandingPageInput = {
     id?: string
     channel: $Enums.Channel
+    source?: $Enums.LeadSource
     contact: string
+    message?: string | null
     ipAddress?: string | null
     country?: string | null
     pagePath?: string | null
@@ -6513,7 +9566,9 @@ export namespace Prisma {
     NOT?: LeadScalarWhereInput | LeadScalarWhereInput[]
     id?: StringFilter<"Lead"> | string
     channel?: EnumChannelFilter<"Lead"> | $Enums.Channel
+    source?: EnumLeadSourceFilter<"Lead"> | $Enums.LeadSource
     contact?: StringFilter<"Lead"> | string
+    message?: StringNullableFilter<"Lead"> | string | null
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
@@ -6649,7 +9704,9 @@ export namespace Prisma {
   export type LeadCreateManyLandingPageInput = {
     id?: string
     channel: $Enums.Channel
+    source?: $Enums.LeadSource
     contact: string
+    message?: string | null
     ipAddress?: string | null
     country?: string | null
     pagePath?: string | null
@@ -6668,7 +9725,9 @@ export namespace Prisma {
   export type LeadUpdateWithoutLandingPageInput = {
     id?: StringFieldUpdateOperationsInput | string
     channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6687,7 +9746,9 @@ export namespace Prisma {
   export type LeadUncheckedUpdateWithoutLandingPageInput = {
     id?: StringFieldUpdateOperationsInput | string
     channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6706,7 +9767,9 @@ export namespace Prisma {
   export type LeadUncheckedUpdateManyWithoutLandingPageInput = {
     id?: StringFieldUpdateOperationsInput | string
     channel?: EnumChannelFieldUpdateOperationsInput | $Enums.Channel
+    source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null

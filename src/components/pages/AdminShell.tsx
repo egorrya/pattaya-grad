@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   { label: "Заявки", href: "/admin/leads" },
   { label: "Настройки главной", href: "/admin/edit" },
   { label: "Лендинги", href: "/admin/landings" },
+  { label: "Quiz-бот", href: "/admin/quiz-bot" },
 ] as const
 
 export function AdminShell({

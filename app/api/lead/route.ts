@@ -10,6 +10,7 @@ import {
 	validatePhoneNationalDigits,
 } from '@/lib/phone';
 import type { LeadAttribution } from '@/lib/analytics/landingAttribution';
+import { broadcastTelegramMessage, parseTelegramChatIds } from '@lib/telegramNotify';
 import type {
 	LandingContent,
 	LandingPage,
@@ -26,6 +27,7 @@ const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 100;
 const MAIN_LANDING_SLUG = 'main';
 const DEFAULT_MAIN_LANDING_NAME = 'Главная страница';
+const TELEGRAM_BOT_SOURCE_LABEL = 'Telegram-бот';
 const ATTRIBUTION_FIELDS = [
 	'pagePath',
 	'utmSource',
@@ -100,17 +102,6 @@ const parseLeadAttribution = (value: unknown): LeadAttribution | null => {
 const formatChannelLabel = (channel: Channel) =>
 	channel === 'telegram' ? 'Telegram' : 'WhatsApp';
 
-const parseTelegramChatIds = (raw: string | null | undefined): string[] => {
-	if (!raw) {
-		return [];
-	}
-
-	return raw
-		.split(/[\s,;]+/)
-		.map((value) => value.trim())
-		.filter((value) => value.length > 0);
-};
-
 const extractClientIp = (request: NextRequest) => {
 	const forwarded = request.headers.get('x-forwarded-for');
 	if (forwarded) {
@@ -156,11 +147,6 @@ const sendTelegramNotification = async ({
 	chatIds: string[];
 	landingName: string;
 }) => {
-	if (!botToken || chatIds.length === 0) {
-		return;
-	}
-
-	const sendUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 	const message = [
 		'Новая заявка с лендинга',
 		'',
@@ -171,31 +157,7 @@ const sendTelegramNotification = async ({
 		`Страна: ${country ?? 'не определена'}`,
 	].join('\n');
 
-	for (const chatId of chatIds) {
-		try {
-			const response = await fetch(sendUrl, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-				},
-				body: new URLSearchParams({
-					chat_id: chatId,
-					text: message,
-				}),
-			});
-
-			if (!response.ok) {
-				const details = await response.text().catch(() => null);
-				console.error('Failed to send Telegram notification', {
-					chatId,
-					status: response.status,
-					details,
-				});
-			}
-		} catch (error) {
-			console.error('Failed to send Telegram notification', { chatId, error });
-		}
-	}
+	await broadcastTelegramMessage({ botToken, chatIds, text: message });
 };
 
 export async function POST(request: NextRequest) {
@@ -379,11 +341,16 @@ export async function GET(request: NextRequest) {
 		const formattedLeads = typedLeads.map((lead) => ({
 			id: lead.id,
 			channel: lead.channel,
+			source: lead.source,
 			contact: lead.contact,
+			message: lead.message,
 			createdAt: lead.createdAt,
 			ipAddress: lead.ipAddress,
 			country: lead.country,
-			landingName: lead.landingPage?.name ?? defaultLandingName,
+			landingName:
+				lead.source === 'telegram_bot'
+					? TELEGRAM_BOT_SOURCE_LABEL
+					: lead.landingPage?.name ?? defaultLandingName,
 		}));
 
 		return NextResponse.json({

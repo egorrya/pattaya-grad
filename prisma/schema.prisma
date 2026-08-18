@@ -12,6 +12,11 @@ enum Channel {
   telegram
 }
 
+enum LeadSource {
+  site
+  telegram_bot
+}
+
 model LandingPage {
   id                    String   @id @default(cuid())
   urlPath               String   @unique
@@ -41,7 +46,9 @@ model LandingPage {
 model Lead {
   id            String       @id @default(cuid())
   channel       Channel
+  source        LeadSource   @default(site)
   contact       String
+  message       String?
   ipAddress     String?
   country       String?
   landingPageId String?
@@ -81,4 +88,31 @@ model LandingContent {
   logoPath             String   @default("/assets/images/logo.webp")
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
+}
+
+model QuizBotSettings {
+  id                String   @id
+  enabled           Boolean  @default(true)
+  welcomeMessage    String
+  startButtonLabel  String   @default("ПОДОБРАТЬ НЕДВИЖИМОСТЬ →")
+  completionMessage String
+  managerContactUrl String?
+  channelUrl        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model QuizBotSession {
+  id             String    @id @default(cuid())
+  chatId         String    @unique
+  telegramUserId String?
+  username       String?
+  firstName      String?
+  lastName       String?
+  step           String    @default("idle")
+  startParam     String?
+  answers        Json      @default("{}")
+  completedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }

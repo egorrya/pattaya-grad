@@ -214,7 +214,6 @@ export default function AdminLandingManager() {
       <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.5em] text-slate-400">Дополнительные лендинги</p>
             <h1 className="text-2xl font-semibold text-slate-900">Управление страницами</h1>
             <p className="text-sm text-slate-600">
               Создавайте, редактируйте или удаляйте лендинги. Каждый добавляется под /{`{url}`}.

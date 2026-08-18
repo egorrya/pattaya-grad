@@ -26,10 +26,14 @@ type ChannelFilter = Channel | "all"
 
 const DEFAULT_LANDING_NAME = "Главная страница";
 
+type LeadSource = "site" | "telegram_bot"
+
 type Lead = {
   id: string
   channel: Channel
+  source: LeadSource
   contact: string
+  message: string | null
   createdAt: string
   ipAddress: string | null
   country: string | null
@@ -162,7 +166,12 @@ export default function AdminLeadsPage() {
     }
 
     if (lead.channel === "telegram") {
-      const handle = lead.contact.trim().replace(/^@+/, "")
+      const trimmed = lead.contact.trim()
+      const isPhoneNumber = /^[\d\s()+-]+$/.test(trimmed)
+      if (isPhoneNumber) {
+        return null
+      }
+      const handle = trimmed.replace(/^@+/, "")
       if (!handle) {
         return null
       }
@@ -212,6 +221,7 @@ export default function AdminLeadsPage() {
                 <TableHead>IP</TableHead>
                 <TableHead>Страна</TableHead>
                 <TableHead>Контакт</TableHead>
+                <TableHead>Сообщение</TableHead>
                 <TableHead>Ссылка</TableHead>
               </TableRow>
             </TableHeader>
@@ -219,7 +229,7 @@ export default function AdminLeadsPage() {
               {isLoading ? (
                 <TableRow>
                   <TableCell
-                    colSpan={7}
+                    colSpan={8}
                     className="py-6 text-center text-sm text-slate-500"
                   >
                     Загрузка заявок...
@@ -228,7 +238,7 @@ export default function AdminLeadsPage() {
               ) : error ? (
                 <TableRow>
                   <TableCell
-                    colSpan={7}
+                    colSpan={8}
                     className="py-6 text-center text-sm text-rose-500"
                   >
                     {error}
@@ -237,7 +247,7 @@ export default function AdminLeadsPage() {
               ) : leads.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={7}
+                    colSpan={8}
                     className="py-6 text-center text-sm text-slate-500"
                   >
                     Заявок пока нет
@@ -264,6 +274,12 @@ export default function AdminLeadsPage() {
                       <TableCell>{lead.ipAddress ?? "—"}</TableCell>
                       <TableCell>{lead.country ?? "—"}</TableCell>
                       <TableCell>{lead.contact}</TableCell>
+                      <TableCell
+                        className="max-w-[280px] truncate whitespace-pre-line"
+                        title={lead.message ?? undefined}
+                      >
+                        {lead.message ?? "—"}
+                      </TableCell>
                       <TableCell>
                         {link ? (
                           <a

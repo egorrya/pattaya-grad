@@ -75,9 +75,6 @@ export function LandingContentForm({
   return (
     <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-10 text-left text-sm text-slate-700 shadow-sm">
       <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.4em] text-slate-400">
-          {mode === "edit" ? "Редактирование лендинга" : "Создание лендинга"}
-        </p>
         <h1 className="text-2xl font-semibold text-slate-900">{title ?? "Контент"}</h1>
         {description && <p className="text-slate-700">{description}</p>}
       </div>
