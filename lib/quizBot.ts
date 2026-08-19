@@ -15,12 +15,12 @@ export type QuizBotSettingsPayload = {
 export const defaultQuizBotSettings: QuizBotSettingsPayload = {
 	enabled: true,
 	welcomeMessage:
-		'Добрый день! 👋\n\nПоможем подобрать недвижимость в Таиланде под ваши цели и бюджет.\n\nОтветьте на несколько коротких вопросов — менеджер Pattaya Grad подготовит персональную подборку подходящих объектов и свяжется с вами в ближайшее время.',
+		'👋 Добрый день!\nМы агентство недвижимости Паттайя Град. Поможем подобрать недвижимость в Таиланде под ваши цели и бюджет.\nОтветьте на несколько коротких вопросов — мы сделаем под вас персональную подборку подходящих объектов и пришлем вам.',
 	startButtonLabel: 'ПОДОБРАТЬ НЕДВИЖИМОСТЬ →',
 	completionMessage:
-		'Спасибо! Заявка сформирована 🎉\n\nПередадим ваш запрос менеджеру Pattaya Grad. Он изучит ваши пожелания, подберет подходящие варианты и свяжется с вами в ближайшее время.',
-	managerContactUrl: null,
-	channelUrl: null,
+		'✅ Спасибо! Ваша заявка направляется менеджеру Паттайя Град. Он изучит ваши пожелания, подберет подходящие варианты и свяжется с вами в ближайшее время.',
+	managerContactUrl: 'https://t.me/pattayagradthailand',
+	channelUrl: 'https://www.youtube.com/@pattayagradthailand',
 };
 
 const requireNonEmptyString = (value: unknown, field: string) => {
