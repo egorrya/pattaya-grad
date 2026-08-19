@@ -19,8 +19,8 @@ export const defaultQuizBotSettings: QuizBotSettingsPayload = {
 	startButtonLabel: 'ПОДОБРАТЬ НЕДВИЖИМОСТЬ →',
 	completionMessage:
 		'✅ Спасибо! Ваша заявка направляется менеджеру Паттайя Град. Он изучит ваши пожелания, подберет подходящие варианты и свяжется с вами в ближайшее время.',
-	managerContactUrl: 'https://t.me/pattayagradthailand',
-	channelUrl: 'https://www.youtube.com/@pattayagradthailand',
+	managerContactUrl: 'https://t.me/pattayagrad',
+	channelUrl: 'https://t.me/pattayagradthailand',
 };
 
 const requireNonEmptyString = (value: unknown, field: string) => {
