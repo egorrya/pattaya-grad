@@ -9,7 +9,7 @@ import {
 import {
 	formatTelegramBotLeadMessage,
 	formatTelegramLeadContact,
-	sendTelegramBotLeadNotification,
+	sendTelegramQuizLeadNotificationToAdmins,
 	type TelegramLeadContact,
 } from './telegramLeadNotification';
 
@@ -275,8 +275,9 @@ const finalizeQuiz = async ({
 	});
 
 	const landingContent = await getLandingContent();
-	await sendTelegramBotLeadNotification({
-		botToken: landingContent.telegramBotToken?.trim(),
+	await sendTelegramQuizLeadNotificationToAdmins({
+		notificationBotToken: landingContent.telegramBotToken?.trim(),
+		quizBotToken: getBotToken(),
 		chatIds: parseTelegramChatIds(landingContent.telegramChatIds),
 		text: leadMessage,
 		contact,

@@ -59,7 +59,11 @@ type LeadsResponse =
     }
 
 type ResendResponse =
-  | { ok: true }
+  | {
+      ok: true
+      telegramLinkRequested: boolean
+      telegramLinkIncluded: boolean
+    }
   | { ok: false; error?: string }
 
 const CHANNELS: ChannelFilter[] = ["all", "whatsapp", "telegram"]
@@ -78,7 +82,7 @@ export default function AdminLeadsPage() {
   const [error, setError] = React.useState<string | null>(null)
   const [resendingLeadId, setResendingLeadId] = React.useState<string | null>(null)
   const [resendStatus, setResendStatus] = React.useState<{
-    kind: "success" | "error"
+    kind: "success" | "warning" | "error"
     message: string
   } | null>(null)
 
@@ -210,8 +214,14 @@ export default function AdminLeadsPage() {
       }
 
       setResendStatus({
-        kind: "success",
-        message: "Заявка повторно отправлена в Telegram",
+        kind:
+          result.telegramLinkRequested && !result.telegramLinkIncluded
+            ? "warning"
+            : "success",
+        message:
+          result.telegramLinkRequested && !result.telegramLinkIncluded
+            ? "Заявка отправлена вторым ботом, но копия со ссылкой не доставлена квиз-ботом"
+            : "Заявка повторно отправлена в Telegram",
       })
     } catch (resendError) {
       setResendStatus({
@@ -263,7 +273,9 @@ export default function AdminLeadsPage() {
               "rounded-xl border px-4 py-3 text-sm",
               resendStatus.kind === "success"
                 ? "border-emerald-100 bg-emerald-50 text-emerald-700"
-                : "border-rose-100 bg-rose-50 text-rose-700",
+                : resendStatus.kind === "warning"
+                  ? "border-amber-100 bg-amber-50 text-amber-700"
+                  : "border-rose-100 bg-rose-50 text-rose-700",
             )}
           >
             {resendStatus.message}

@@ -5,7 +5,7 @@ import { getLandingContent } from '@lib/landing';
 import { parseTelegramChatIds } from '@lib/telegramNotify';
 import {
 	resolveTelegramLeadLinkContact,
-	sendTelegramBotLeadNotification,
+	sendTelegramQuizLeadNotificationToAdmins,
 } from '@lib/telegramLeadNotification';
 
 const notFoundResponse = () =>
@@ -54,18 +54,23 @@ export async function POST(
 			legacyMessage: lead.message,
 		});
 		const landingContent = await getLandingContent();
-		const sent = await sendTelegramBotLeadNotification({
-			botToken: landingContent.telegramBotToken?.trim(),
+		const notification = await sendTelegramQuizLeadNotificationToAdmins({
+			notificationBotToken: landingContent.telegramBotToken?.trim(),
+			quizBotToken: process.env.TELEGRAM_QUIZ_BOT_TOKEN?.trim(),
 			chatIds: parseTelegramChatIds(landingContent.telegramChatIds),
 			text: lead.message,
 			contact: telegramContact,
 		});
 
-		if (!sent) {
+		if (!notification.sent) {
 			return telegramError();
 		}
 
-		return NextResponse.json({ ok: true });
+		return NextResponse.json({
+			ok: true,
+			telegramLinkRequested: notification.telegramLinkRequested,
+			telegramLinkIncluded: notification.telegramLinkIncluded,
+		});
 	} catch (error) {
 		console.error('Failed to resend lead to Telegram', error);
 		return serverError();

@@ -136,6 +136,58 @@ export const sendTelegramBotLeadNotification = async ({
 	broadcastTelegramMessage({
 		botToken,
 		chatIds,
-		text,
+	text,
 		replyMarkup: buildTelegramLeadReplyMarkup(contact),
 	});
+
+export type TelegramLeadNotificationResult = {
+	sent: boolean;
+	telegramLinkRequested: boolean;
+	telegramLinkIncluded: boolean;
+};
+
+export const sendTelegramQuizLeadNotificationToAdmins = async ({
+	notificationBotToken,
+	quizBotToken,
+	chatIds,
+	text,
+	contact,
+}: {
+	notificationBotToken: string | null | undefined;
+	quizBotToken: string | null | undefined;
+	chatIds: string[];
+	text: string;
+	contact: Pick<TelegramLeadContact, 'telegramUserId' | 'telegramUsername'>;
+}): Promise<TelegramLeadNotificationResult> => {
+	const username = normalizedValue(contact.telegramUsername)?.replace(/^@+/, '');
+	const userId = normalizedValue(contact.telegramUserId);
+	const needsSeparateQuizBotLink = !username && Boolean(userId);
+	const adminNotification = await broadcastTelegramMessage({
+		botToken: notificationBotToken,
+		chatIds,
+		text,
+		replyMarkup: needsSeparateQuizBotLink ? undefined : buildTelegramLeadReplyMarkup(contact),
+	});
+
+	if (!needsSeparateQuizBotLink) {
+		return {
+			sent: adminNotification.sent,
+			telegramLinkRequested: Boolean(username),
+			telegramLinkIncluded: Boolean(username) && adminNotification.replyMarkupIncluded,
+		};
+	}
+
+	const quizBotLinkNotification = await broadcastTelegramMessage({
+	botToken: quizBotToken,
+	chatIds,
+	text: `🔒 Приватная ссылка на Telegram пользователя\n\n${text}`,
+		replyMarkup: buildTelegramLeadReplyMarkup(contact),
+	});
+
+	return {
+		sent: adminNotification.sent,
+		telegramLinkRequested: true,
+		telegramLinkIncluded:
+			quizBotLinkNotification.sent && quizBotLinkNotification.replyMarkupIncluded,
+	};
+};

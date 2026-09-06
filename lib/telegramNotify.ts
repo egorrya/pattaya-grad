@@ -11,6 +11,16 @@ export const parseTelegramChatIds = (raw: string | null | undefined): string[] =
 
 export type TelegramReplyMarkup = Record<string, unknown>;
 
+type TelegramSendResult = {
+	sent: boolean;
+	errorCode?: string;
+};
+
+export type TelegramBroadcastResult = {
+	sent: boolean;
+	replyMarkupIncluded: boolean;
+};
+
 export const sendTelegramMessage = async ({
 	botToken,
 	chatId,
@@ -21,7 +31,7 @@ export const sendTelegramMessage = async ({
 	chatId: string;
 	text: string;
 	replyMarkup?: TelegramReplyMarkup;
-}): Promise<boolean> => {
+}): Promise<TelegramSendResult> => {
 	const sendUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
 	try {
@@ -39,18 +49,19 @@ export const sendTelegramMessage = async ({
 
 		if (!response.ok) {
 			const details = await response.text().catch(() => null);
+			const errorCode = details?.match(/\bBUTTON_USER_INVALID\b/)?.[0];
 			console.error('Failed to send Telegram message', {
 				chatId,
 				status: response.status,
 				details,
 			});
-			return false;
+			return { sent: false, errorCode };
 		}
 
-		return true;
+		return { sent: true };
 	} catch (error) {
 		console.error('Failed to send Telegram message', { chatId, error });
-		return false;
+		return { sent: false };
 	}
 };
 
@@ -91,18 +102,28 @@ export const broadcastTelegramMessage = async ({
 	chatIds: string[];
 	text: string;
 	replyMarkup?: TelegramReplyMarkup;
-}): Promise<boolean> => {
+}): Promise<TelegramBroadcastResult> => {
 	if (!botToken || chatIds.length === 0) {
-		return false;
+		return { sent: false, replyMarkupIncluded: false };
 	}
 
 	let deliveredToAllChats = true;
+	let replyMarkupIncluded = Boolean(replyMarkup);
 	for (const chatId of chatIds) {
-		const delivered = await sendTelegramMessage({ botToken, chatId, text, replyMarkup });
-		if (!delivered) {
+		let result = await sendTelegramMessage({ botToken, chatId, text, replyMarkup });
+
+		if (!result.sent && replyMarkup && result.errorCode === 'BUTTON_USER_INVALID') {
+			console.warn('Retrying Telegram message without an unavailable user profile button', {
+				chatId,
+			});
+			replyMarkupIncluded = false;
+			result = await sendTelegramMessage({ botToken, chatId, text });
+		}
+
+		if (!result.sent) {
 			deliveredToAllChats = false;
 		}
 	}
 
-	return deliveredToAllChats;
+	return { sent: deliveredToAllChats, replyMarkupIncluded };
 };
