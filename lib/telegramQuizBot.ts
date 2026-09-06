@@ -278,6 +278,7 @@ const finalizeQuiz = async ({
 	await sendTelegramQuizLeadNotificationToAdmins({
 		notificationBotToken: landingContent.telegramBotToken?.trim(),
 		quizBotToken: getBotToken(),
+		quizBotUsername: process.env.TELEGRAM_QUIZ_BOT_USERNAME,
 		chatIds: parseTelegramChatIds(landingContent.telegramChatIds),
 		text: leadMessage,
 		contact,

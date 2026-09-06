@@ -57,6 +57,7 @@ export async function POST(
 		const notification = await sendTelegramQuizLeadNotificationToAdmins({
 			notificationBotToken: landingContent.telegramBotToken?.trim(),
 			quizBotToken: process.env.TELEGRAM_QUIZ_BOT_TOKEN?.trim(),
+			quizBotUsername: process.env.TELEGRAM_QUIZ_BOT_USERNAME,
 			chatIds: parseTelegramChatIds(landingContent.telegramChatIds),
 			text: lead.message,
 			contact: telegramContact,

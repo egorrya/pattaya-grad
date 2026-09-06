@@ -49,7 +49,7 @@ export const sendTelegramMessage = async ({
 
 		if (!response.ok) {
 			const details = await response.text().catch(() => null);
-			const errorCode = details?.match(/\bBUTTON_USER_INVALID\b/)?.[0];
+			const errorCode = details?.match(/\bBUTTON_USER_[A-Z_]+\b/)?.[0];
 			console.error('Failed to send Telegram message', {
 				chatId,
 				status: response.status,
@@ -97,11 +97,13 @@ export const broadcastTelegramMessage = async ({
 	chatIds,
 	text,
 	replyMarkup,
+	fallbackText,
 }: {
 	botToken: string | null | undefined;
 	chatIds: string[];
 	text: string;
 	replyMarkup?: TelegramReplyMarkup;
+	fallbackText?: string;
 }): Promise<TelegramBroadcastResult> => {
 	if (!botToken || chatIds.length === 0) {
 		return { sent: false, replyMarkupIncluded: false };
@@ -112,12 +114,12 @@ export const broadcastTelegramMessage = async ({
 	for (const chatId of chatIds) {
 		let result = await sendTelegramMessage({ botToken, chatId, text, replyMarkup });
 
-		if (!result.sent && replyMarkup && result.errorCode === 'BUTTON_USER_INVALID') {
-			console.warn('Retrying Telegram message without an unavailable user profile button', {
+		if (!result.sent && replyMarkup && result.errorCode?.startsWith('BUTTON_USER_')) {
+			console.warn('Retrying Telegram message without a restricted user profile button', {
 				chatId,
 			});
 			replyMarkupIncluded = false;
-			result = await sendTelegramMessage({ botToken, chatId, text });
+			result = await sendTelegramMessage({ botToken, chatId, text: fallbackText ?? text });
 		}
 
 		if (!result.sent) {
