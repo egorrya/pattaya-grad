@@ -3,7 +3,10 @@ import { prisma } from '@lib/db';
 import { requireAdminAccess } from '@lib/adminGuard';
 import { getLandingContent } from '@lib/landing';
 import { parseTelegramChatIds } from '@lib/telegramNotify';
-import { sendTelegramBotLeadNotification } from '@lib/telegramLeadNotification';
+import {
+	resolveTelegramLeadLinkContact,
+	sendTelegramBotLeadNotification,
+} from '@lib/telegramLeadNotification';
 
 const notFoundResponse = () =>
 	NextResponse.json({ ok: false, error: 'Заявка не найдена' }, { status: 404 });
@@ -44,15 +47,18 @@ export async function POST(
 			return badRequest('Для этой заявки не найдено Telegram-уведомление');
 		}
 
+		const telegramContact = resolveTelegramLeadLinkContact({
+			telegramUserId: lead.telegramUserId,
+			telegramUsername: lead.telegramUsername,
+			legacyContact: lead.contact,
+			legacyMessage: lead.message,
+		});
 		const landingContent = await getLandingContent();
 		const sent = await sendTelegramBotLeadNotification({
 			botToken: landingContent.telegramBotToken?.trim(),
 			chatIds: parseTelegramChatIds(landingContent.telegramChatIds),
 			text: lead.message,
-			contact: {
-				telegramUserId: lead.telegramUserId,
-				telegramUsername: lead.telegramUsername,
-			},
+			contact: telegramContact,
 		});
 
 		if (!sent) {

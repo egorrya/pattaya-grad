@@ -20,6 +20,33 @@ export type TelegramLeadAnswers = {
 
 const normalizedValue = (value: string | null) => value?.trim() || null;
 
+const getTelegramContactFromMessage = (message: string | null) => {
+	if (!message) {
+		return null;
+	}
+
+	return message.match(/^Имя \/ Telegram:\s*(.+)$/m)?.[1]?.trim() || null;
+};
+
+export const resolveTelegramLeadLinkContact = ({
+	telegramUserId,
+	telegramUsername,
+	legacyContact,
+	legacyMessage,
+}: Pick<TelegramLeadContact, 'telegramUserId' | 'telegramUsername'> & {
+	legacyContact: string | null;
+	legacyMessage: string | null;
+}): Pick<TelegramLeadContact, 'telegramUserId' | 'telegramUsername'> => {
+	const contact = getTelegramContactFromMessage(legacyMessage) ?? legacyContact ?? '';
+	const username = contact.match(/@([A-Za-z0-9_]+)/)?.[1] ?? null;
+	const userId = contact.match(/\bid:\s*(\d+)\b/i)?.[1] ?? null;
+
+	return {
+		telegramUserId: normalizedValue(telegramUserId) ?? userId,
+		telegramUsername: normalizedValue(telegramUsername)?.replace(/^@+/, '') ?? username,
+	};
+};
+
 export const formatTelegramLeadContact = ({
 	telegramUsername,
 	telegramFirstName,
