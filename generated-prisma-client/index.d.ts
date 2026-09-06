@@ -2592,6 +2592,10 @@ export namespace Prisma {
     source: $Enums.LeadSource | null
     contact: string | null
     message: string | null
+    telegramUserId: string | null
+    telegramUsername: string | null
+    telegramFirstName: string | null
+    telegramLastName: string | null
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
@@ -2614,6 +2618,10 @@ export namespace Prisma {
     source: $Enums.LeadSource | null
     contact: string | null
     message: string | null
+    telegramUserId: string | null
+    telegramUsername: string | null
+    telegramFirstName: string | null
+    telegramLastName: string | null
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
@@ -2636,6 +2644,10 @@ export namespace Prisma {
     source: number
     contact: number
     message: number
+    telegramUserId: number
+    telegramUsername: number
+    telegramFirstName: number
+    telegramLastName: number
     ipAddress: number
     country: number
     landingPageId: number
@@ -2660,6 +2672,10 @@ export namespace Prisma {
     source?: true
     contact?: true
     message?: true
+    telegramUserId?: true
+    telegramUsername?: true
+    telegramFirstName?: true
+    telegramLastName?: true
     ipAddress?: true
     country?: true
     landingPageId?: true
@@ -2682,6 +2698,10 @@ export namespace Prisma {
     source?: true
     contact?: true
     message?: true
+    telegramUserId?: true
+    telegramUsername?: true
+    telegramFirstName?: true
+    telegramLastName?: true
     ipAddress?: true
     country?: true
     landingPageId?: true
@@ -2704,6 +2724,10 @@ export namespace Prisma {
     source?: true
     contact?: true
     message?: true
+    telegramUserId?: true
+    telegramUsername?: true
+    telegramFirstName?: true
+    telegramLastName?: true
     ipAddress?: true
     country?: true
     landingPageId?: true
@@ -2799,6 +2823,10 @@ export namespace Prisma {
     source: $Enums.LeadSource
     contact: string
     message: string | null
+    telegramUserId: string | null
+    telegramUsername: string | null
+    telegramFirstName: string | null
+    telegramLastName: string | null
     ipAddress: string | null
     country: string | null
     landingPageId: string | null
@@ -2838,6 +2866,10 @@ export namespace Prisma {
     source?: boolean
     contact?: boolean
     message?: boolean
+    telegramUserId?: boolean
+    telegramUsername?: boolean
+    telegramFirstName?: boolean
+    telegramLastName?: boolean
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
@@ -2861,6 +2893,10 @@ export namespace Prisma {
     source?: boolean
     contact?: boolean
     message?: boolean
+    telegramUserId?: boolean
+    telegramUsername?: boolean
+    telegramFirstName?: boolean
+    telegramLastName?: boolean
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
@@ -2884,6 +2920,10 @@ export namespace Prisma {
     source?: boolean
     contact?: boolean
     message?: boolean
+    telegramUserId?: boolean
+    telegramUsername?: boolean
+    telegramFirstName?: boolean
+    telegramLastName?: boolean
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
@@ -2907,6 +2947,10 @@ export namespace Prisma {
     source?: boolean
     contact?: boolean
     message?: boolean
+    telegramUserId?: boolean
+    telegramUsername?: boolean
+    telegramFirstName?: boolean
+    telegramLastName?: boolean
     ipAddress?: boolean
     country?: boolean
     landingPageId?: boolean
@@ -2923,7 +2967,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type LeadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channel" | "source" | "contact" | "message" | "ipAddress" | "country" | "landingPageId" | "pagePath" | "utmSource" | "utmMedium" | "utmCampaign" | "utmContent" | "utmTerm" | "gclid" | "gbraid" | "wbraid" | "fbclid" | "createdAt", ExtArgs["result"]["lead"]>
+  export type LeadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channel" | "source" | "contact" | "message" | "telegramUserId" | "telegramUsername" | "telegramFirstName" | "telegramLastName" | "ipAddress" | "country" | "landingPageId" | "pagePath" | "utmSource" | "utmMedium" | "utmCampaign" | "utmContent" | "utmTerm" | "gclid" | "gbraid" | "wbraid" | "fbclid" | "createdAt", ExtArgs["result"]["lead"]>
   export type LeadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     landingPage?: boolean | Lead$landingPageArgs<ExtArgs>
   }
@@ -2945,6 +2989,10 @@ export namespace Prisma {
       source: $Enums.LeadSource
       contact: string
       message: string | null
+      telegramUserId: string | null
+      telegramUsername: string | null
+      telegramFirstName: string | null
+      telegramLastName: string | null
       ipAddress: string | null
       country: string | null
       landingPageId: string | null
@@ -3388,6 +3436,10 @@ export namespace Prisma {
     readonly source: FieldRef<"Lead", 'LeadSource'>
     readonly contact: FieldRef<"Lead", 'String'>
     readonly message: FieldRef<"Lead", 'String'>
+    readonly telegramUserId: FieldRef<"Lead", 'String'>
+    readonly telegramUsername: FieldRef<"Lead", 'String'>
+    readonly telegramFirstName: FieldRef<"Lead", 'String'>
+    readonly telegramLastName: FieldRef<"Lead", 'String'>
     readonly ipAddress: FieldRef<"Lead", 'String'>
     readonly country: FieldRef<"Lead", 'String'>
     readonly landingPageId: FieldRef<"Lead", 'String'>
@@ -7215,6 +7267,10 @@ export namespace Prisma {
     source: 'source',
     contact: 'contact',
     message: 'message',
+    telegramUserId: 'telegramUserId',
+    telegramUsername: 'telegramUsername',
+    telegramFirstName: 'telegramFirstName',
+    telegramLastName: 'telegramLastName',
     ipAddress: 'ipAddress',
     country: 'country',
     landingPageId: 'landingPageId',
@@ -7582,6 +7638,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFilter<"Lead"> | $Enums.LeadSource
     contact?: StringFilter<"Lead"> | string
     message?: StringNullableFilter<"Lead"> | string | null
+    telegramUserId?: StringNullableFilter<"Lead"> | string | null
+    telegramUsername?: StringNullableFilter<"Lead"> | string | null
+    telegramFirstName?: StringNullableFilter<"Lead"> | string | null
+    telegramLastName?: StringNullableFilter<"Lead"> | string | null
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
@@ -7605,6 +7665,10 @@ export namespace Prisma {
     source?: SortOrder
     contact?: SortOrder
     message?: SortOrderInput | SortOrder
+    telegramUserId?: SortOrderInput | SortOrder
+    telegramUsername?: SortOrderInput | SortOrder
+    telegramFirstName?: SortOrderInput | SortOrder
+    telegramLastName?: SortOrderInput | SortOrder
     ipAddress?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     landingPageId?: SortOrderInput | SortOrder
@@ -7631,6 +7695,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFilter<"Lead"> | $Enums.LeadSource
     contact?: StringFilter<"Lead"> | string
     message?: StringNullableFilter<"Lead"> | string | null
+    telegramUserId?: StringNullableFilter<"Lead"> | string | null
+    telegramUsername?: StringNullableFilter<"Lead"> | string | null
+    telegramFirstName?: StringNullableFilter<"Lead"> | string | null
+    telegramLastName?: StringNullableFilter<"Lead"> | string | null
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
@@ -7654,6 +7722,10 @@ export namespace Prisma {
     source?: SortOrder
     contact?: SortOrder
     message?: SortOrderInput | SortOrder
+    telegramUserId?: SortOrderInput | SortOrder
+    telegramUsername?: SortOrderInput | SortOrder
+    telegramFirstName?: SortOrderInput | SortOrder
+    telegramLastName?: SortOrderInput | SortOrder
     ipAddress?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     landingPageId?: SortOrderInput | SortOrder
@@ -7682,6 +7754,10 @@ export namespace Prisma {
     source?: EnumLeadSourceWithAggregatesFilter<"Lead"> | $Enums.LeadSource
     contact?: StringWithAggregatesFilter<"Lead"> | string
     message?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    telegramUserId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    telegramUsername?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    telegramFirstName?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    telegramLastName?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     ipAddress?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     country?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     landingPageId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -8174,6 +8250,10 @@ export namespace Prisma {
     source?: $Enums.LeadSource
     contact: string
     message?: string | null
+    telegramUserId?: string | null
+    telegramUsername?: string | null
+    telegramFirstName?: string | null
+    telegramLastName?: string | null
     ipAddress?: string | null
     country?: string | null
     pagePath?: string | null
@@ -8196,6 +8276,10 @@ export namespace Prisma {
     source?: $Enums.LeadSource
     contact: string
     message?: string | null
+    telegramUserId?: string | null
+    telegramUsername?: string | null
+    telegramFirstName?: string | null
+    telegramLastName?: string | null
     ipAddress?: string | null
     country?: string | null
     landingPageId?: string | null
@@ -8218,6 +8302,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramFirstName?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLastName?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8240,6 +8328,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramFirstName?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLastName?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     landingPageId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8262,6 +8354,10 @@ export namespace Prisma {
     source?: $Enums.LeadSource
     contact: string
     message?: string | null
+    telegramUserId?: string | null
+    telegramUsername?: string | null
+    telegramFirstName?: string | null
+    telegramLastName?: string | null
     ipAddress?: string | null
     country?: string | null
     landingPageId?: string | null
@@ -8284,6 +8380,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramFirstName?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLastName?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8305,6 +8405,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramFirstName?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLastName?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     landingPageId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8897,6 +9001,10 @@ export namespace Prisma {
     source?: SortOrder
     contact?: SortOrder
     message?: SortOrder
+    telegramUserId?: SortOrder
+    telegramUsername?: SortOrder
+    telegramFirstName?: SortOrder
+    telegramLastName?: SortOrder
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
@@ -8919,6 +9027,10 @@ export namespace Prisma {
     source?: SortOrder
     contact?: SortOrder
     message?: SortOrder
+    telegramUserId?: SortOrder
+    telegramUsername?: SortOrder
+    telegramFirstName?: SortOrder
+    telegramLastName?: SortOrder
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
@@ -8941,6 +9053,10 @@ export namespace Prisma {
     source?: SortOrder
     contact?: SortOrder
     message?: SortOrder
+    telegramUserId?: SortOrder
+    telegramUsername?: SortOrder
+    telegramFirstName?: SortOrder
+    telegramLastName?: SortOrder
     ipAddress?: SortOrder
     country?: SortOrder
     landingPageId?: SortOrder
@@ -9498,6 +9614,10 @@ export namespace Prisma {
     source?: $Enums.LeadSource
     contact: string
     message?: string | null
+    telegramUserId?: string | null
+    telegramUsername?: string | null
+    telegramFirstName?: string | null
+    telegramLastName?: string | null
     ipAddress?: string | null
     country?: string | null
     pagePath?: string | null
@@ -9519,6 +9639,10 @@ export namespace Prisma {
     source?: $Enums.LeadSource
     contact: string
     message?: string | null
+    telegramUserId?: string | null
+    telegramUsername?: string | null
+    telegramFirstName?: string | null
+    telegramLastName?: string | null
     ipAddress?: string | null
     country?: string | null
     pagePath?: string | null
@@ -9569,6 +9693,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFilter<"Lead"> | $Enums.LeadSource
     contact?: StringFilter<"Lead"> | string
     message?: StringNullableFilter<"Lead"> | string | null
+    telegramUserId?: StringNullableFilter<"Lead"> | string | null
+    telegramUsername?: StringNullableFilter<"Lead"> | string | null
+    telegramFirstName?: StringNullableFilter<"Lead"> | string | null
+    telegramLastName?: StringNullableFilter<"Lead"> | string | null
     ipAddress?: StringNullableFilter<"Lead"> | string | null
     country?: StringNullableFilter<"Lead"> | string | null
     landingPageId?: StringNullableFilter<"Lead"> | string | null
@@ -9707,6 +9835,10 @@ export namespace Prisma {
     source?: $Enums.LeadSource
     contact: string
     message?: string | null
+    telegramUserId?: string | null
+    telegramUsername?: string | null
+    telegramFirstName?: string | null
+    telegramLastName?: string | null
     ipAddress?: string | null
     country?: string | null
     pagePath?: string | null
@@ -9728,6 +9860,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramFirstName?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLastName?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9749,6 +9885,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramFirstName?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLastName?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9770,6 +9910,10 @@ export namespace Prisma {
     source?: EnumLeadSourceFieldUpdateOperationsInput | $Enums.LeadSource
     contact?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramUsername?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramFirstName?: NullableStringFieldUpdateOperationsInput | string | null
+    telegramLastName?: NullableStringFieldUpdateOperationsInput | string | null
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     pagePath?: NullableStringFieldUpdateOperationsInput | string | null

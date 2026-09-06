@@ -49,6 +49,10 @@ model Lead {
   source        LeadSource   @default(site)
   contact       String
   message       String?
+  telegramUserId String?
+  telegramUsername String?
+  telegramFirstName String?
+  telegramLastName String?
   ipAddress     String?
   country       String?
   landingPageId String?

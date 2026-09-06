@@ -9,7 +9,7 @@ export const parseTelegramChatIds = (raw: string | null | undefined): string[] =
 		.filter((value) => value.length > 0);
 };
 
-type TelegramReplyMarkup = Record<string, unknown>;
+export type TelegramReplyMarkup = Record<string, unknown>;
 
 export const sendTelegramMessage = async ({
 	botToken,
@@ -85,16 +85,24 @@ export const broadcastTelegramMessage = async ({
 	botToken,
 	chatIds,
 	text,
+	replyMarkup,
 }: {
 	botToken: string | null | undefined;
 	chatIds: string[];
 	text: string;
-}) => {
+	replyMarkup?: TelegramReplyMarkup;
+}): Promise<boolean> => {
 	if (!botToken || chatIds.length === 0) {
-		return;
+		return false;
 	}
 
+	let deliveredToAllChats = true;
 	for (const chatId of chatIds) {
-		await sendTelegramMessage({ botToken, chatId, text });
+		const delivered = await sendTelegramMessage({ botToken, chatId, text, replyMarkup });
+		if (!delivered) {
+			deliveredToAllChats = false;
+		}
 	}
+
+	return deliveredToAllChats;
 };

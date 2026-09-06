@@ -44,26 +44,30 @@ model LandingPage {
 }
 
 model Lead {
-  id            String       @id @default(cuid())
-  channel       Channel
-  source        LeadSource   @default(site)
-  contact       String
-  message       String?
-  ipAddress     String?
-  country       String?
-  landingPageId String?
-  landingPage   LandingPage? @relation(fields: [landingPageId], references: [id])
-  pagePath      String?
-  utmSource     String?
-  utmMedium     String?
-  utmCampaign   String?
-  utmContent    String?
-  utmTerm       String?
-  gclid         String?
-  gbraid        String?
-  wbraid        String?
-  fbclid        String?
-  createdAt     DateTime     @default(now())
+  id                String       @id @default(cuid())
+  channel           Channel
+  source            LeadSource   @default(site)
+  contact           String
+  message           String?
+  telegramUserId    String?
+  telegramUsername  String?
+  telegramFirstName String?
+  telegramLastName  String?
+  ipAddress         String?
+  country           String?
+  landingPageId     String?
+  landingPage       LandingPage? @relation(fields: [landingPageId], references: [id])
+  pagePath          String?
+  utmSource         String?
+  utmMedium         String?
+  utmCampaign       String?
+  utmContent        String?
+  utmTerm           String?
+  gclid             String?
+  gbraid            String?
+  wbraid            String?
+  fbclid            String?
+  createdAt         DateTime     @default(now())
 }
 
 model LandingContent {

@@ -19,6 +19,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { buttonVariants } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
 import { cn } from "@/lib/utils"
 
 type Channel = "whatsapp" | "telegram"
@@ -56,6 +58,10 @@ type LeadsResponse =
       error: string
     }
 
+type ResendResponse =
+  | { ok: true }
+  | { ok: false; error?: string }
+
 const CHANNELS: ChannelFilter[] = ["all", "whatsapp", "telegram"]
 const CHANNEL_LABELS: Record<ChannelFilter, string> = {
   whatsapp: "WhatsApp",
@@ -70,6 +76,11 @@ export default function AdminLeadsPage() {
   const [response, setResponse] = React.useState<LeadsResponse | null>(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState<string | null>(null)
+  const [resendingLeadId, setResendingLeadId] = React.useState<string | null>(null)
+  const [resendStatus, setResendStatus] = React.useState<{
+    kind: "success" | "error"
+    message: string
+  } | null>(null)
 
   React.useEffect(() => {
     let isActive = true
@@ -181,6 +192,40 @@ export default function AdminLeadsPage() {
     return null
   }
 
+  const resendToTelegram = async (leadId: string) => {
+    setResendingLeadId(leadId)
+    setResendStatus(null)
+
+    try {
+      const response = await fetch(
+        `/api/admin/leads/${encodeURIComponent(leadId)}/resend-to-telegram`,
+        { method: "POST" },
+      )
+      const result = (await response.json()) as ResendResponse
+
+      if (!response.ok || !result.ok) {
+        throw new Error(
+          (!result.ok && result.error) || "Не удалось отправить заявку в Telegram",
+        )
+      }
+
+      setResendStatus({
+        kind: "success",
+        message: "Заявка повторно отправлена в Telegram",
+      })
+    } catch (resendError) {
+      setResendStatus({
+        kind: "error",
+        message:
+          resendError instanceof Error
+            ? resendError.message
+            : "Не удалось отправить заявку в Telegram",
+      })
+    } finally {
+      setResendingLeadId(null)
+    }
+  }
+
   return (
     <AdminShell>
       <div className="flex w-full flex-col gap-6">
@@ -211,6 +256,20 @@ export default function AdminLeadsPage() {
           </div>
         </div>
 
+        {resendStatus && (
+          <div
+            role={resendStatus.kind === "error" ? "alert" : "status"}
+            className={cn(
+              "rounded-xl border px-4 py-3 text-sm",
+              resendStatus.kind === "success"
+                ? "border-emerald-100 bg-emerald-50 text-emerald-700"
+                : "border-rose-100 bg-rose-50 text-rose-700",
+            )}
+          >
+            {resendStatus.message}
+          </div>
+        )}
+
         <div className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <Table>
             <TableHeader>
@@ -223,13 +282,14 @@ export default function AdminLeadsPage() {
                 <TableHead>Контакт</TableHead>
                 <TableHead>Сообщение</TableHead>
                 <TableHead>Ссылка</TableHead>
+                <TableHead>Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
                   <TableCell
-                    colSpan={8}
+                    colSpan={9}
                     className="py-6 text-center text-sm text-slate-500"
                   >
                     Загрузка заявок...
@@ -238,7 +298,7 @@ export default function AdminLeadsPage() {
               ) : error ? (
                 <TableRow>
                   <TableCell
-                    colSpan={8}
+                    colSpan={9}
                     className="py-6 text-center text-sm text-rose-500"
                   >
                     {error}
@@ -247,7 +307,7 @@ export default function AdminLeadsPage() {
               ) : leads.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={8}
+                    colSpan={9}
                     className="py-6 text-center text-sm text-slate-500"
                   >
                     Заявок пока нет
@@ -269,6 +329,7 @@ export default function AdminLeadsPage() {
                         {new Date(lead.createdAt).toLocaleString("ru-RU", {
                           dateStyle: "short",
                           timeStyle: "short",
+                          timeZone: "Asia/Bangkok",
                         })}
                       </TableCell>
                       <TableCell>{lead.ipAddress ?? "—"}</TableCell>
@@ -290,6 +351,30 @@ export default function AdminLeadsPage() {
                           >
                             Открыть
                           </a>
+                        ) : (
+                          <span className="text-sm text-slate-500">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {lead.source === "telegram_bot" ? (
+                          <button
+                            type="button"
+                            disabled={resendingLeadId === lead.id}
+                            onClick={() => resendToTelegram(lead.id)}
+                            className={cn(
+                              buttonVariants({ variant: "outline" }),
+                              "h-auto min-h-9 px-3 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-60",
+                            )}
+                          >
+                            {resendingLeadId === lead.id ? (
+                              <>
+                                <Spinner className="mr-2 size-3" />
+                                Отправка...
+                              </>
+                            ) : (
+                              "Отправить в бот заново"
+                            )}
+                          </button>
                         ) : (
                           <span className="text-sm text-slate-500">—</span>
                         )}

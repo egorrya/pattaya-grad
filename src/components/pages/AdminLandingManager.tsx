@@ -49,6 +49,7 @@ const formatDate = (value: string) =>
   new Date(value).toLocaleString("ru-RU", {
     dateStyle: "short",
     timeStyle: "short",
+    timeZone: "Asia/Bangkok",
   });
 
 export default function AdminLandingManager() {

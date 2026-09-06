@@ -3,17 +3,17 @@ import { getLandingContent } from './landing';
 import { getQuizBotSettings } from './quizBot';
 import {
 	answerTelegramCallbackQuery,
-	broadcastTelegramMessage,
 	parseTelegramChatIds,
 	sendTelegramMessage,
 } from './telegramNotify';
+import {
+	formatTelegramBotLeadMessage,
+	formatTelegramLeadContact,
+	sendTelegramBotLeadNotification,
+	type TelegramLeadContact,
+} from './telegramLeadNotification';
 
-type Contact = {
-	telegramUserId: string | null;
-	username: string | null;
-	firstName: string | null;
-	lastName: string | null;
-};
+type Contact = TelegramLeadContact;
 
 type QuizAnswers = {
 	city?: string;
@@ -186,27 +186,6 @@ const parseStartParam = (text: string | null): string | null => {
 const isStartCommand = (text: string | null) =>
 	text !== null && /^\/start(?:@\S+)?(\s|$)/i.test(text);
 
-const formatTelegramContact = ({
-	username,
-	firstName,
-	lastName,
-	telegramUserId,
-}: {
-	username: string | null;
-	firstName: string | null;
-	lastName: string | null;
-	telegramUserId: string | null;
-}) => {
-	if (username) {
-		return `@${username}`;
-	}
-	const name = [firstName, lastName].filter(Boolean).join(' ').trim();
-	if (name && telegramUserId) {
-		return `${name} (id: ${telegramUserId})`;
-	}
-	return telegramUserId ? `id: ${telegramUserId}` : 'неизвестный пользователь';
-};
-
 const sendWelcome = async (chatId: string, settings: { welcomeMessage: string; startButtonLabel: string }) => {
 	await sendQuizBotMessage(chatId, settings.welcomeMessage, {
 		inline_keyboard: [[{ text: settings.startButtonLabel, callback_data: 'quiz:begin' }]],
@@ -239,18 +218,18 @@ const resetSession = (chatId: string, contact: Contact, startParam: string | nul
 		create: {
 			chatId,
 			telegramUserId: contact.telegramUserId,
-			username: contact.username,
-			firstName: contact.firstName,
-			lastName: contact.lastName,
+			username: contact.telegramUsername,
+			firstName: contact.telegramFirstName,
+			lastName: contact.telegramLastName,
 			step: 'idle',
 			answers: {},
 			startParam,
 		},
 		update: {
 			telegramUserId: contact.telegramUserId,
-			username: contact.username,
-			firstName: contact.firstName,
-			lastName: contact.lastName,
+			username: contact.telegramUsername,
+			firstName: contact.telegramFirstName,
+			lastName: contact.telegramLastName,
 			step: 'idle',
 			answers: {},
 			completedAt: null,
@@ -271,20 +250,9 @@ const finalizeQuiz = async ({
 	contact: Contact;
 	settings: { completionMessage: string; managerContactUrl: string | null; channelUrl: string | null };
 }) => {
-	const contactLabel = formatTelegramContact(contact);
-	const formattedDate = new Date().toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' });
-
-	const leadMessage = [
-		'Новая заявка Pattaya Grad',
-		`Имя / Telegram: ${contactLabel}`,
-		`Город: ${answers.cityLabel ?? '—'}`,
-		`Тип: ${answers.propertyTypeLabel ?? '—'}`,
-		`Цель: ${answers.purposeLabel ?? '—'}`,
-		`Бюджет: ${answers.budgetLabel ?? '—'}`,
-		`Пожелания: ${answers.wishes || '—'}`,
-		'Источник: Telegram Bot',
-		`Дата и время заявки: ${formattedDate}`,
-	].join('\n');
+	const createdAt = new Date();
+	const contactLabel = formatTelegramLeadContact(contact);
+	const leadMessage = formatTelegramBotLeadMessage({ contact, answers, createdAt });
 
 	await prisma.quizBotSession.update({
 		where: { chatId },
@@ -297,15 +265,21 @@ const finalizeQuiz = async ({
 			source: 'telegram_bot',
 			contact: contactLabel,
 			message: leadMessage,
+			telegramUserId: contact.telegramUserId,
+			telegramUsername: contact.telegramUsername,
+			telegramFirstName: contact.telegramFirstName,
+			telegramLastName: contact.telegramLastName,
 			utmCampaign: startParam,
+			createdAt,
 		},
 	});
 
 	const landingContent = await getLandingContent();
-	await broadcastTelegramMessage({
+	await sendTelegramBotLeadNotification({
 		botToken: landingContent.telegramBotToken?.trim(),
 		chatIds: parseTelegramChatIds(landingContent.telegramChatIds),
 		text: leadMessage,
+		contact,
 	});
 
 	const completionButtons = [
@@ -336,7 +310,12 @@ export async function handleQuizBotUpdate(update: unknown): Promise<void> {
 	}
 
 	const { chatId, telegramUserId, username, firstName, lastName } = parsed;
-	const contact = { telegramUserId, username, firstName, lastName };
+	const contact = {
+		telegramUserId,
+		telegramUsername: username,
+		telegramFirstName: firstName,
+		telegramLastName: lastName,
+	};
 
 	if (parsed.kind === 'callback_query') {
 		await answerTelegramCallbackQuery({ botToken: getBotToken(), callbackQueryId: parsed.callbackQueryId });
