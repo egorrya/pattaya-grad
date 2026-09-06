@@ -19,6 +19,7 @@ type TelegramSendResult = {
 export type TelegramBroadcastResult = {
 	sent: boolean;
 	replyMarkupIncluded: boolean;
+	errorCode?: string;
 };
 
 export const sendTelegramMessage = async ({
@@ -97,13 +98,11 @@ export const broadcastTelegramMessage = async ({
 	chatIds,
 	text,
 	replyMarkup,
-	fallbackText,
 }: {
 	botToken: string | null | undefined;
 	chatIds: string[];
 	text: string;
 	replyMarkup?: TelegramReplyMarkup;
-	fallbackText?: string;
 }): Promise<TelegramBroadcastResult> => {
 	if (!botToken || chatIds.length === 0) {
 		return { sent: false, replyMarkupIncluded: false };
@@ -111,21 +110,18 @@ export const broadcastTelegramMessage = async ({
 
 	let deliveredToAllChats = true;
 	let replyMarkupIncluded = Boolean(replyMarkup);
+	let errorCode: string | undefined;
 	for (const chatId of chatIds) {
-		let result = await sendTelegramMessage({ botToken, chatId, text, replyMarkup });
-
-		if (!result.sent && replyMarkup && result.errorCode?.startsWith('BUTTON_USER_')) {
-			console.warn('Retrying Telegram message without a restricted user profile button', {
-				chatId,
-			});
-			replyMarkupIncluded = false;
-			result = await sendTelegramMessage({ botToken, chatId, text: fallbackText ?? text });
-		}
+		const result = await sendTelegramMessage({ botToken, chatId, text, replyMarkup });
 
 		if (!result.sent) {
 			deliveredToAllChats = false;
+			errorCode ??= result.errorCode;
+			if (replyMarkup) {
+				replyMarkupIncluded = false;
+			}
 		}
 	}
 
-	return { sent: deliveredToAllChats, replyMarkupIncluded };
+	return { sent: deliveredToAllChats, replyMarkupIncluded, errorCode };
 };

@@ -220,7 +220,7 @@ export default function AdminLeadsPage() {
             : "success",
         message:
           result.telegramLinkRequested && !result.telegramLinkIncluded
-            ? "Заявка отправлена вторым ботом, но копия со ссылкой не доставлена квиз-ботом"
+            ? "Заявка отправлена, но Telegram ограничил прямую ссылку на профиль пользователя"
             : "Заявка повторно отправлена в Telegram",
       })
     } catch (resendError) {

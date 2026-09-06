@@ -1,5 +1,6 @@
 import {
 	broadcastTelegramMessage,
+	sendTelegramMessage,
 	type TelegramReplyMarkup,
 } from './telegramNotify';
 
@@ -122,35 +123,6 @@ export const buildTelegramLeadReplyMarkup = ({
 	};
 };
 
-const buildQuizBotReplyMarkup = (quizBotUsername: string | null | undefined): TelegramReplyMarkup | undefined => {
-	const username = quizBotUsername?.trim().replace(/^@+/, '');
-	if (!username) {
-		return undefined;
-	}
-
-	return {
-		inline_keyboard: [[{ text: 'Открыть квиз-бот', url: `https://t.me/${username}` }]],
-	};
-};
-
-const formatPrivateLinkNotice = ({
-	quizBotUsername,
-	text,
-}: {
-	quizBotUsername: string | null | undefined;
-	text: string;
-}) => {
-	const username = quizBotUsername?.trim().replace(/^@+/, '');
-	const botLabel = username ? `@${username}` : 'квиз-боте';
-
-	return [
-		`🔒 Приватная ссылка на пользователя доступна в ${botLabel}.`,
-		'Откройте квиз-бот и нажмите Start, чтобы получить сообщение со ссылкой.',
-		'',
-		text,
-	].join('\n');
-};
-
 const formatPrivateLinkRestrictedNotice = (text: string) =>
 	[
 		'🔒 У пользователя нет публичного username.',
@@ -158,6 +130,33 @@ const formatPrivateLinkRestrictedNotice = (text: string) =>
 		'',
 		text,
 	].join('\n');
+
+const notifyApplicantAboutPrivacyRestriction = async ({
+	botToken,
+	chatId,
+	managerContactUrl,
+}: {
+	botToken: string | null | undefined;
+	chatId: string;
+	managerContactUrl: string | null;
+}) => {
+	const contactUrl = managerContactUrl?.trim();
+	if (!botToken || !contactUrl) {
+		return false;
+	}
+
+	const result = await sendTelegramMessage({
+		botToken,
+		chatId,
+		text:
+			'Мы не можем написать вам первыми из-за настроек приватности Telegram. Пожалуйста, свяжитесь с менеджером самостоятельно по кнопке ниже.',
+		replyMarkup: {
+			inline_keyboard: [[{ text: 'Связаться с менеджером', url: contactUrl }]],
+		},
+	});
+
+	return result.sent;
+};
 
 export const sendTelegramBotLeadNotification = async ({
 	botToken,
@@ -186,17 +185,17 @@ export type TelegramLeadNotificationResult = {
 export const sendTelegramQuizLeadNotificationToAdmins = async ({
 	notificationBotToken,
 	quizBotToken,
-	quizBotUsername,
 	chatIds,
 	text,
 	contact,
+	applicantPrivacyNotice,
 }: {
 	notificationBotToken: string | null | undefined;
 	quizBotToken: string | null | undefined;
-	quizBotUsername: string | null | undefined;
 	chatIds: string[];
 	text: string;
 	contact: Pick<TelegramLeadContact, 'telegramUserId' | 'telegramUsername'>;
+	applicantPrivacyNotice?: { chatId: string; managerContactUrl: string | null };
 }): Promise<TelegramLeadNotificationResult> => {
 	const username = normalizedValue(contact.telegramUsername)?.replace(/^@+/, '');
 	const userId = normalizedValue(contact.telegramUserId);
@@ -220,18 +219,21 @@ export const sendTelegramQuizLeadNotificationToAdmins = async ({
 		botToken: quizBotToken,
 		chatIds,
 		text: `🔒 Приватная ссылка на Telegram пользователя\n\n${text}`,
-		fallbackText: formatPrivateLinkRestrictedNotice(text),
 		replyMarkup: buildTelegramLeadReplyMarkup(contact),
 	});
 	const telegramLinkIncluded =
 		quizBotLinkNotification.sent && quizBotLinkNotification.replyMarkupIncluded;
+	const privacyRestricted = quizBotLinkNotification.errorCode?.startsWith('BUTTON_USER_') ?? false;
+	if (privacyRestricted && applicantPrivacyNotice) {
+		await notifyApplicantAboutPrivacyRestriction({
+			botToken: quizBotToken,
+			...applicantPrivacyNotice,
+		});
+	}
 	const adminNotification = await broadcastTelegramMessage({
 		botToken: notificationBotToken,
 		chatIds,
-		text: telegramLinkIncluded
-			? formatPrivateLinkNotice({ quizBotUsername, text })
-			: formatPrivateLinkRestrictedNotice(text),
-		replyMarkup: buildQuizBotReplyMarkup(quizBotUsername),
+		text: privacyRestricted ? formatPrivateLinkRestrictedNotice(text) : text,
 	});
 
 	return {
