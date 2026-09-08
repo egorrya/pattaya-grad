@@ -281,10 +281,7 @@ const finalizeQuiz = async ({
 		chatIds: parseTelegramChatIds(landingContent.telegramChatIds),
 		text: leadMessage,
 		contact,
-		applicantPrivacyNotice: {
-			chatId,
-			managerContactUrl: settings.managerContactUrl,
-		},
+		quizBotUsername: process.env.TELEGRAM_QUIZ_BOT_USERNAME,
 	});
 
 	const completionButtons = [

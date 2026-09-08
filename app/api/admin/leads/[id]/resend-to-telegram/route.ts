@@ -60,6 +60,7 @@ export async function POST(
 			chatIds: parseTelegramChatIds(landingContent.telegramChatIds),
 			text: lead.message,
 			contact: telegramContact,
+			quizBotUsername: process.env.TELEGRAM_QUIZ_BOT_USERNAME,
 		});
 
 		if (!notification.sent) {
