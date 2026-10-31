@@ -3,8 +3,8 @@ import Script from 'next/script';
 import './globals.css';
 
 export const metadata: Metadata = {
-	title: 'Паттайя Град',
-	description: 'Недвижимость в Тайланде',
+	title: 'Недвижимость в Паттайе и Таиланде | Pattaya Grad',
+	description: 'Каталог недвижимости в Паттайе: помощь с подбором апартаментов, просмотром объектов и сопровождением сделки от Pattaya Grad.',
 };
 
 const GTM_SNIPPET = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

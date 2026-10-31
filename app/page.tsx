@@ -11,17 +11,15 @@ async function loadLandingData() {
 
 export async function generateMetadata(): Promise<Metadata> {
 	const landing = await loadLandingData();
-	const title = landing.headerPhrase;
-	const description = landing.heroDescription;
-	const openGraphTitle = `${title} · Pattaya Grad`;
-	const openGraphDescription = landing.heroSupport || description;
+	const title = `${landing.heroHeading.replace(/^[^\p{L}\p{N}]+/u, '').trim()} | Pattaya Grad`;
+	const description = `${landing.heroHeading} ${landing.heroDescription}`.replace(/^[^\p{L}\p{N}]+/u, '').trim();
 
 	return {
 		title,
 		description,
 		openGraph: {
-			title: openGraphTitle,
-			description: openGraphDescription,
+			title,
+			description,
 			url: 'https://mrqz-landing.com/',
 			images: [
 				{
@@ -33,8 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		twitter: {
 			card: 'summary_large_image',
-			title: openGraphTitle,
-			description: openGraphDescription,
+			title,
+			description,
 			images: [landing.heroImage ?? '/assets/images/image.webp'],
 		},
 		metadataBase: new URL('https://mrqz-landing.com'),

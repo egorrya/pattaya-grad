@@ -20,16 +20,15 @@ export function createLandingMetadata(
   landing: LandingPageRouteData,
   slug: string,
 ): Metadata {
-  const title = landing.headerPhrase;
-  const description = landing.heroDescription;
-  const openGraphDescription = landing.heroSupport || description;
+  const title = `${landing.heroHeading.replace(/^[^\p{L}\p{N}]+/u, '').trim()} | Pattaya Grad`;
+  const description = `${landing.heroHeading} ${landing.heroDescription}`.replace(/^[^\p{L}\p{N}]+/u, '').trim();
 
   return {
     title,
     description,
     openGraph: {
-      title: `${title} · Pattaya Grad`,
-      description: openGraphDescription,
+      title,
+      description,
       url: `https://mrqz-landing.com/${slug}`,
       images: [
         {
@@ -41,8 +40,8 @@ export function createLandingMetadata(
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} · Pattaya Grad`,
-      description: openGraphDescription,
+      title,
+      description,
       images: [landing.heroImage ?? '/assets/images/image.webp'],
     },
     metadataBase: new URL('https://mrqz-landing.com'),
