@@ -1,3 +1,4 @@
+import { parsePhoneNumberFromString } from 'libphonenumber-js/min';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@lib/db';
 import { getLandingContent } from '@lib/landing';
@@ -181,7 +182,7 @@ export async function POST(request: NextRequest) {
 		landingSlug?: unknown;
 		attribution?: unknown;
 	};
-	const { phoneCountryIso } = payload as { phoneCountryIso?: unknown };
+	const { phoneCountryIso, internationalPhone } = payload as { phoneCountryIso?: unknown; internationalPhone?: unknown };
 	const leadAttribution = parseLeadAttribution(attribution);
 
 	if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
@@ -206,35 +207,41 @@ export async function POST(request: NextRequest) {
 				return badRequest('Invalid WhatsApp phone format');
 			}
 
-			let resolvedPhoneCountry = getPhoneCountryByIso(DEFAULT_PHONE_COUNTRY_ISO);
-			if (typeof phoneCountryIso === 'string') {
-				const requestedCountry = getPhoneCountryByIso(phoneCountryIso);
-				if (!requestedCountry) {
+			if (internationalPhone === true) {
+				const phone = parsePhoneNumberFromString(contactValue);
+				if (!phone?.isValid()) return badRequest('Invalid international phone number');
+				normalizedContact = phone.number;
+			} else {
+				let resolvedPhoneCountry = getPhoneCountryByIso(DEFAULT_PHONE_COUNTRY_ISO);
+				if (typeof phoneCountryIso === 'string') {
+					const requestedCountry = getPhoneCountryByIso(phoneCountryIso);
+					if (!requestedCountry) {
+						return badRequest('Unsupported phone country');
+					}
+					resolvedPhoneCountry = requestedCountry;
+				}
+
+				if (!resolvedPhoneCountry) {
 					return badRequest('Unsupported phone country');
 				}
-				resolvedPhoneCountry = requestedCountry;
-			}
 
-			if (!resolvedPhoneCountry) {
-				return badRequest('Unsupported phone country');
-			}
+				const nationalDigits = normalizePhoneNationalDigits(
+					contactValue,
+					resolvedPhoneCountry,
+				);
+				const validationError = validatePhoneNationalDigits(
+					nationalDigits,
+					resolvedPhoneCountry,
+				);
+				if (validationError) {
+					return badRequest(validationError);
+				}
 
-			const nationalDigits = normalizePhoneNationalDigits(
-				contactValue,
-				resolvedPhoneCountry,
-			);
-			const validationError = validatePhoneNationalDigits(
-				nationalDigits,
-				resolvedPhoneCountry,
-			);
-			if (validationError) {
-				return badRequest(validationError);
+				normalizedContact = buildWhatsAppContact(
+					nationalDigits,
+					resolvedPhoneCountry,
+				);
 			}
-
-			normalizedContact = buildWhatsAppContact(
-				nationalDigits,
-				resolvedPhoneCountry,
-			);
 		}
 
 		const ipAddress = extractClientIp(request);
