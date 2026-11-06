@@ -238,7 +238,7 @@ export default function AdminLeadsPage() {
 
   return (
     <AdminShell>
-      <div className="flex w-full flex-col gap-6">
+      <div className="flex w-full min-w-0 flex-col gap-6">
         <div className="flex flex-col gap-2">
           <p className="text-xs uppercase text-slate-500">
             Лиды
@@ -283,8 +283,8 @@ export default function AdminLeadsPage() {
         )}
 
         <div className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <Table>
-            <TableHeader>
+          <Table className="table-fixed [&_td]:whitespace-normal [&_td]:break-words [&_th]:whitespace-normal">
+            <TableHeader className="sr-only xl:not-sr-only">
               <TableRow>
                 <TableHead>Лендинг</TableHead>
                 <TableHead>Тип связи</TableHead>
@@ -330,30 +330,31 @@ export default function AdminLeadsPage() {
                   const link = buildContactLink(lead)
 
                   return (
-                    <TableRow key={lead.id}>
-                      <TableCell className="font-semibold">
+                    <TableRow key={lead.id} className="block p-3 xl:table-row xl:p-0 [&_td]:grid [&_td]:grid-cols-[minmax(6rem,35%)_minmax(0,1fr)] [&_td]:gap-2 [&_td]:before:font-medium [&_td]:before:text-slate-500 [&_td]:before:content-[attr(data-label)] xl:[&_td]:table-cell xl:[&_td]:before:content-none">
+                      <TableCell data-label="Лендинг" className="font-semibold">
                         {lead.landingName ?? DEFAULT_LANDING_NAME}
                       </TableCell>
-                      <TableCell className="font-semibold">
+                      <TableCell data-label="Тип связи" className="font-semibold">
                         {CHANNEL_LABELS[lead.channel]}
                       </TableCell>
-                      <TableCell>
+                      <TableCell data-label="Дата">
                         {new Date(lead.createdAt).toLocaleString("ru-RU", {
                           dateStyle: "short",
                           timeStyle: "short",
                           timeZone: "Asia/Bangkok",
                         })}
                       </TableCell>
-                      <TableCell>{lead.ipAddress ?? "—"}</TableCell>
-                      <TableCell>{lead.country ?? "—"}</TableCell>
-                      <TableCell>{lead.contact}</TableCell>
+                      <TableCell data-label="IP" className="break-all">{lead.ipAddress ?? "—"}</TableCell>
+                      <TableCell data-label="Страна">{lead.country ?? "—"}</TableCell>
+                      <TableCell data-label="Контакт" className="break-all">{lead.contact}</TableCell>
                       <TableCell
-                        className="max-w-[280px] truncate whitespace-pre-line"
+                        data-label="Сообщение"
+                        className="whitespace-pre-line break-all"
                         title={lead.message ?? undefined}
                       >
                         {lead.message ?? "—"}
                       </TableCell>
-                      <TableCell>
+                      <TableCell data-label="Ссылка">
                         {link ? (
                           <a
                             href={link}
@@ -367,7 +368,7 @@ export default function AdminLeadsPage() {
                           <span className="text-sm text-slate-500">—</span>
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell data-label="Действия">
                         {lead.source === "telegram_bot" ? (
                           <button
                             type="button"
@@ -375,7 +376,7 @@ export default function AdminLeadsPage() {
                             onClick={() => resendToTelegram(lead.id)}
                             className={cn(
                               buttonVariants({ variant: "outline" }),
-                              "h-auto min-h-9 px-3 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-60",
+                              "h-auto min-h-9 max-w-full whitespace-normal px-3 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-60",
                             )}
                           >
                             {resendingLeadId === lead.id ? (
@@ -401,7 +402,7 @@ export default function AdminLeadsPage() {
 
         {totalPages > 1 && (
           <Pagination className="mt-2">
-            <PaginationContent>
+            <PaginationContent className="flex-wrap justify-center">
               <PaginationItem>
                 <PaginationPrevious
                   href="#"

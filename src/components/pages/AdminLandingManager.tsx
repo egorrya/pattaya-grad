@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { buttonVariants } from "@/components/ui/button";
-import { ArrowUpRightSquareIcon, PenLineIcon, TrashIcon } from "lucide-react";
+import { ArrowUpRightSquareIcon, ChevronDown, PenLineIcon, TrashIcon } from "lucide-react";
 import { LandingContentForm } from "@/components/pages/LandingContentForm";
 import type { LandingContentPayload } from "@/lib/landing";
 import {
@@ -299,10 +299,13 @@ export default function AdminLandingManager() {
             </div>
           </section>
           <section>
-            <label className="mb-4 block text-sm font-medium text-slate-700">Язык интерфейса
-              <select value={language} onChange={(event) => setLanguage(event.target.value as 'ru' | 'en')} className="ml-3 rounded-lg border border-slate-300 bg-white px-3 py-2">
-                <option value="ru">Русский</option><option value="en">English</option>
-              </select>
+            <label className="mb-4 flex flex-wrap items-center gap-3 text-sm font-medium text-slate-700">Язык интерфейса
+              <span className="relative inline-flex">
+                <select value={language} onChange={(event) => setLanguage(event.target.value as 'ru' | 'en')} className="appearance-none rounded-lg border border-slate-300 bg-white py-2 pl-3 pr-10">
+                  <option value="ru">Русский</option><option value="en">English</option>
+                </select>
+                <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-slate-600" />
+              </span>
             </label>
             <LandingContentForm
               formState={formState}

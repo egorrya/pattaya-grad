@@ -58,7 +58,7 @@ export function AdminShell({
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
-        <SidebarInset className="flex-1 bg-slate-50 p-8 max-w-full">{children}</SidebarInset>
+        <SidebarInset className="min-w-0 flex-1 bg-slate-50 p-4 sm:p-8 max-w-full">{children}</SidebarInset>
       </div>
     </SidebarProvider>
   )
