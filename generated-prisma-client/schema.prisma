@@ -20,6 +20,7 @@ enum LeadSource {
 model LandingPage {
   id                    String   @id @default(cuid())
   urlPath               String   @unique
+  language              String   @default("ru")
   name                  String
   headerPhrase          String
   heroImage             String?

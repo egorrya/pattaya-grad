@@ -123,6 +123,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.LandingPageScalarFieldEnum = {
   id: 'id',
   urlPath: 'urlPath',
+  language: 'language',
   name: 'name',
   headerPhrase: 'headerPhrase',
   heroImage: 'heroImage',

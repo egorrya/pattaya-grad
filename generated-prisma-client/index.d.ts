@@ -1298,6 +1298,7 @@ export namespace Prisma {
   export type LandingPageMinAggregateOutputType = {
     id: string | null
     urlPath: string | null
+    language: string | null
     name: string | null
     headerPhrase: string | null
     heroImage: string | null
@@ -1323,6 +1324,7 @@ export namespace Prisma {
   export type LandingPageMaxAggregateOutputType = {
     id: string | null
     urlPath: string | null
+    language: string | null
     name: string | null
     headerPhrase: string | null
     heroImage: string | null
@@ -1348,6 +1350,7 @@ export namespace Prisma {
   export type LandingPageCountAggregateOutputType = {
     id: number
     urlPath: number
+    language: number
     name: number
     headerPhrase: number
     heroImage: number
@@ -1375,6 +1378,7 @@ export namespace Prisma {
   export type LandingPageMinAggregateInputType = {
     id?: true
     urlPath?: true
+    language?: true
     name?: true
     headerPhrase?: true
     heroImage?: true
@@ -1400,6 +1404,7 @@ export namespace Prisma {
   export type LandingPageMaxAggregateInputType = {
     id?: true
     urlPath?: true
+    language?: true
     name?: true
     headerPhrase?: true
     heroImage?: true
@@ -1425,6 +1430,7 @@ export namespace Prisma {
   export type LandingPageCountAggregateInputType = {
     id?: true
     urlPath?: true
+    language?: true
     name?: true
     headerPhrase?: true
     heroImage?: true
@@ -1523,6 +1529,7 @@ export namespace Prisma {
   export type LandingPageGroupByOutputType = {
     id: string
     urlPath: string
+    language: string
     name: string
     headerPhrase: string
     heroImage: string | null
@@ -1565,6 +1572,7 @@ export namespace Prisma {
   export type LandingPageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     urlPath?: boolean
+    language?: boolean
     name?: boolean
     headerPhrase?: boolean
     heroImage?: boolean
@@ -1592,6 +1600,7 @@ export namespace Prisma {
   export type LandingPageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     urlPath?: boolean
+    language?: boolean
     name?: boolean
     headerPhrase?: boolean
     heroImage?: boolean
@@ -1617,6 +1626,7 @@ export namespace Prisma {
   export type LandingPageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     urlPath?: boolean
+    language?: boolean
     name?: boolean
     headerPhrase?: boolean
     heroImage?: boolean
@@ -1642,6 +1652,7 @@ export namespace Prisma {
   export type LandingPageSelectScalar = {
     id?: boolean
     urlPath?: boolean
+    language?: boolean
     name?: boolean
     headerPhrase?: boolean
     heroImage?: boolean
@@ -1664,7 +1675,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type LandingPageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "urlPath" | "name" | "headerPhrase" | "heroImage" | "heroHeading" | "heroDescription" | "heroSupport" | "buttonLabel" | "contact" | "videoUrl" | "nextScreenTitle" | "nextScreenDescription" | "nextScreenQuestion" | "telegramEnabled" | "whatsappEnabled" | "customScript" | "telegramBotToken" | "telegramChatIds" | "logoPath" | "createdAt" | "updatedAt", ExtArgs["result"]["landingPage"]>
+  export type LandingPageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "urlPath" | "language" | "name" | "headerPhrase" | "heroImage" | "heroHeading" | "heroDescription" | "heroSupport" | "buttonLabel" | "contact" | "videoUrl" | "nextScreenTitle" | "nextScreenDescription" | "nextScreenQuestion" | "telegramEnabled" | "whatsappEnabled" | "customScript" | "telegramBotToken" | "telegramChatIds" | "logoPath" | "createdAt" | "updatedAt", ExtArgs["result"]["landingPage"]>
   export type LandingPageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     leads?: boolean | LandingPage$leadsArgs<ExtArgs>
     _count?: boolean | LandingPageCountOutputTypeDefaultArgs<ExtArgs>
@@ -1680,6 +1691,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       urlPath: string
+      language: string
       name: string
       headerPhrase: string
       heroImage: string | null
@@ -2126,6 +2138,7 @@ export namespace Prisma {
   interface LandingPageFieldRefs {
     readonly id: FieldRef<"LandingPage", 'String'>
     readonly urlPath: FieldRef<"LandingPage", 'String'>
+    readonly language: FieldRef<"LandingPage", 'String'>
     readonly name: FieldRef<"LandingPage", 'String'>
     readonly headerPhrase: FieldRef<"LandingPage", 'String'>
     readonly heroImage: FieldRef<"LandingPage", 'String'>
@@ -7236,6 +7249,7 @@ export namespace Prisma {
   export const LandingPageScalarFieldEnum: {
     id: 'id',
     urlPath: 'urlPath',
+    language: 'language',
     name: 'name',
     headerPhrase: 'headerPhrase',
     heroImage: 'heroImage',
@@ -7495,6 +7509,7 @@ export namespace Prisma {
     NOT?: LandingPageWhereInput | LandingPageWhereInput[]
     id?: StringFilter<"LandingPage"> | string
     urlPath?: StringFilter<"LandingPage"> | string
+    language?: StringFilter<"LandingPage"> | string
     name?: StringFilter<"LandingPage"> | string
     headerPhrase?: StringFilter<"LandingPage"> | string
     heroImage?: StringNullableFilter<"LandingPage"> | string | null
@@ -7521,6 +7536,7 @@ export namespace Prisma {
   export type LandingPageOrderByWithRelationInput = {
     id?: SortOrder
     urlPath?: SortOrder
+    language?: SortOrder
     name?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrderInput | SortOrder
@@ -7550,6 +7566,7 @@ export namespace Prisma {
     AND?: LandingPageWhereInput | LandingPageWhereInput[]
     OR?: LandingPageWhereInput[]
     NOT?: LandingPageWhereInput | LandingPageWhereInput[]
+    language?: StringFilter<"LandingPage"> | string
     name?: StringFilter<"LandingPage"> | string
     headerPhrase?: StringFilter<"LandingPage"> | string
     heroImage?: StringNullableFilter<"LandingPage"> | string | null
@@ -7576,6 +7593,7 @@ export namespace Prisma {
   export type LandingPageOrderByWithAggregationInput = {
     id?: SortOrder
     urlPath?: SortOrder
+    language?: SortOrder
     name?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrderInput | SortOrder
@@ -7607,6 +7625,7 @@ export namespace Prisma {
     NOT?: LandingPageScalarWhereWithAggregatesInput | LandingPageScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"LandingPage"> | string
     urlPath?: StringWithAggregatesFilter<"LandingPage"> | string
+    language?: StringWithAggregatesFilter<"LandingPage"> | string
     name?: StringWithAggregatesFilter<"LandingPage"> | string
     headerPhrase?: StringWithAggregatesFilter<"LandingPage"> | string
     heroImage?: StringNullableWithAggregatesFilter<"LandingPage"> | string | null
@@ -8068,6 +8087,7 @@ export namespace Prisma {
   export type LandingPageCreateInput = {
     id?: string
     urlPath: string
+    language?: string
     name: string
     headerPhrase: string
     heroImage?: string | null
@@ -8094,6 +8114,7 @@ export namespace Prisma {
   export type LandingPageUncheckedCreateInput = {
     id?: string
     urlPath: string
+    language?: string
     name: string
     headerPhrase: string
     heroImage?: string | null
@@ -8120,6 +8141,7 @@ export namespace Prisma {
   export type LandingPageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     urlPath?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8146,6 +8168,7 @@ export namespace Prisma {
   export type LandingPageUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     urlPath?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8172,6 +8195,7 @@ export namespace Prisma {
   export type LandingPageCreateManyInput = {
     id?: string
     urlPath: string
+    language?: string
     name: string
     headerPhrase: string
     heroImage?: string | null
@@ -8197,6 +8221,7 @@ export namespace Prisma {
   export type LandingPageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     urlPath?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8222,6 +8247,7 @@ export namespace Prisma {
   export type LandingPageUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     urlPath?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8846,6 +8872,7 @@ export namespace Prisma {
   export type LandingPageCountOrderByAggregateInput = {
     id?: SortOrder
     urlPath?: SortOrder
+    language?: SortOrder
     name?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrder
@@ -8871,6 +8898,7 @@ export namespace Prisma {
   export type LandingPageMaxOrderByAggregateInput = {
     id?: SortOrder
     urlPath?: SortOrder
+    language?: SortOrder
     name?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrder
@@ -8896,6 +8924,7 @@ export namespace Prisma {
   export type LandingPageMinOrderByAggregateInput = {
     id?: SortOrder
     urlPath?: SortOrder
+    language?: SortOrder
     name?: SortOrder
     headerPhrase?: SortOrder
     heroImage?: SortOrder
@@ -9716,6 +9745,7 @@ export namespace Prisma {
   export type LandingPageCreateWithoutLeadsInput = {
     id?: string
     urlPath: string
+    language?: string
     name: string
     headerPhrase: string
     heroImage?: string | null
@@ -9741,6 +9771,7 @@ export namespace Prisma {
   export type LandingPageUncheckedCreateWithoutLeadsInput = {
     id?: string
     urlPath: string
+    language?: string
     name: string
     headerPhrase: string
     heroImage?: string | null
@@ -9782,6 +9813,7 @@ export namespace Prisma {
   export type LandingPageUpdateWithoutLeadsInput = {
     id?: StringFieldUpdateOperationsInput | string
     urlPath?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9807,6 +9839,7 @@ export namespace Prisma {
   export type LandingPageUncheckedUpdateWithoutLeadsInput = {
     id?: StringFieldUpdateOperationsInput | string
     urlPath?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     headerPhrase?: StringFieldUpdateOperationsInput | string
     heroImage?: NullableStringFieldUpdateOperationsInput | string | null

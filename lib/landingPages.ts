@@ -34,6 +34,7 @@ const normalizeLandingUrlPath = (value: unknown): string => {
 export type LandingPagePayload = Omit<LandingContentPayload, 'defaultLandingName'> & {
   urlPath: string;
   name: string;
+  language: 'ru' | 'en';
 };
 
 export const buildLandingPagePayload = (payload: unknown): LandingPagePayload => {
@@ -45,6 +46,8 @@ export const buildLandingPagePayload = (payload: unknown): LandingPagePayload =>
   });
   const urlPath = normalizeLandingUrlPath(fields.urlPath);
   const name = requireNonEmptyString(fields.name, 'name');
+  const language = fields.language ?? 'ru';
+  if (language !== 'ru' && language !== 'en') throw new Error('Invalid language');
 
   const { defaultLandingName, ...contentWithoutDefault } = landingContent;
 
@@ -52,6 +55,7 @@ export const buildLandingPagePayload = (payload: unknown): LandingPagePayload =>
     ...contentWithoutDefault,
     urlPath,
     name,
+    language,
   };
 };
 

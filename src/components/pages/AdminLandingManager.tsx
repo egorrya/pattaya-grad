@@ -17,6 +17,7 @@ type LandingPageRecord = LandingContentPayload & {
   id: string;
   urlPath: string;
   name: string;
+  language: 'ru' | 'en';
   createdAt: string;
   updatedAt: string;
 };
@@ -62,6 +63,7 @@ export default function AdminLandingManager() {
   const [status, setStatus] = React.useState<{ kind: "success" | "error"; message: string } | null>(null);
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
   const [landingName, setLandingName] = React.useState("");
+  const [language, setLanguage] = React.useState<'ru' | 'en'>('ru');
   const [isEditingLanding, setIsEditingLanding] = React.useState(false);
   const [autoSelectEnabled, setAutoSelectEnabled] = React.useState(true);
 
@@ -97,6 +99,7 @@ export default function AdminLandingManager() {
     setFormState(landingRecordToFormState(landing));
     setStatus(null);
     setLandingName(landing.name);
+    setLanguage(landing.language ?? 'ru');
     setIsEditingLanding(true);
     setAutoSelectEnabled(false);
   };
@@ -106,6 +109,7 @@ export default function AdminLandingManager() {
     setFormState(emptyFormState);
     setStatus(null);
     setLandingName("");
+    setLanguage('ru');
     setIsEditingLanding(false);
     setAutoSelectEnabled(false);
     setStatus({ kind: "success", message: "Создание нового лендинга" });
@@ -132,6 +136,7 @@ export default function AdminLandingManager() {
         ...buildLandingFormPayload(formState),
         urlPath: formState.urlPath.trim(),
         name: landingName.trim(),
+        language,
       };
       const endpoint = selectedId ? `/api/admin/landings/${selectedId}` : "/api/admin/landings";
       const method = selectedId ? "PATCH" : "POST";
@@ -157,6 +162,7 @@ export default function AdminLandingManager() {
         message: selectedId ? "Лендинг обновлен" : "Лендинг создан",
       });
       setLandingName(payload.data.name);
+      setLanguage(payload.data.language);
       await loadLandings();
     } catch (error) {
       setStatus({
@@ -293,6 +299,11 @@ export default function AdminLandingManager() {
             </div>
           </section>
           <section>
+            <label className="mb-4 block text-sm font-medium text-slate-700">Язык интерфейса
+              <select value={language} onChange={(event) => setLanguage(event.target.value as 'ru' | 'en')} className="ml-3 rounded-lg border border-slate-300 bg-white px-3 py-2">
+                <option value="ru">Русский</option><option value="en">English</option>
+              </select>
+            </label>
             <LandingContentForm
               formState={formState}
               isLoading={false}
